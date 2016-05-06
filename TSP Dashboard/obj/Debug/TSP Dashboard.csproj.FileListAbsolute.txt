@@ -1,0 +1,35 @@
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\csc.exe
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\System.Collections.Immutable.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\System.Reflection.Metadata.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\vbc.exe
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\VBCSCompiler.exe
+C:\TSP-Dashboard\TSP Dashboard\bin\roslyn\VBCSCompiler.exe.config
+C:\TSP-Dashboard\TSP Dashboard\bin\TSP Dashboard.dll.config
+C:\TSP-Dashboard\TSP Dashboard\bin\TSP Dashboard.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\TSP Dashboard.pdb
+C:\TSP-Dashboard\TSP Dashboard\bin\Antlr3.Runtime.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\AspNet.ScriptManager.bootstrap.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\AspNet.ScriptManager.jQuery.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.AspNet.FriendlyUrls.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.ScriptManager.MSAjax.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.ScriptManager.WebForms.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.Web.Infrastructure.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Newtonsoft.Json.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\System.Web.Optimization.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\WebGrease.dll
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\TSP-Dashboard\TSP Dashboard\bin\System.Web.Optimization.xml
+C:\TSP-Dashboard\TSP Dashboard\bin\Antlr3.Runtime.pdb
+C:\TSP-Dashboard\TSP Dashboard\bin\Newtonsoft.Json.xml
+C:\TSP-Dashboard\TSP Dashboard\bin\Microsoft.AspNet.FriendlyUrls.xml
+C:\TSP-Dashboard\TSP Dashboard\obj\Debug\TSP Dashboard.csprojResolveAssemblyReference.cache
+C:\TSP-Dashboard\TSP Dashboard\obj\Debug\TSP Dashboard.dll
+C:\TSP-Dashboard\TSP Dashboard\obj\Debug\TSP Dashboard.pdb

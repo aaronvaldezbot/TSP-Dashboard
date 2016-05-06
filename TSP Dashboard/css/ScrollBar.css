@@ -1,0 +1,12 @@
+
+
+
+
+#content-2.content.nested table{ width: 960px; }
+
+#content-2.content.nested .nested{
+    width: 960px;
+	height: 400px;
+    margin-top: 10px;
+}
+
