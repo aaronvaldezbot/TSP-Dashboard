@@ -1,0 +1,9 @@
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\bin\Debug\TSPDAO.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\bin\Debug\TSPDAO.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\bin\Debug\EntityFramework.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\obj\Debug\TSPDAO.csprojResolveAssemblyReference.cache
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\obj\Debug\TSPDAO.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\obj\Debug\TSPDAO.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\bin\Debug\Dominio.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSPDAO\bin\Debug\Dominio.pdb

@@ -11,7 +11,10 @@ namespace TSP_Dashboard
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            using (var ctx = new TSPDAO.TSPDBContext())
+            {
+                var abc = ctx.Usuario.ToList();
+            }
         }
     }
 }

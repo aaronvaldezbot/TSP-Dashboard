@@ -1,0 +1,6 @@
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\Dominio\bin\Debug\Dominio.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\Dominio\bin\Debug\Dominio.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\Dominio\bin\Debug\EntityFramework.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\Dominio\obj\Debug\Dominio.csprojResolveAssemblyReference.cache
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\Dominio\obj\Debug\Dominio.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\Dominio\obj\Debug\Dominio.pdb

@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSP Dashboard", "TSP Dashbo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSP Dashboard.Tests", "TSP Dashboard.Tests\TSP Dashboard.Tests.csproj", "{A5F1063D-E8FD-4E38-B615-667EAFFAB231}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSPDAO", "TSPDAO\TSPDAO.csproj", "{9273F16D-8190-4DA7-A850-EE2DA2E95CDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{D6387FAE-2F03-42EF-8357-5C25E55A6E8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{A5F1063D-E8FD-4E38-B615-667EAFFAB231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5F1063D-E8FD-4E38-B615-667EAFFAB231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5F1063D-E8FD-4E38-B615-667EAFFAB231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9273F16D-8190-4DA7-A850-EE2DA2E95CDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9273F16D-8190-4DA7-A850-EE2DA2E95CDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9273F16D-8190-4DA7-A850-EE2DA2E95CDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9273F16D-8190-4DA7-A850-EE2DA2E95CDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6387FAE-2F03-42EF-8357-5C25E55A6E8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6387FAE-2F03-42EF-8357-5C25E55A6E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6387FAE-2F03-42EF-8357-5C25E55A6E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6387FAE-2F03-42EF-8357-5C25E55A6E8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
