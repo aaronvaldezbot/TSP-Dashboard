@@ -16,7 +16,7 @@
     <RootNamespace>TSP_Dashboard</RootNamespace>
     <AssemblyName>TSP Dashboard</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -123,7 +123,6 @@
     <Folder Include="assets\global\plugins\jquery-file-upload\server\node\public\files\thumbnail\" />
     <Folder Include="assets\global\plugins\jquery-file-upload\server\node\tmp\" />
     <Folder Include="assets\global\plugins\jquery-file-upload\server\php\files\thumbnail\" />
-    <Folder Include="Class\" />
     <Folder Include="css\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="sass\admin\layout2\layout\" />
     <Folder Include="sass\admin\layout2\themes\" />
@@ -4427,6 +4426,7 @@
     <Content Include="assets\global\plugins\zoom\jquery.zoom.min.js" />
     <Content Include="assets\global\scripts\datatable.js" />
     <Content Include="assets\global\scripts\metronic.js" />
+    <Content Include="Class\WBS.asmx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -9204,6 +9204,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\WBS.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />
     <Content Include="Scripts\WebForms\Focus.js" />
     <Content Include="Scripts\WebForms\GridView.js" />
@@ -9256,6 +9257,10 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Class\WBS.asmx.cs">
+      <DependentUpon>WBS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -9335,7 +9340,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>28824</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:28824/</IISUrl>
+          <IISUrl>http://localhost/TSPDashboard</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
