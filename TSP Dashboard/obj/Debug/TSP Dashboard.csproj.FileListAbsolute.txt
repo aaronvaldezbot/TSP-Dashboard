@@ -33,15 +33,15 @@ C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\obj\Debug\TSP Dashboard.csprojResolveAssemblyReference.cache
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\obj\Debug\TSP Dashboard.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\obj\Debug\TSP Dashboard.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Dominio.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Dominio.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.TestManagement.Client.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.mshtml.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.WITDataStore.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\EntityFramework.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\EntityFramework.SqlServer.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Dominio.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\TSPDAO.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Dominio.pdb
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\TSPDAO.pdb
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.Client.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.Common.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.TestManagement.Client.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.VersionControl.Client.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.WorkItemTracking.Client.dll
@@ -52,5 +52,5 @@ C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.VisualStudio.Services.Client.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.VisualStudio.Services.Common.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.mshtml.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\Microsoft.WITDataStore.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\TSPDAO.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard\bin\TSPDAO.pdb

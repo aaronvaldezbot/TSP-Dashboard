@@ -24,11 +24,6 @@ C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Deb
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.csprojResolveAssemblyReference.cache
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.pdb
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSPDAO.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Dominio.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.dll
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSPDAO.pdb
-C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Dominio.pdb
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.Client.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.Common.dll
