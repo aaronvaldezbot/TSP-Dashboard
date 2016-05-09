@@ -51,34 +51,34 @@ function PorcentajeDeTareas(cIdTitle)
 
 function HorasAcumuladas(cIdProceso)
 {
-    //var cProceso = "";
-    //var dHorasAcumularas = 0;
-    //$.ajax({
-    //    type: "POST",
-    //    url: "../../Class/WBS.asmx/Proceso",
-    //    async: false,
-    //    data: '{"cIdProceso":"' + cIdProceso + '"}',
-    //    contentType: "application/json; charset=utf-8",
-    //    dataType: "json",
-    //    success: function (response) {
-    //        cProceso = response.d;
-    //    }
-    //});
-    //$(cProceso.split(',')).each(function (index, domEle) {
-    //    dHorasAcumularas = dHorasAcumularas + $('#iIdEstimate_' + domEle.replace(" ","_")).val();
-    //});
+    var cProceso = "";
+    var dHorasAcumularas = 0;
+    $.ajax({
+        type: "POST",
+        url: "../../Class/WBS.asmx/Proceso",
+        async: false,
+        data: '{"cIdProceso":"' + cIdProceso + '"}',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            cProceso = response.d;
+        }
+    });
+    $(cProceso.split(',')).each(function (index, domEle) {
+        dHorasAcumularas =parseFloat(dHorasAcumularas + $('#iIdEstimate_' + domEle.replace(" ","_")).val());
+    });
     
-    var analisis = $('#iIdEstimate_Análisis').val();
-    var plan = $('#iIdEstimate_Plan').val();
-    var Entendi =$('#iIdEstimate_Entendimiento').val();
-    var elabora =$('#iIdEstimate_Elaborar_Caso_de_Uso').val();
-    var reviw =$('#iIdEstimate_Review_de_Caso_de_Uso').val();
-    var plan_pruebas = $('#iIdEstimate_Elaborar_Plan_de_Pruebas').val();
-    var reviewPlan =$('#iIdEstimate_Review_de_Plan_de_Pruebas').val();
-    var peer =$('#iIdEstimate_Peer_Review_de_Caso_de_Uso_y_Plan_de_Pruebas').val();
-    var vali =$('#iIdEstimate_Validación_de_Caso_de_Uso_y_Plan_de_Pruebas').val();
-    var post = $('#iIdEstimate_Postmortem').val();
-    dHorasAcumularas = parseFloat(analisis) + parseFloat(plan) + parseFloat(Entendi) + parseFloat(elabora) + parseFloat(reviw) + parseFloat(plan_pruebas) + parseFloat(reviewPlan) + parseFloat(peer) + parseFloat(vali) + parseFloat(post);
+    //var analisis = $('#iIdEstimate_Análisis').val();
+    //var plan = $('#iIdEstimate_Plan').val();
+    //var Entendi =$('#iIdEstimate_Entendimiento').val();
+    //var elabora =$('#iIdEstimate_Elaborar_Caso_de_Uso').val();
+    //var reviw =$('#iIdEstimate_Review_de_Caso_de_Uso').val();
+    //var plan_pruebas = $('#iIdEstimate_Elaborar_Plan_de_Pruebas').val();
+    //var reviewPlan =$('#iIdEstimate_Review_de_Plan_de_Pruebas').val();
+    //var peer =$('#iIdEstimate_Peer_Review_de_Caso_de_Uso_y_Plan_de_Pruebas').val();
+    //var vali =$('#iIdEstimate_Validación_de_Caso_de_Uso_y_Plan_de_Pruebas').val();
+    //var post = $('#iIdEstimate_Postmortem').val();
+    //dHorasAcumularas = parseFloat(analisis) + parseFloat(plan) + parseFloat(Entendi) + parseFloat(elabora) + parseFloat(reviw) + parseFloat(plan_pruebas) + parseFloat(reviewPlan) + parseFloat(peer) + parseFloat(vali) + parseFloat(post);
     return dHorasAcumularas;
 
 }
