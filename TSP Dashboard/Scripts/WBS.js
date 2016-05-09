@@ -83,8 +83,5 @@ function ObtenerProceso(cIdProceso)
 
 }
 
-function ValorGanado()
-{
 
-}
 
