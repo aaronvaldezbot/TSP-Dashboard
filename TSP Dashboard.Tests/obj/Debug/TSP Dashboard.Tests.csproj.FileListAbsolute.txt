@@ -29,3 +29,13 @@ C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Deb
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.dll
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSPDAO.pdb
 C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Dominio.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.Client.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.Common.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.Services.Common.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.Services.Client.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Common.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.WITDataStore.dll
