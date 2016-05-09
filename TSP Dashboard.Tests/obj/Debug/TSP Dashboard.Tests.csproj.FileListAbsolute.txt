@@ -1,3 +1,39 @@
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\csc.exe
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\System.Collections.Immutable.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\System.Reflection.Metadata.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\vbc.exe
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\VBCSCompiler.exe
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\VBCSCompiler.exe.config
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\System.Web.Optimization.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.AspNet.FriendlyUrls.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\System.Web.Optimization.xml
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.AspNet.FriendlyUrls.xml
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.csprojResolveAssemblyReference.cache
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.pdb
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.Client.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.Common.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.Services.Common.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.Services.Client.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Common.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStoreLoader.dll
+C:\Users\aaron.valdez\Documents\GitHub\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.WITDataStore.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\csc.exe
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -24,3 +60,8 @@ C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.AspNet.FriendlyUrls.xml
 C:\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.csprojResolveAssemblyReference.cache
 C:\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.pdb
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSPDAO.dll
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Dominio.dll
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.dll
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSPDAO.pdb
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Dominio.pdb
