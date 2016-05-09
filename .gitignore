@@ -47,3 +47,9 @@ Temporary Items
 .apdisk
 /TSP Dashboard/bin
 /packages/repositories.config
+/TSP Dashboard/Externos
+/Dominio/bin/Debug
+/Dominio/obj/Debug
+/TSP Dashboard.Tests/bin/Debug
+/TSPDAO/bin/Debug
+/TSPDAO/obj/Debug
