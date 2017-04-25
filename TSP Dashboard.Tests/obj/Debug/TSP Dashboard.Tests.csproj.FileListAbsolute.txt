@@ -46,22 +46,47 @@ C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\System.Reflection.Metadata
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\vbc.exe
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\VBCSCompiler.exe
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\VBCSCompiler.exe.config
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.dll.config
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.pdb
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\System.Web.Optimization.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.AspNet.FriendlyUrls.dll
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.pdb
-C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\System.Web.Optimization.xml
 C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.AspNet.FriendlyUrls.xml
+C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.xml
 C:\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.csprojResolveAssemblyReference.cache
 C:\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.dll
 C:\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.pdb
-C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSPDAO.dll
-C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Dominio.dll
-C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.dll
-C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSPDAO.pdb
-C:\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Dominio.pdb
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\csc.exe
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\System.Collections.Immutable.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\System.Reflection.Metadata.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\vbc.exe
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\VBCSCompiler.exe
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\roslyn\VBCSCompiler.exe.config
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.dll.config
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.Tests.pdb
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\System.Web.Optimization.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.AspNet.FriendlyUrls.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\TSP Dashboard.pdb
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\System.Web.Optimization.xml
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\Microsoft.AspNet.FriendlyUrls.xml
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\bin\Debug\EntityFramework.xml
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.csprojResolveAssemblyReference.cache
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.dll
+C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard.Tests\obj\Debug\TSP Dashboard.Tests.pdb

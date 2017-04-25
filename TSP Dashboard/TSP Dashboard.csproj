@@ -16,7 +16,7 @@
     <RootNamespace>TSP_Dashboard</RootNamespace>
     <AssemblyName>TSP Dashboard</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -43,11 +43,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>Externos\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>Externos\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -59,6 +61,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -291,6 +295,7 @@
     <Content Include="assets\admin\layout4\img\logo-default.png" />
     <Content Include="assets\admin\layout4\img\logo-light.png" />
     <Content Include="assets\admin\layout4\img\logo.png" />
+    <Content Include="assets\admin\layout4\img\logoSprint.PNG" />
     <Content Include="assets\admin\layout4\img\menu-toggler.png" />
     <Content Include="assets\admin\layout4\img\photo1.jpg" />
     <Content Include="assets\admin\layout4\img\photo2.jpg" />
@@ -4117,6 +4122,59 @@
     <Content Include="assets\global\plugins\rateit\src\rateit.css" />
     <Content Include="assets\global\plugins\rateit\src\star.gif" />
     <Content Include="assets\global\plugins\respond.min.js" />
+    <Content Include="assets\global\plugins\select2\css\select2.css" />
+    <Content Include="assets\global\plugins\select2\css\select2.min.css" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ar.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\az.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\bg.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ca.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\cs.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\da.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\de.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\el.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\en.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\es.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\et.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\eu.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fa.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\fr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\gl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\he.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\hu.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\id.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\is.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\it.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ja.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\km.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ko.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\lt.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\lv.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\mk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ms.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\nb.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\nl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pt-BR.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\pt.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ro.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\ru.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sr-Cyrl.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\sv.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\th.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\tr.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\uk.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\vi.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\zh-CN.js" />
+    <Content Include="assets\global\plugins\select2\js\i18n\zh-TW.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.full.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.full.min.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.js" />
+    <Content Include="assets\global\plugins\select2\js\select2.min.js" />
     <Content Include="assets\global\plugins\select2\select2-bootstrap.css" />
     <Content Include="assets\global\plugins\select2\select2-spinner.gif" />
     <Content Include="assets\global\plugins\select2\select2.css" />
@@ -6748,6 +6806,7 @@
     <Content Include="css\plugins\easy-pie-chart\jquery.easy-pie-chart.css" />
     <Content Include="css\plugins\elfinder\elfinder.min.css" />
     <Content Include="css\plugins\elfinder\theme.css" />
+    <Content Include="css\EstilosPropios.css" />
     <Content Include="css\plugins\excanvas.min.js" />
     <Content Include="css\plugins\fancybox\.gitattributes" />
     <Content Include="css\plugins\fancybox\CHANGELOG.txt" />
@@ -8032,7 +8091,6 @@
     <Content Include="css\plugins\xeditable\bootstrap-editable.css" />
     <Content Include="css\plugins\zoom\jquery.zoom.js" />
     <Content Include="css\plugins\zoom\jquery.zoom.min.js" />
-    <Content Include="css\ScrollBar.css" />
     <Content Include="css\style.css" />
     <Content Include="css\style__not-minified.css" />
     <Content Include="css\themes.css" />
@@ -8699,6 +8757,31 @@
     <Content Include="css\plugins\uniform\css\uniform.default.scss" />
     <Content Include="css\plugins\uniform\README.md" />
     <Content Include="img\demo\flags\Thumbs.db" />
+    <Content Include="ClassDiagram1.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\wsTFSExterno\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\wsTFSExterno\wsTFSExterno.disco" />
+    <Content Include="Models\Model1.Context.tt">
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Model1.edmx.sql" />
+    <Content Include="Models\Model1.tt">
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+    <Content Include="WebService\Sistema.asmx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="img\._apple-touch-icon-precomposed.png" />
     <Content Include="img\._email-login.jpg" />
@@ -9199,9 +9282,12 @@
     <Content Include="img\Usuario\demo.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Generico.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Modulos.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\WBS.js" />
@@ -9232,14 +9318,20 @@
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
+    <Content Include="Views\Dashboard\HtmlPage1.html" />
+    <Content Include="Views\Dashboard\index.html" />
+    <Content Include="Views\Dashboard\Modulos.aspx" />
     <Content Include="Views\Dashboard\WBS.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Bundle.config" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Site.Mobile.Master" />
     <Content Include="Views\Master Page\Site1.Master" />
+    <None Include="Web References\wsTFSExterno\wsTFSExterno.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -9257,6 +9349,10 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Bussines\SistemaBussines.cs" />
+    <Compile Include="Bussines\WBSBussines.cs" />
+    <Compile Include="Class\SistemaClass.cs" />
+    <Compile Include="Class\roleInfo.cs" />
     <Compile Include="Class\WBS.asmx.cs">
       <DependentUpon>WBS.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -9275,10 +9371,87 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DTO\UsuarioDTO.cs" />
+    <Compile Include="Generico\Enums.cs" />
+    <Compile Include="Generico\Generico.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Model1.Context.cs">
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\Model1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\Model1.Designer.cs">
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Models\tblCat_ControlesUI.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_DetalleProceso.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_Equipo.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_Modulo.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_Perfil.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_Plan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_Proceso.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_Sistema.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_TareasOpcionales.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_TipoTarea.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_Usuarios.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_VersionProceso.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCat_WBS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblRel_EquipoFecha.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblRel_EquipoPlan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblRel_Equipos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblRel_ProcesoRevision.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblRel_UsuarioPerfil.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -9300,6 +9473,13 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dashboard\Modulos.aspx.cs">
+      <DependentUpon>Modulos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Dashboard\Modulos.aspx.designer.cs">
+      <DependentUpon>Modulos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dashboard\WBS.aspx.cs">
       <DependentUpon>WBS.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -9314,6 +9494,15 @@
     <Compile Include="Views\Master Page\Site1.Master.designer.cs">
       <DependentUpon>Site1.Master</DependentUpon>
     </Compile>
+    <Compile Include="Web References\wsTFSExterno\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WebService\Sistema.asmx.cs">
+      <DependentUpon>Sistema.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj">
@@ -9324,6 +9513,34 @@
       <Project>{9273f16d-8190-4da7-a850-ee2da2e95cdd}</Project>
       <Name>TSPDAO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://bot-fswws/reportes/wsTFSExterno.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsTFSExterno\</RelPath>
+      <UpdateFromURL>http://bot-fswws/reportes/wsTFSExterno.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>TSP_Dashboard_wsTFSExterno_wsTFSExterno</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -9340,7 +9557,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>28824</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/TSPDashboard</IISUrl>
+          <IISUrl>http://localhost:28824/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

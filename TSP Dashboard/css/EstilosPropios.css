@@ -1,0 +1,14 @@
+﻿#txtModalRQM::-webkit-inner-spin-button, 
+#txtModalRQM::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.tituloPrincipal{
+    font-size: medium;
+    color: #7FB0DA;
+    font-weight:bold;
+    margin: 29px 10px 0 10px;
+    display: block;
+    float: left;
+}

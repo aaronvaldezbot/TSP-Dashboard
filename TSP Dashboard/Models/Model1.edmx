@@ -1,0 +1,1351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TSP_DEVModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="TSP_DEVModelStoreContainer">
+    <EntitySet Name="tblCat_Modulo" EntityType="TSP_DEVModel.Store.tblCat_Modulo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_DetalleProceso" EntityType="TSP_DEVModel.Store.tblCat_DetalleProceso" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_WBS" EntityType="TSP_DEVModel.Store.tblCat_WBS" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_Equipo" EntityType="TSP_DEVModel.Store.tblCat_Equipo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_Usuarios" EntityType="TSP_DEVModel.Store.tblCat_Usuarios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblRel_Equipos" EntityType="TSP_DEVModel.Store.tblRel_Equipos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblRel_ProcesoRevision" EntityType="TSP_DEVModel.Store.tblRel_ProcesoRevision" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblRel_EquipoFecha" EntityType="TSP_DEVModel.Store.tblRel_EquipoFecha" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_Plan" EntityType="TSP_DEVModel.Store.tblCat_Plan" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_TipoTarea" EntityType="TSP_DEVModel.Store.tblCat_TipoTarea" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_Sistema" EntityType="TSP_DEVModel.Store.tblCat_Sistema" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_Proceso" EntityType="TSP_DEVModel.Store.tblCat_Proceso" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_VersionProceso" EntityType="TSP_DEVModel.Store.tblCat_VersionProceso" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblRel_EquipoPlan" EntityType="TSP_DEVModel.Store.tblRel_EquipoPlan" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_Perfil" EntityType="TSP_DEVModel.Store.tblCat_Perfil" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblRel_UsuarioPerfil" EntityType="TSP_DEVModel.Store.tblRel_UsuarioPerfil" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_ControlesUI" EntityType="TSP_DEVModel.Store.tblCat_ControlesUI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tblCat_TareasOpcionales" EntityType="TSP_DEVModel.Store.tblCat_TareasOpcionales" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_tblCat_Title_iIdTitle" Association="TSP_DEVModel.Store.FK_tblCat_Title_iIdTitle">
+      <End Role="tblCat_Title" EntitySet="tblCat_DetalleProceso" />
+      <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblRel_Equipos_iIdEquipo" Association="TSP_DEVModel.Store.FK_tblRel_Equipos_iIdEquipo">
+      <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+      <End Role="tblRel_Equipos" EntitySet="tblRel_Equipos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblRel_ProcesoRevision_iIdEquipo" Association="TSP_DEVModel.Store.FK_tblRel_ProcesoRevision_iIdEquipo">
+      <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+      <End Role="tblRel_ProcesoRevision" EntitySet="tblRel_ProcesoRevision" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblRel_Equipos_iIdUsuario" Association="TSP_DEVModel.Store.FK_tblRel_Equipos_iIdUsuario">
+      <End Role="tblCat_Usuarios" EntitySet="tblCat_Usuarios" />
+      <End Role="tblRel_Equipos" EntitySet="tblRel_Equipos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblRel_EquipoFecha_iIdEquipo" Association="TSP_DEVModel.Store.FK_tblRel_EquipoFecha_iIdEquipo">
+      <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+      <End Role="tblRel_EquipoFecha" EntitySet="tblRel_EquipoFecha" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCat_WBS_iIdPlan" Association="TSP_DEVModel.Store.FK_tblCat_WBS_iIdPlan">
+      <End Role="tblCat_Plan" EntitySet="tblCat_Plan" />
+      <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCat_Modulo_iIdSistema" Association="TSP_DEVModel.Store.FK_tblCat_Modulo_iIdSistema">
+      <End Role="tblCat_Sistema" EntitySet="tblCat_Sistema" />
+      <End Role="tblCat_Modulo" EntitySet="tblCat_Modulo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCat_DetalleProceso_iIdProceso" Association="TSP_DEVModel.Store.FK_tblCat_DetalleProceso_iIdProceso">
+      <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+      <End Role="tblCat_DetalleProceso" EntitySet="tblCat_DetalleProceso" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblRel_ProcesoRevision_iIdProceso" Association="TSP_DEVModel.Store.FK__tblRel_ProcesoRevision_iIdProceso">
+      <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+      <End Role="tblRel_ProcesoRevision" EntitySet="tblRel_ProcesoRevision" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCat_WBS_iIdProcesos" Association="TSP_DEVModel.Store.FK_tblCat_WBS_iIdProcesos">
+      <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+      <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+    </AssociationSet>
+    <AssociationSet Name="iIdProceso" Association="TSP_DEVModel.Store.iIdProceso">
+      <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+      <End Role="tblCat_VersionProceso" EntitySet="tblCat_VersionProceso" />
+    </AssociationSet>
+    <AssociationSet Name="tblCat_VersionProcesotblCat_DetalleProceso" Association="TSP_DEVModel.Store.tblCat_VersionProcesotblCat_DetalleProceso">
+      <End Role="tblCat_VersionProceso" EntitySet="tblCat_VersionProceso" />
+      <End Role="tblCat_DetalleProceso" EntitySet="tblCat_DetalleProceso" />
+    </AssociationSet>
+    <AssociationSet Name="tblCat_UsuariostblRel_UsuarioPerfil" Association="TSP_DEVModel.Store.tblCat_UsuariostblRel_UsuarioPerfil">
+      <End Role="tblCat_Usuarios" EntitySet="tblCat_Usuarios" />
+      <End Role="tblRel_UsuarioPerfil" EntitySet="tblRel_UsuarioPerfil" />
+    </AssociationSet>
+    <AssociationSet Name="tblCat_PerfiltblRel_UsuarioPerfil" Association="TSP_DEVModel.Store.tblCat_PerfiltblRel_UsuarioPerfil">
+      <End Role="tblCat_Perfil" EntitySet="tblCat_Perfil" />
+      <End Role="tblRel_UsuarioPerfil" EntitySet="tblRel_UsuarioPerfil" />
+    </AssociationSet>
+    <AssociationSet Name="tblCat_PerfiltblCat_ControlesUI" Association="TSP_DEVModel.Store.tblCat_PerfiltblCat_ControlesUI">
+      <End Role="tblCat_Perfil" EntitySet="tblCat_Perfil" />
+      <End Role="tblCat_ControlesUI" EntitySet="tblCat_ControlesUI" />
+    </AssociationSet>
+    <AssociationSet Name="tblCat_EquipotblRel_EquipoPlan" Association="TSP_DEVModel.Store.tblCat_EquipotblRel_EquipoPlan">
+      <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+      <End Role="tblRel_EquipoPlan" EntitySet="tblRel_EquipoPlan" />
+    </AssociationSet>
+    <AssociationSet Name="tblCat_PlantblRel_EquipoPlan" Association="TSP_DEVModel.Store.tblCat_PlantblRel_EquipoPlan">
+      <End Role="tblCat_Plan" EntitySet="tblCat_Plan" />
+      <End Role="tblRel_EquipoPlan" EntitySet="tblRel_EquipoPlan" />
+    </AssociationSet>
+    <AssociationSet Name="tblCat_UsuariostblCat_WBS" Association="TSP_DEVModel.Store.tblCat_UsuariostblCat_WBS">
+      <End Role="tblCat_Usuarios" EntitySet="tblCat_Usuarios" />
+      <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tblCat_Modulo">
+    <Key>
+      <PropertyRef Name="iIdModulo" />
+    </Key>
+    <Property Name="iIdModulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombreModulo" Type="varchar" Nullable="true" MaxLength="150" />
+    <Property Name="cDescripcion" Type="varchar(max)" Nullable="false" />
+    <Property Name="cRuta" Type="varchar" Nullable="true" MaxLength="70" />
+    <Property Name="iOrden" Type="int" Nullable="false" />
+    <Property Name="iImagen" Type="int" Nullable="false" />
+    <Property Name="dtAlta" Type="datetime" Nullable="false" />
+    <Property Name="dtModificacion" Type="datetime" Nullable="true" />
+    <Property Name="lActivo" Type="bit" Nullable="false" />
+    <Property Name="iIdSistema" Type="int" Nullable="false" />
+    <Property Name="iIdClasePermiso" Type="int" Nullable="false" />
+    <Property Name="lGrid" Type="int" Nullable="false" />
+    <Property Name="lFrontEnd" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_DetalleProceso">
+    <Key>
+      <PropertyRef Name="iIdDetalleProceso" />
+    </Key>
+    <Property Name="iIdDetalleProceso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombreDetalleProceso" Type="varchar" Nullable="true" MaxLength="150" />
+    <Property Name="dtAlta" Type="datetime" Nullable="false" />
+    <Property Name="dtModificacion" Type="datetime" Nullable="true" />
+    <Property Name="iIdProceso" Type="int" Nullable="true" />
+    <Property Name="lActivo" Type="bit" Nullable="false" />
+    <Property Name="iIdTipoTarea" Type="int" Nullable="true" />
+    <Property Name="iRevision" Type="int" Nullable="true" />
+    <Property Name="iIdVersionProceso" Type="int" Nullable="false" />
+    <Property Name="lRequerida" Type="bit" Nullable="false" />
+    <Property Name="dPorcentaje" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="lTamaño" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_WBS">
+    <Key>
+      <PropertyRef Name="iIdWBS" />
+      <PropertyRef Name="iRequerimiento" />
+      <PropertyRef Name="iIdProcesos" />
+      <PropertyRef Name="iIdPlan" />
+    </Key>
+    <Property Name="iIdWBS" Type="int" Nullable="false" />
+    <Property Name="iIdPlan" Type="int" Nullable="false" />
+    <Property Name="iRequerimiento" Type="int" Nullable="false" />
+    <Property Name="iIdProcesos" Type="int" Nullable="false" />
+    <Property Name="iIdDetalleProceso" Type="int" Nullable="false" />
+    <Property Name="cWork_Item_Type" Type="decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="iTipoElemento" Type="int" Nullable="false" />
+    <Property Name="dRemaining_Work" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="dOriginal_Estimate" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="dTiempo_Total_del_proceso" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="dPorcentaje_de_tareas" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="dtamanios" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="dRate" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="dValor_ganado" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="isemana" Type="int" Nullable="false" />
+    <Property Name="dValor_ganado_acumulado" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="dValor_ganado_semanal" Type="decimal" Nullable="false" Precision="18" Scale="3" />
+    <Property Name="cTipo_de_tarea" Type="varchar" Nullable="false" MaxLength="160" />
+    <Property Name="cUnidad_de_medida" Type="varchar" Nullable="false" MaxLength="40" />
+    <Property Name="dtFecha_de_inicio" Type="datetime" Nullable="false" />
+    <Property Name="dtFechaFinal" Type="datetime" Nullable="false" />
+    <Property Name="dtHoras_Acumuladas" Type="datetime" Nullable="false" />
+    <Property Name="dtAlta" Type="datetime" Nullable="false" />
+    <Property Name="dtModificacion" Type="datetime" Nullable="true" />
+    <Property Name="lActivo" Type="bit" Nullable="false" />
+    <Property Name="iIdTFS" Type="int" Nullable="true" />
+    <Property Name="iIdUsuario" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="iGrupo" Type="int" Nullable="false" />
+    <Property Name="lAplicaMultiProceso" Type="bit" Nullable="false" />
+    <Property Name="cTituloProceso" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="iRevision" Type="int" Nullable="true" />
+    <Property Name="dtTimeStamp" Type="datetime" Nullable="true" />
+    <Property Name="iOrdenDetalleProceso" Type="int" Nullable="false" />
+    <Property Name="iOrdenProceso" Type="int" Nullable="false" />
+    <Property Name="iOrdenRequerimiento" Type="int" Nullable="true" />
+    <Property Name="iOrden" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="tblCat_Equipo">
+    <Key>
+      <PropertyRef Name="iIdEquipo" />
+    </Key>
+    <Property Name="iIdEquipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombreEquipo" Type="varchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tblCat_Usuarios">
+    <Key>
+      <PropertyRef Name="iIdUsuario" />
+    </Key>
+    <Property Name="iIdUsuario" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="cNombreUsuario" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="cClaveUsuario" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblRel_Equipos">
+    <Key>
+      <PropertyRef Name="iIdRelEquipos" />
+    </Key>
+    <Property Name="iIdRelEquipos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="iIdUsuario" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="iIdEquipo" Type="int" Nullable="false" />
+    <Property Name="dtFechaIngreso" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblRel_ProcesoRevision">
+    <Key>
+      <PropertyRef Name="iIdRel_ProcesoRevision" />
+    </Key>
+    <Property Name="iIdRel_ProcesoRevision" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="iIdProceso" Type="int" Nullable="false" />
+    <Property Name="iIdEquipo" Type="int" Nullable="false" />
+    <Property Name="iRevision" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblRel_EquipoFecha">
+    <Key>
+      <PropertyRef Name="iIdRel_EquipoFecha" />
+    </Key>
+    <Property Name="iIdRel_EquipoFecha" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="iIdEquipo" Type="int" Nullable="false" />
+    <Property Name="dtFechaInicio" Type="datetime" Nullable="false" />
+    <Property Name="dtFechaFin" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_Plan">
+    <Key>
+      <PropertyRef Name="iIdPlan" />
+    </Key>
+    <Property Name="iIdPlan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dtFechaCreacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_TipoTarea">
+    <Key>
+      <PropertyRef Name="iIdTipoTarea" />
+    </Key>
+    <Property Name="iIdTipoTarea" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombreTarea" Type="varchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tblCat_Sistema">
+    <Key>
+      <PropertyRef Name="iIdSistema" />
+    </Key>
+    <Property Name="iIdSistema" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombreSistema" Type="varchar" Nullable="true" MaxLength="150" />
+    <Property Name="cDescripcion" Type="varchar(max)" Nullable="false" />
+    <Property Name="cRuta" Type="varchar" Nullable="true" MaxLength="70" />
+    <Property Name="iOrden" Type="int" Nullable="false" />
+    <Property Name="iImagen" Type="int" Nullable="false" />
+    <Property Name="dtAlta" Type="datetime" Nullable="false" />
+    <Property Name="dtModificacion" Type="datetime" Nullable="true" />
+    <Property Name="lActivo" Type="bit" Nullable="false" />
+    <Property Name="cCheckSum" Type="varchar(max)" Nullable="true" />
+    <Property Name="lFrontEnd" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_Proceso">
+    <Key>
+      <PropertyRef Name="iIdProceso" />
+    </Key>
+    <Property Name="iIdProceso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombreProceso" Type="varchar" Nullable="true" MaxLength="150" />
+    <Property Name="cDescripcion" Type="varchar" Nullable="true" MaxLength="250" />
+    <Property Name="iOrden" Type="int" Nullable="false" />
+    <Property Name="dtAlta" Type="datetime" Nullable="false" />
+    <Property Name="dtModificacion" Type="datetime" Nullable="true" />
+    <Property Name="lActivo" Type="bit" Nullable="false" />
+    <Property Name="lEditable" Type="bit" Nullable="true" />
+    <Property Name="iTipoProceso" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_VersionProceso">
+    <Key>
+      <PropertyRef Name="iIdVersionProceso" />
+    </Key>
+    <Property Name="iIdVersionProceso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="iIdProceso" Type="int" Nullable="false" />
+    <Property Name="iNumeroVersion" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblRel_EquipoPlan">
+    <Key>
+      <PropertyRef Name="iIdRelEquipoPlan" />
+    </Key>
+    <Property Name="iIdRelEquipoPlan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="iIdEquipo" Type="int" Nullable="false" />
+    <Property Name="iIdPlan" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_Perfil">
+    <Key>
+      <PropertyRef Name="iIdPerfil" />
+    </Key>
+    <Property Name="iIdPerfil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="iPrioridad" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblRel_UsuarioPerfil">
+    <Key>
+      <PropertyRef Name="iIdRelUsuarioPerfil" />
+    </Key>
+    <Property Name="iIdRelUsuarioPerfil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="iIdUsuario" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="iIdPerfil" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_ControlesUI">
+    <Key>
+      <PropertyRef Name="iIdControlesUI" />
+    </Key>
+    <Property Name="iIdControlesUI" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cIdHTML" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="lHabilitado" Type="bit" Nullable="false" />
+    <Property Name="iIdPerfil" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblCat_TareasOpcionales">
+    <Key>
+      <PropertyRef Name="iIdTareaOpcional" />
+    </Key>
+    <Property Name="iIdTareaOpcional" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cNombreTareaOpcional" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_tblCat_Title_iIdTitle">
+    <End Role="tblCat_Title" Type="TSP_DEVModel.Store.tblCat_DetalleProceso" Multiplicity="1" />
+    <End Role="tblCat_WBS" Type="TSP_DEVModel.Store.tblCat_WBS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Title">
+        <PropertyRef Name="iIdDetalleProceso" />
+      </Principal>
+      <Dependent Role="tblCat_WBS">
+        <PropertyRef Name="iIdDetalleProceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblRel_Equipos_iIdEquipo">
+    <End Role="tblCat_Equipo" Type="TSP_DEVModel.Store.tblCat_Equipo" Multiplicity="1" />
+    <End Role="tblRel_Equipos" Type="TSP_DEVModel.Store.tblRel_Equipos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Equipo">
+        <PropertyRef Name="iIdEquipo" />
+      </Principal>
+      <Dependent Role="tblRel_Equipos">
+        <PropertyRef Name="iIdEquipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblRel_ProcesoRevision_iIdEquipo">
+    <End Role="tblCat_Equipo" Type="TSP_DEVModel.Store.tblCat_Equipo" Multiplicity="1" />
+    <End Role="tblRel_ProcesoRevision" Type="TSP_DEVModel.Store.tblRel_ProcesoRevision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Equipo">
+        <PropertyRef Name="iIdEquipo" />
+      </Principal>
+      <Dependent Role="tblRel_ProcesoRevision">
+        <PropertyRef Name="iIdEquipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblRel_Equipos_iIdUsuario">
+    <End Role="tblCat_Usuarios" Type="TSP_DEVModel.Store.tblCat_Usuarios" Multiplicity="1" />
+    <End Role="tblRel_Equipos" Type="TSP_DEVModel.Store.tblRel_Equipos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Usuarios">
+        <PropertyRef Name="iIdUsuario" />
+      </Principal>
+      <Dependent Role="tblRel_Equipos">
+        <PropertyRef Name="iIdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblRel_EquipoFecha_iIdEquipo">
+    <End Role="tblCat_Equipo" Type="TSP_DEVModel.Store.tblCat_Equipo" Multiplicity="1" />
+    <End Role="tblRel_EquipoFecha" Type="TSP_DEVModel.Store.tblRel_EquipoFecha" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Equipo">
+        <PropertyRef Name="iIdEquipo" />
+      </Principal>
+      <Dependent Role="tblRel_EquipoFecha">
+        <PropertyRef Name="iIdEquipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCat_WBS_iIdPlan">
+    <End Role="tblCat_Plan" Type="TSP_DEVModel.Store.tblCat_Plan" Multiplicity="1" />
+    <End Role="tblCat_WBS" Type="TSP_DEVModel.Store.tblCat_WBS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Plan">
+        <PropertyRef Name="iIdPlan" />
+      </Principal>
+      <Dependent Role="tblCat_WBS">
+        <PropertyRef Name="iIdPlan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCat_Modulo_iIdSistema">
+    <End Role="tblCat_Sistema" Type="TSP_DEVModel.Store.tblCat_Sistema" Multiplicity="1" />
+    <End Role="tblCat_Modulo" Type="TSP_DEVModel.Store.tblCat_Modulo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Sistema">
+        <PropertyRef Name="iIdSistema" />
+      </Principal>
+      <Dependent Role="tblCat_Modulo">
+        <PropertyRef Name="iIdSistema" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCat_DetalleProceso_iIdProceso">
+    <End Role="tblCat_Proceso" Type="TSP_DEVModel.Store.tblCat_Proceso" Multiplicity="0..1" />
+    <End Role="tblCat_DetalleProceso" Type="TSP_DEVModel.Store.tblCat_DetalleProceso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Proceso">
+        <PropertyRef Name="iIdProceso" />
+      </Principal>
+      <Dependent Role="tblCat_DetalleProceso">
+        <PropertyRef Name="iIdProceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblRel_ProcesoRevision_iIdProceso">
+    <End Role="tblCat_Proceso" Type="TSP_DEVModel.Store.tblCat_Proceso" Multiplicity="1" />
+    <End Role="tblRel_ProcesoRevision" Type="TSP_DEVModel.Store.tblRel_ProcesoRevision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Proceso">
+        <PropertyRef Name="iIdProceso" />
+      </Principal>
+      <Dependent Role="tblRel_ProcesoRevision">
+        <PropertyRef Name="iIdProceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCat_WBS_iIdProcesos">
+    <End Role="tblCat_Proceso" Type="TSP_DEVModel.Store.tblCat_Proceso" Multiplicity="1" />
+    <End Role="tblCat_WBS" Type="TSP_DEVModel.Store.tblCat_WBS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Proceso">
+        <PropertyRef Name="iIdProceso" />
+      </Principal>
+      <Dependent Role="tblCat_WBS">
+        <PropertyRef Name="iIdProcesos" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="iIdProceso">
+    <End Role="tblCat_Proceso" Type="TSP_DEVModel.Store.tblCat_Proceso" Multiplicity="1" />
+    <End Role="tblCat_VersionProceso" Type="TSP_DEVModel.Store.tblCat_VersionProceso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Proceso">
+        <PropertyRef Name="iIdProceso" />
+      </Principal>
+      <Dependent Role="tblCat_VersionProceso">
+        <PropertyRef Name="iIdProceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tblCat_VersionProcesotblCat_DetalleProceso">
+    <End Role="tblCat_VersionProceso" Type="TSP_DEVModel.Store.tblCat_VersionProceso" Multiplicity="1" />
+    <End Role="tblCat_DetalleProceso" Type="TSP_DEVModel.Store.tblCat_DetalleProceso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_VersionProceso">
+        <PropertyRef Name="iIdVersionProceso" />
+      </Principal>
+      <Dependent Role="tblCat_DetalleProceso">
+        <PropertyRef Name="iIdVersionProceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tblCat_UsuariostblRel_UsuarioPerfil">
+    <End Role="tblCat_Usuarios" Type="TSP_DEVModel.Store.tblCat_Usuarios" Multiplicity="1" />
+    <End Role="tblRel_UsuarioPerfil" Type="TSP_DEVModel.Store.tblRel_UsuarioPerfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Usuarios">
+        <PropertyRef Name="iIdUsuario" />
+      </Principal>
+      <Dependent Role="tblRel_UsuarioPerfil">
+        <PropertyRef Name="iIdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tblCat_PerfiltblRel_UsuarioPerfil">
+    <End Role="tblCat_Perfil" Type="TSP_DEVModel.Store.tblCat_Perfil" Multiplicity="1" />
+    <End Role="tblRel_UsuarioPerfil" Type="TSP_DEVModel.Store.tblRel_UsuarioPerfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Perfil">
+        <PropertyRef Name="iIdPerfil" />
+      </Principal>
+      <Dependent Role="tblRel_UsuarioPerfil">
+        <PropertyRef Name="iIdPerfil" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tblCat_PerfiltblCat_ControlesUI">
+    <End Role="tblCat_Perfil" Type="TSP_DEVModel.Store.tblCat_Perfil" Multiplicity="1" />
+    <End Role="tblCat_ControlesUI" Type="TSP_DEVModel.Store.tblCat_ControlesUI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Perfil">
+        <PropertyRef Name="iIdPerfil" />
+      </Principal>
+      <Dependent Role="tblCat_ControlesUI">
+        <PropertyRef Name="iIdPerfil" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tblCat_EquipotblRel_EquipoPlan">
+    <End Role="tblCat_Equipo" Type="TSP_DEVModel.Store.tblCat_Equipo" Multiplicity="1" />
+    <End Role="tblRel_EquipoPlan" Type="TSP_DEVModel.Store.tblRel_EquipoPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Equipo">
+        <PropertyRef Name="iIdEquipo" />
+      </Principal>
+      <Dependent Role="tblRel_EquipoPlan">
+        <PropertyRef Name="iIdEquipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tblCat_PlantblRel_EquipoPlan">
+    <End Role="tblCat_Plan" Type="TSP_DEVModel.Store.tblCat_Plan" Multiplicity="1" />
+    <End Role="tblRel_EquipoPlan" Type="TSP_DEVModel.Store.tblRel_EquipoPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Plan">
+        <PropertyRef Name="iIdPlan" />
+      </Principal>
+      <Dependent Role="tblRel_EquipoPlan">
+        <PropertyRef Name="iIdPlan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tblCat_UsuariostblCat_WBS">
+    <End Role="tblCat_Usuarios" Type="TSP_DEVModel.Store.tblCat_Usuarios" Multiplicity="1" />
+    <End Role="tblCat_WBS" Type="TSP_DEVModel.Store.tblCat_WBS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCat_Usuarios">
+        <PropertyRef Name="iIdUsuario" />
+      </Principal>
+      <Dependent Role="tblCat_WBS">
+        <PropertyRef Name="iIdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TSP_DEVModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCat_Modulo">
+          <Key>
+            <PropertyRef Name="iIdModulo" />
+          </Key>
+          <Property Name="iIdModulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombreModulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="cDescripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cRuta" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="iOrden" Type="Int32" Nullable="false" />
+          <Property Name="iImagen" Type="Int32" Nullable="false" />
+          <Property Name="dtAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtModificacion" Type="DateTime" Precision="3" />
+          <Property Name="lActivo" Type="Boolean" Nullable="false" />
+          <Property Name="iIdSistema" Type="Int32" Nullable="false" />
+          <Property Name="iIdClasePermiso" Type="Int32" Nullable="false" />
+          <Property Name="lGrid" Type="Int32" Nullable="false" />
+          <Property Name="lFrontEnd" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCat_Sistema" Relationship="TSP_DEVModel.FK_tblCat_Modulo_iIdSistema" FromRole="tblCat_Modulo" ToRole="tblCat_Sistema" />
+        </EntityType>
+        <EntityType Name="tblCat_DetalleProceso">
+          <Key>
+            <PropertyRef Name="iIdDetalleProceso" />
+          </Key>
+          <Property Name="iIdDetalleProceso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombreDetalleProceso" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="dtAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtModificacion" Type="DateTime" Precision="3" />
+          <Property Name="iIdProceso" Type="Int32" />
+          <Property Name="lActivo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="Self.FK_tblCat_Title_iIdTitle" FromRole="tblCat_Title" ToRole="tblCat_WBS" />
+          <Property Name="iIdTipoTarea" Type="Int32" />
+          <Property Name="iRevision" Type="Int32" />
+          <Property Name="iIdVersionProceso" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblCat_Proceso" Relationship="TSP_DEVModel.FK_tblCat_DetalleProceso_iIdProceso" FromRole="tblCat_DetalleProceso" ToRole="tblCat_Proceso" />
+          <Property Name="lRequerida" Type="Boolean" Nullable="false" />
+          <Property Name="dPorcentaje" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="lTamaño" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCat_VersionProceso" Relationship="TSP_DEVModel.tblCat_VersionProcesotblCat_DetalleProceso" FromRole="tblCat_DetalleProceso" ToRole="tblCat_VersionProceso" />
+        </EntityType>
+        <EntityType Name="tblCat_WBS">
+          <Key>
+            <PropertyRef Name="iIdWBS" />
+            <PropertyRef Name="iRequerimiento" />
+            <PropertyRef Name="iIdProcesos" />
+            <PropertyRef Name="iIdPlan" />
+          </Key>
+          <Property Name="iIdWBS" Nullable="false" annotation:StoreGeneratedPattern="None" Type="Int32" />
+          <Property Name="iIdPlan" Type="Int32" Nullable="false" />
+          <Property Name="iRequerimiento" Type="Int32" Nullable="false" />
+          <Property Name="iIdProcesos" Type="Int32" Nullable="false" />
+          <Property Name="iIdDetalleProceso" Type="Int32" Nullable="false" />
+          <Property Name="cWork_Item_Type" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="iTipoElemento" Type="Int32" Nullable="false" />
+          <Property Name="dRemaining_Work" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="dOriginal_Estimate" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="dTiempo_Total_del_proceso" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="dPorcentaje_de_tareas" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="dtamanios" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="dRate" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="dValor_ganado" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="isemana" Type="Int32" Nullable="false" />
+          <Property Name="dValor_ganado_acumulado" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="dValor_ganado_semanal" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="cTipo_de_tarea" Type="String" MaxLength="160" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cUnidad_de_medida" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dtFecha_de_inicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtFechaFinal" Type="DateTime" Nullable="false" />
+          <Property Name="dtHoras_Acumuladas" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtModificacion" Type="DateTime" Precision="3" />
+          <Property Name="lActivo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCat_DetalleProceso" Relationship="Self.FK_tblCat_Title_iIdTitle" FromRole="tblCat_WBS" ToRole="tblCat_Title" />
+          <Property Name="iIdTFS" Type="Int32" />
+          <NavigationProperty Name="tblCat_Plan" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdPlan" FromRole="tblCat_WBS" ToRole="tblCat_Plan" />
+          <NavigationProperty Name="tblCat_Proceso" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos" FromRole="tblCat_WBS" ToRole="tblCat_Proceso" />
+          <NavigationProperty Name="tblCat_Usuarios" Relationship="TSP_DEVModel.tblCat_UsuariostblCat_WBS" FromRole="tblCat_WBS" ToRole="tblCat_Usuarios" />
+          <Property Name="iIdUsuario" Type="Guid" Nullable="false" />
+          <Property Name="iGrupo" Type="Int32" Nullable="false" />
+          <Property Name="lAplicaMultiProceso" Type="Boolean" Nullable="false" />
+          <Property Name="cTituloProceso" Type="String" Nullable="false" />
+          <Property Name="iRevision" Type="Int32" Nullable="true" />
+          <Property Name="dtTimeStamp" Type="DateTime" Nullable="true" />
+          <Property Name="iOrdenDetalleProceso" Type="Int32" Nullable="false" />
+          <Property Name="iOrdenProceso" Type="Int32" Nullable="false" />
+          <Property Name="iOrdenRequerimiento" Type="Int32" Nullable="true" />
+          <Property Name="iOrden" Type="Int32" Nullable="true" >
+            <Documentation>
+              <Summary>Prueba Summary</Summary>
+              <LongDescription>Es el campo de ordenamiento de mayor nivel para la tabla tblCat_WBS</LongDescription>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <Association Name="FK_tblCat_Title_iIdTitle">
+          <End Role="tblCat_Title" Type="TSP_DEVModel.tblCat_DetalleProceso" Multiplicity="1" />
+          <End Role="tblCat_WBS" Type="Self.tblCat_WBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Title">
+              <PropertyRef Name="iIdDetalleProceso" />
+            </Principal>
+            <Dependent Role="tblCat_WBS">
+              <PropertyRef Name="iIdDetalleProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TSP_DEVEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCat_Modulo" EntityType="Self.tblCat_Modulo" />
+          <EntitySet Name="tblCat_DetalleProceso" EntityType="TSP_DEVModel.tblCat_DetalleProceso" />
+          <EntitySet Name="tblCat_WBS" EntityType="Self.tblCat_WBS" />
+          <AssociationSet Name="FK_tblCat_Title_iIdTitle" Association="Self.FK_tblCat_Title_iIdTitle">
+            <End Role="tblCat_Title" EntitySet="tblCat_DetalleProceso" />
+            <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+          </AssociationSet>
+          <EntitySet Name="tblCat_Equipo" EntityType="TSP_DEVModel.tblCat_Equipo" />
+          <EntitySet Name="tblCat_Usuarios" EntityType="TSP_DEVModel.tblCat_Usuarios" />
+          <EntitySet Name="tblRel_Equipos" EntityType="TSP_DEVModel.tblRel_Equipos" />
+          <EntitySet Name="tblRel_ProcesoRevision" EntityType="TSP_DEVModel.tblRel_ProcesoRevision" />
+          <AssociationSet Name="FK_tblRel_Equipos_iIdEquipo" Association="TSP_DEVModel.FK_tblRel_Equipos_iIdEquipo">
+            <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+            <End Role="tblRel_Equipos" EntitySet="tblRel_Equipos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRel_ProcesoRevision_iIdEquipo" Association="TSP_DEVModel.FK_tblRel_ProcesoRevision_iIdEquipo">
+            <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+            <End Role="tblRel_ProcesoRevision" EntitySet="tblRel_ProcesoRevision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRel_Equipos_iIdUsuario" Association="TSP_DEVModel.FK_tblRel_Equipos_iIdUsuario">
+            <End Role="tblCat_Usuarios" EntitySet="tblCat_Usuarios" />
+            <End Role="tblRel_Equipos" EntitySet="tblRel_Equipos" />
+          </AssociationSet>
+          <EntitySet Name="tblRel_EquipoFecha" EntityType="TSP_DEVModel.tblRel_EquipoFecha" />
+          <AssociationSet Name="FK_tblRel_EquipoFecha_iIdEquipo" Association="TSP_DEVModel.FK_tblRel_EquipoFecha_iIdEquipo">
+            <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+            <End Role="tblRel_EquipoFecha" EntitySet="tblRel_EquipoFecha" />
+          </AssociationSet>
+          <EntitySet Name="tblCat_Plan" EntityType="TSP_DEVModel.tblCat_Plan" />
+          <AssociationSet Name="FK_tblCat_WBS_iIdPlan" Association="TSP_DEVModel.FK_tblCat_WBS_iIdPlan">
+            <End Role="tblCat_Plan" EntitySet="tblCat_Plan" />
+            <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+          </AssociationSet>
+          <EntitySet Name="tblCat_TipoTarea" EntityType="TSP_DEVModel.tblCat_TipoTarea" />
+          <EntitySet Name="tblCat_Sistema" EntityType="TSP_DEVModel.tblCat_Sistema" />
+          <AssociationSet Name="FK_tblCat_Modulo_iIdSistema" Association="TSP_DEVModel.FK_tblCat_Modulo_iIdSistema">
+            <End Role="tblCat_Sistema" EntitySet="tblCat_Sistema" />
+            <End Role="tblCat_Modulo" EntitySet="tblCat_Modulo" />
+          </AssociationSet>
+          <EntitySet Name="tblCat_Proceso" EntityType="TSP_DEVModel.tblCat_Proceso" />
+          <AssociationSet Name="FK_tblCat_DetalleProceso_iIdProceso" Association="TSP_DEVModel.FK_tblCat_DetalleProceso_iIdProceso">
+            <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+            <End Role="tblCat_DetalleProceso" EntitySet="tblCat_DetalleProceso" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblRel_ProcesoRevision_iIdProceso" Association="TSP_DEVModel.FK__tblRel_ProcesoRevision_iIdProceso">
+            <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+            <End Role="tblRel_ProcesoRevision" EntitySet="tblRel_ProcesoRevision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblCat_WBS_iIdProcesos" Association="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos">
+            <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+            <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+          </AssociationSet>
+          <EntitySet Name="tblCat_VersionProceso" EntityType="TSP_DEVModel.tblCat_VersionProceso" />
+          <AssociationSet Name="iIdProceso" Association="TSP_DEVModel.iIdProceso">
+            <End Role="tblCat_Proceso" EntitySet="tblCat_Proceso" />
+            <End Role="tblCat_VersionProceso" EntitySet="tblCat_VersionProceso" />
+          </AssociationSet>
+          <AssociationSet Name="tblCat_VersionProcesotblCat_DetalleProceso" Association="TSP_DEVModel.tblCat_VersionProcesotblCat_DetalleProceso">
+            <End Role="tblCat_VersionProceso" EntitySet="tblCat_VersionProceso" />
+            <End Role="tblCat_DetalleProceso" EntitySet="tblCat_DetalleProceso" />
+          </AssociationSet>
+          <EntitySet Name="tblRel_EquipoPlan" EntityType="TSP_DEVModel.tblRel_EquipoPlan" />
+          <EntitySet Name="tblCat_Perfil" EntityType="TSP_DEVModel.tblCat_Perfil" />
+          <EntitySet Name="tblRel_UsuarioPerfil" EntityType="TSP_DEVModel.tblRel_UsuarioPerfil" />
+          <EntitySet Name="tblCat_ControlesUI" EntityType="TSP_DEVModel.tblCat_ControlesUI" />
+          <AssociationSet Name="tblCat_UsuariostblRel_UsuarioPerfil" Association="TSP_DEVModel.tblCat_UsuariostblRel_UsuarioPerfil">
+            <End Role="tblCat_Usuarios" EntitySet="tblCat_Usuarios" />
+            <End Role="tblRel_UsuarioPerfil" EntitySet="tblRel_UsuarioPerfil" />
+          </AssociationSet>
+          <AssociationSet Name="tblCat_PerfiltblRel_UsuarioPerfil" Association="TSP_DEVModel.tblCat_PerfiltblRel_UsuarioPerfil">
+            <End Role="tblCat_Perfil" EntitySet="tblCat_Perfil" />
+            <End Role="tblRel_UsuarioPerfil" EntitySet="tblRel_UsuarioPerfil" />
+          </AssociationSet>
+          <AssociationSet Name="tblCat_PerfiltblCat_ControlesUI" Association="TSP_DEVModel.tblCat_PerfiltblCat_ControlesUI">
+            <End Role="tblCat_Perfil" EntitySet="tblCat_Perfil" />
+            <End Role="tblCat_ControlesUI" EntitySet="tblCat_ControlesUI" />
+          </AssociationSet>
+          <AssociationSet Name="tblCat_EquipotblRel_EquipoPlan" Association="TSP_DEVModel.tblCat_EquipotblRel_EquipoPlan">
+            <End Role="tblCat_Equipo" EntitySet="tblCat_Equipo" />
+            <End Role="tblRel_EquipoPlan" EntitySet="tblRel_EquipoPlan" />
+          </AssociationSet>
+          <AssociationSet Name="tblCat_PlantblRel_EquipoPlan" Association="TSP_DEVModel.tblCat_PlantblRel_EquipoPlan">
+            <End Role="tblCat_Plan" EntitySet="tblCat_Plan" />
+            <End Role="tblRel_EquipoPlan" EntitySet="tblRel_EquipoPlan" />
+          </AssociationSet>
+          <AssociationSet Name="tblCat_UsuariostblCat_WBS" Association="TSP_DEVModel.tblCat_UsuariostblCat_WBS">
+            <End Role="tblCat_Usuarios" EntitySet="tblCat_Usuarios" />
+            <End Role="tblCat_WBS" EntitySet="tblCat_WBS" />
+          </AssociationSet>
+          <EntitySet Name="tblCat_TareasOpcionales" EntityType="TSP_DEVModel.tblCat_TareasOpcionales" />
+          </EntityContainer>
+        <EntityType Name="tblCat_Equipo">
+          <Key>
+            <PropertyRef Name="iIdEquipo" />
+          </Key>
+          <Property Name="iIdEquipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombreEquipo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblRel_Equipos" Relationship="TSP_DEVModel.FK_tblRel_Equipos_iIdEquipo" FromRole="tblCat_Equipo" ToRole="tblRel_Equipos" />
+          <NavigationProperty Name="tblRel_ProcesoRevision" Relationship="TSP_DEVModel.FK_tblRel_ProcesoRevision_iIdEquipo" FromRole="tblCat_Equipo" ToRole="tblRel_ProcesoRevision" />
+          <NavigationProperty Name="tblRel_EquipoFecha" Relationship="TSP_DEVModel.FK_tblRel_EquipoFecha_iIdEquipo" FromRole="tblCat_Equipo" ToRole="tblRel_EquipoFecha" />
+          <NavigationProperty Name="tblRel_EquipoPlan" Relationship="TSP_DEVModel.tblCat_EquipotblRel_EquipoPlan" FromRole="tblCat_Equipo" ToRole="tblRel_EquipoPlan" />
+        </EntityType>
+        <EntityType Name="tblCat_Usuarios">
+          <Key>
+            <PropertyRef Name="iIdUsuario" />
+          </Key>
+          <Property Name="iIdUsuario" Type="Guid" Nullable="false" />
+          <Property Name="cNombreUsuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cClaveUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblRel_Equipos" Relationship="TSP_DEVModel.FK_tblRel_Equipos_iIdUsuario" FromRole="tblCat_Usuarios" ToRole="tblRel_Equipos" />
+          <NavigationProperty Name="tblRel_UsuarioPerfil" Relationship="TSP_DEVModel.tblCat_UsuariostblRel_UsuarioPerfil" FromRole="tblCat_Usuarios" ToRole="tblRel_UsuarioPerfil" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.tblCat_UsuariostblCat_WBS" FromRole="tblCat_Usuarios" ToRole="tblCat_WBS" />
+        </EntityType>
+        <EntityType Name="tblRel_Equipos">
+          <Key>
+            <PropertyRef Name="iIdRelEquipos" />
+          </Key>
+          <Property Name="iIdRelEquipos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iIdUsuario" Type="Guid" Nullable="false" />
+          <Property Name="iIdEquipo" Type="Int32" Nullable="false" />
+          <Property Name="dtFechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblCat_Equipo" Relationship="TSP_DEVModel.FK_tblRel_Equipos_iIdEquipo" FromRole="tblRel_Equipos" ToRole="tblCat_Equipo" />
+          <NavigationProperty Name="tblCat_Usuarios" Relationship="TSP_DEVModel.FK_tblRel_Equipos_iIdUsuario" FromRole="tblRel_Equipos" ToRole="tblCat_Usuarios" />
+        </EntityType>
+        <EntityType Name="tblRel_ProcesoRevision">
+          <Key>
+            <PropertyRef Name="iIdRel_ProcesoRevision" />
+          </Key>
+          <Property Name="iIdRel_ProcesoRevision" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iIdProceso" Type="Int32" Nullable="false" />
+          <Property Name="iIdEquipo" Type="Int32" Nullable="false" />
+          <Property Name="iRevision" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblCat_Equipo" Relationship="TSP_DEVModel.FK_tblRel_ProcesoRevision_iIdEquipo" FromRole="tblRel_ProcesoRevision" ToRole="tblCat_Equipo" />
+          <NavigationProperty Name="tblCat_Proceso" Relationship="TSP_DEVModel.FK__tblRel_ProcesoRevision_iIdProceso" FromRole="tblRel_ProcesoRevision" ToRole="tblCat_Proceso" />
+        </EntityType>
+        <Association Name="FK_tblRel_Equipos_iIdEquipo">
+          <End Type="TSP_DEVModel.tblCat_Equipo" Role="tblCat_Equipo" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_Equipos" Role="tblRel_Equipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Equipo">
+              <PropertyRef Name="iIdEquipo" />
+            </Principal>
+            <Dependent Role="tblRel_Equipos">
+              <PropertyRef Name="iIdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRel_ProcesoRevision_iIdEquipo">
+          <End Type="TSP_DEVModel.tblCat_Equipo" Role="tblCat_Equipo" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_ProcesoRevision" Role="tblRel_ProcesoRevision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Equipo">
+              <PropertyRef Name="iIdEquipo" />
+            </Principal>
+            <Dependent Role="tblRel_ProcesoRevision">
+              <PropertyRef Name="iIdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRel_Equipos_iIdUsuario">
+          <End Type="TSP_DEVModel.tblCat_Usuarios" Role="tblCat_Usuarios" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_Equipos" Role="tblRel_Equipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Usuarios">
+              <PropertyRef Name="iIdUsuario" />
+            </Principal>
+            <Dependent Role="tblRel_Equipos">
+              <PropertyRef Name="iIdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblRel_EquipoFecha">
+          <Key>
+            <PropertyRef Name="iIdRel_EquipoFecha" />
+          </Key>
+          <Property Name="iIdRel_EquipoFecha" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iIdEquipo" Type="Int32" Nullable="false" />
+          <Property Name="dtFechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtFechaFin" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblCat_Equipo" Relationship="TSP_DEVModel.FK_tblRel_EquipoFecha_iIdEquipo" FromRole="tblRel_EquipoFecha" ToRole="tblCat_Equipo" />
+        </EntityType>
+        <Association Name="FK_tblRel_EquipoFecha_iIdEquipo">
+          <End Type="TSP_DEVModel.tblCat_Equipo" Role="tblCat_Equipo" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_EquipoFecha" Role="tblRel_EquipoFecha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Equipo">
+              <PropertyRef Name="iIdEquipo" />
+            </Principal>
+            <Dependent Role="tblRel_EquipoFecha">
+              <PropertyRef Name="iIdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblCat_Plan">
+          <Key>
+            <PropertyRef Name="iIdPlan" />
+          </Key>
+          <Property Name="iIdPlan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtFechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdPlan" FromRole="tblCat_Plan" ToRole="tblCat_WBS" />
+          <NavigationProperty Name="tblRel_EquipoPlan" Relationship="TSP_DEVModel.tblCat_PlantblRel_EquipoPlan" FromRole="tblCat_Plan" ToRole="tblRel_EquipoPlan" />
+        </EntityType>
+        <Association Name="FK_tblCat_WBS_iIdPlan">
+          <End Type="TSP_DEVModel.tblCat_Plan" Role="tblCat_Plan" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblCat_WBS" Role="tblCat_WBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Plan">
+              <PropertyRef Name="iIdPlan" />
+            </Principal>
+            <Dependent Role="tblCat_WBS">
+              <PropertyRef Name="iIdPlan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblCat_TipoTarea">
+          <Key>
+            <PropertyRef Name="iIdTipoTarea" />
+          </Key>
+          <Property Name="iIdTipoTarea" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombreTarea" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblCat_Sistema">
+          <Key>
+            <PropertyRef Name="iIdSistema" />
+          </Key>
+          <Property Name="iIdSistema" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombreSistema" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="cDescripcion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cRuta" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="iOrden" Type="Int32" Nullable="false" />
+          <Property Name="iImagen" Type="Int32" Nullable="false" />
+          <Property Name="dtAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtModificacion" Type="DateTime" Precision="3" />
+          <Property Name="lActivo" Type="Boolean" Nullable="false" />
+          <Property Name="cCheckSum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="lFrontEnd" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCat_Modulo" Relationship="TSP_DEVModel.FK_tblCat_Modulo_iIdSistema" FromRole="tblCat_Sistema" ToRole="tblCat_Modulo" />
+        </EntityType>
+        <Association Name="FK_tblCat_Modulo_iIdSistema">
+          <End Type="TSP_DEVModel.tblCat_Sistema" Role="tblCat_Sistema" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblCat_Modulo" Role="tblCat_Modulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Sistema">
+              <PropertyRef Name="iIdSistema" />
+            </Principal>
+            <Dependent Role="tblCat_Modulo">
+              <PropertyRef Name="iIdSistema" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblCat_Proceso">
+          <Key>
+            <PropertyRef Name="iIdProceso" />
+          </Key>
+          <Property Name="iIdProceso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombreProceso" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="cDescripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="iOrden" Type="Int32" Nullable="false" />
+          <Property Name="dtAlta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtModificacion" Type="DateTime" Precision="3" />
+          <Property Name="lActivo" Type="Boolean" Nullable="false" />
+          <Property Name="lEditable" Type="Boolean" />
+          <NavigationProperty Name="tblCat_DetalleProceso" Relationship="TSP_DEVModel.FK_tblCat_DetalleProceso_iIdProceso" FromRole="tblCat_Proceso" ToRole="tblCat_DetalleProceso" />
+          <NavigationProperty Name="tblRel_ProcesoRevision" Relationship="TSP_DEVModel.FK__tblRel_ProcesoRevision_iIdProceso" FromRole="tblCat_Proceso" ToRole="tblRel_ProcesoRevision" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos" FromRole="tblCat_Proceso" ToRole="tblCat_WBS" />
+          <NavigationProperty Name="tblCat_VersionProceso" Relationship="TSP_DEVModel.iIdProceso" FromRole="tblCat_Proceso" ToRole="tblCat_VersionProceso" />
+          <Property Name="iTipoProceso" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tblCat_DetalleProceso_iIdProceso">
+          <End Type="TSP_DEVModel.tblCat_Proceso" Role="tblCat_Proceso" Multiplicity="0..1" />
+          <End Type="TSP_DEVModel.tblCat_DetalleProceso" Role="tblCat_DetalleProceso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Proceso">
+              <PropertyRef Name="iIdProceso" />
+            </Principal>
+            <Dependent Role="tblCat_DetalleProceso">
+              <PropertyRef Name="iIdProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblRel_ProcesoRevision_iIdProceso">
+          <End Type="TSP_DEVModel.tblCat_Proceso" Role="tblCat_Proceso" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_ProcesoRevision" Role="tblRel_ProcesoRevision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Proceso">
+              <PropertyRef Name="iIdProceso" />
+            </Principal>
+            <Dependent Role="tblRel_ProcesoRevision">
+              <PropertyRef Name="iIdProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblCat_WBS_iIdProcesos">
+          <End Type="TSP_DEVModel.tblCat_Proceso" Role="tblCat_Proceso" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblCat_WBS" Role="tblCat_WBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Proceso">
+              <PropertyRef Name="iIdProceso" />
+            </Principal>
+            <Dependent Role="tblCat_WBS">
+              <PropertyRef Name="iIdProcesos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblCat_VersionProceso">
+          <Key>
+            <PropertyRef Name="iIdVersionProceso" />
+          </Key>
+          <Property Name="iIdVersionProceso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iIdProceso" Type="Int32" Nullable="false" />
+          <Property Name="iNumeroVersion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblCat_Proceso" Relationship="TSP_DEVModel.iIdProceso" FromRole="tblCat_VersionProceso" ToRole="tblCat_Proceso" />
+          <NavigationProperty Name="tblCat_DetalleProceso" Relationship="TSP_DEVModel.tblCat_VersionProcesotblCat_DetalleProceso" FromRole="tblCat_VersionProceso" ToRole="tblCat_DetalleProceso" />
+        </EntityType>
+        <Association Name="iIdProceso">
+          <End Type="TSP_DEVModel.tblCat_Proceso" Role="tblCat_Proceso" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblCat_VersionProceso" Role="tblCat_VersionProceso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Proceso">
+              <PropertyRef Name="iIdProceso" />
+            </Principal>
+            <Dependent Role="tblCat_VersionProceso">
+              <PropertyRef Name="iIdProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblCat_VersionProcesotblCat_DetalleProceso">
+          <End Type="TSP_DEVModel.tblCat_VersionProceso" Role="tblCat_VersionProceso" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblCat_DetalleProceso" Role="tblCat_DetalleProceso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_VersionProceso">
+              <PropertyRef Name="iIdVersionProceso" />
+            </Principal>
+            <Dependent Role="tblCat_DetalleProceso">
+              <PropertyRef Name="iIdVersionProceso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblRel_EquipoPlan">
+          <Key>
+            <PropertyRef Name="iIdRelEquipoPlan" />
+          </Key>
+          <Property Name="iIdRelEquipoPlan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="tblCat_Equipo" Relationship="TSP_DEVModel.tblCat_EquipotblRel_EquipoPlan" FromRole="tblRel_EquipoPlan" ToRole="tblCat_Equipo" />
+          <Property Name="iIdEquipo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblCat_Plan" Relationship="TSP_DEVModel.tblCat_PlantblRel_EquipoPlan" FromRole="tblRel_EquipoPlan" ToRole="tblCat_Plan" />
+          <Property Name="iIdPlan" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCat_Perfil">
+          <Key>
+            <PropertyRef Name="iIdPerfil" />
+          </Key>
+          <Property Name="iIdPerfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="iPrioridad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblRel_UsuarioPerfil" Relationship="TSP_DEVModel.tblCat_PerfiltblRel_UsuarioPerfil" FromRole="tblCat_Perfil" ToRole="tblRel_UsuarioPerfil" />
+          <NavigationProperty Name="tblCat_ControlesUI" Relationship="TSP_DEVModel.tblCat_PerfiltblCat_ControlesUI" FromRole="tblCat_Perfil" ToRole="tblCat_ControlesUI" />
+        </EntityType>
+        <EntityType Name="tblRel_UsuarioPerfil">
+          <Key>
+            <PropertyRef Name="iIdRelUsuarioPerfil" />
+          </Key>
+          <Property Name="iIdRelUsuarioPerfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="tblCat_Usuarios" Relationship="TSP_DEVModel.tblCat_UsuariostblRel_UsuarioPerfil" FromRole="tblRel_UsuarioPerfil" ToRole="tblCat_Usuarios" />
+          <Property Name="iIdUsuario" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="tblCat_Perfil" Relationship="TSP_DEVModel.tblCat_PerfiltblRel_UsuarioPerfil" FromRole="tblRel_UsuarioPerfil" ToRole="tblCat_Perfil" />
+          <Property Name="iIdPerfil" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCat_ControlesUI">
+          <Key>
+            <PropertyRef Name="iIdControlesUI" />
+          </Key>
+          <Property Name="iIdControlesUI" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cIdHTML" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="lHabilitado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblCat_Perfil" Relationship="TSP_DEVModel.tblCat_PerfiltblCat_ControlesUI" FromRole="tblCat_ControlesUI" ToRole="tblCat_Perfil" />
+          <Property Name="iIdPerfil" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="tblCat_UsuariostblRel_UsuarioPerfil">
+          <End Type="TSP_DEVModel.tblCat_Usuarios" Role="tblCat_Usuarios" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_UsuarioPerfil" Role="tblRel_UsuarioPerfil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Usuarios">
+              <PropertyRef Name="iIdUsuario" />
+            </Principal>
+            <Dependent Role="tblRel_UsuarioPerfil">
+              <PropertyRef Name="iIdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblCat_PerfiltblRel_UsuarioPerfil">
+          <End Type="TSP_DEVModel.tblCat_Perfil" Role="tblCat_Perfil" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_UsuarioPerfil" Role="tblRel_UsuarioPerfil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Perfil">
+              <PropertyRef Name="iIdPerfil" />
+            </Principal>
+            <Dependent Role="tblRel_UsuarioPerfil">
+              <PropertyRef Name="iIdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblCat_PerfiltblCat_ControlesUI">
+          <End Type="TSP_DEVModel.tblCat_Perfil" Role="tblCat_Perfil" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblCat_ControlesUI" Role="tblCat_ControlesUI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Perfil">
+              <PropertyRef Name="iIdPerfil" />
+            </Principal>
+            <Dependent Role="tblCat_ControlesUI">
+              <PropertyRef Name="iIdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblCat_EquipotblRel_EquipoPlan">
+          <End Type="TSP_DEVModel.tblCat_Equipo" Role="tblCat_Equipo" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_EquipoPlan" Role="tblRel_EquipoPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Equipo">
+              <PropertyRef Name="iIdEquipo" />
+            </Principal>
+            <Dependent Role="tblRel_EquipoPlan">
+              <PropertyRef Name="iIdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblCat_PlantblRel_EquipoPlan">
+          <End Type="TSP_DEVModel.tblCat_Plan" Role="tblCat_Plan" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblRel_EquipoPlan" Role="tblRel_EquipoPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Plan">
+              <PropertyRef Name="iIdPlan" />
+            </Principal>
+            <Dependent Role="tblRel_EquipoPlan">
+              <PropertyRef Name="iIdPlan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblCat_UsuariostblCat_WBS">
+          <End Type="TSP_DEVModel.tblCat_Usuarios" Role="tblCat_Usuarios" Multiplicity="1" />
+          <End Type="TSP_DEVModel.tblCat_WBS" Role="tblCat_WBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCat_Usuarios">
+              <PropertyRef Name="iIdUsuario" />
+            </Principal>
+            <Dependent Role="tblCat_WBS">
+              <PropertyRef Name="iIdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblCat_TareasOpcionales">
+          <Key>
+            <PropertyRef Name="iIdTareaOpcional" />
+          </Key>
+          <Property Name="iIdTareaOpcional" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cNombreTareaOpcional" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TSP_DEVModelStoreContainer" CdmEntityContainer="TSP_DEVEntities">
+    <EntitySetMapping Name="tblCat_Modulo">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_Modulo)">
+        <MappingFragment StoreEntitySet="tblCat_Modulo">
+          <ScalarProperty Name="iIdModulo" ColumnName="iIdModulo" />
+          <ScalarProperty Name="cNombreModulo" ColumnName="cNombreModulo" />
+          <ScalarProperty Name="cDescripcion" ColumnName="cDescripcion" />
+          <ScalarProperty Name="cRuta" ColumnName="cRuta" />
+          <ScalarProperty Name="iOrden" ColumnName="iOrden" />
+          <ScalarProperty Name="iImagen" ColumnName="iImagen" />
+          <ScalarProperty Name="dtAlta" ColumnName="dtAlta" />
+          <ScalarProperty Name="dtModificacion" ColumnName="dtModificacion" />
+          <ScalarProperty Name="lActivo" ColumnName="lActivo" />
+          <ScalarProperty Name="iIdSistema" ColumnName="iIdSistema" />
+          <ScalarProperty Name="iIdClasePermiso" ColumnName="iIdClasePermiso" />
+          <ScalarProperty Name="lGrid" ColumnName="lGrid" />
+          <ScalarProperty Name="lFrontEnd" ColumnName="lFrontEnd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_DetalleProceso">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_DetalleProceso)">
+        <MappingFragment StoreEntitySet="tblCat_DetalleProceso">
+          <ScalarProperty Name="iIdDetalleProceso" ColumnName="iIdDetalleProceso" />
+          <ScalarProperty Name="cNombreDetalleProceso" ColumnName="cNombreDetalleProceso" />
+          <ScalarProperty Name="dtAlta" ColumnName="dtAlta" />
+          <ScalarProperty Name="dtModificacion" ColumnName="dtModificacion" />
+          <ScalarProperty Name="iIdProceso" ColumnName="iIdProceso" />
+          <ScalarProperty Name="lActivo" ColumnName="lActivo" />
+          <ScalarProperty Name="iIdTipoTarea" ColumnName="iIdTipoTarea" />
+          <ScalarProperty Name="iRevision" ColumnName="iRevision" />
+          <ScalarProperty Name="iIdVersionProceso" ColumnName="iIdVersionProceso" />
+          <ScalarProperty Name="lRequerida" ColumnName="lRequerida" />
+          <ScalarProperty Name="dPorcentaje" ColumnName="dPorcentaje" />
+          <ScalarProperty Name="lTamaño" ColumnName="lTamaño" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_WBS">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_WBS)">
+        <MappingFragment StoreEntitySet="tblCat_WBS">
+          <ScalarProperty Name="iIdWBS" ColumnName="iIdWBS" />
+          <ScalarProperty Name="iRequerimiento" ColumnName="iRequerimiento" />
+          <ScalarProperty Name="iIdProcesos" ColumnName="iIdProcesos" />
+          <ScalarProperty Name="iIdPlan" ColumnName="iIdPlan" />
+          <ScalarProperty Name="iIdDetalleProceso" ColumnName="iIdDetalleProceso" />
+          <ScalarProperty Name="cWork_Item_Type" ColumnName="cWork_Item_Type" />
+          <ScalarProperty Name="iTipoElemento" ColumnName="iTipoElemento" />
+          <ScalarProperty Name="dRemaining_Work" ColumnName="dRemaining_Work" />
+          <ScalarProperty Name="dOriginal_Estimate" ColumnName="dOriginal_Estimate" />
+          <ScalarProperty Name="dTiempo_Total_del_proceso" ColumnName="dTiempo_Total_del_proceso" />
+          <ScalarProperty Name="dPorcentaje_de_tareas" ColumnName="dPorcentaje_de_tareas" />
+          <ScalarProperty Name="dtamanios" ColumnName="dtamanios" />
+          <ScalarProperty Name="dRate" ColumnName="dRate" />
+          <ScalarProperty Name="dValor_ganado" ColumnName="dValor_ganado" />
+          <ScalarProperty Name="isemana" ColumnName="isemana" />
+          <ScalarProperty Name="dValor_ganado_acumulado" ColumnName="dValor_ganado_acumulado" />
+          <ScalarProperty Name="dValor_ganado_semanal" ColumnName="dValor_ganado_semanal" />
+          <ScalarProperty Name="cTipo_de_tarea" ColumnName="cTipo_de_tarea" />
+          <ScalarProperty Name="cUnidad_de_medida" ColumnName="cUnidad_de_medida" />
+          <ScalarProperty Name="dtFecha_de_inicio" ColumnName="dtFecha_de_inicio" />
+          <ScalarProperty Name="dtFechaFinal" ColumnName="dtFechaFinal" />
+          <ScalarProperty Name="dtHoras_Acumuladas" ColumnName="dtHoras_Acumuladas" />
+          <ScalarProperty Name="dtAlta" ColumnName="dtAlta" />
+          <ScalarProperty Name="dtModificacion" ColumnName="dtModificacion" />
+          <ScalarProperty Name="lActivo" ColumnName="lActivo" />
+          <ScalarProperty Name="iIdTFS" ColumnName="iIdTFS" />
+          <ScalarProperty Name="iIdUsuario" ColumnName="iIdUsuario" />
+          <ScalarProperty Name="iGrupo" ColumnName="iGrupo" />
+          <ScalarProperty Name="lAplicaMultiProceso" ColumnName="lAplicaMultiProceso" />
+          <ScalarProperty Name="cTituloProceso" ColumnName="cTituloProceso" />
+          <ScalarProperty Name="iRevision" ColumnName="iRevision" />
+          <ScalarProperty Name="dtTimeStamp" ColumnName="dtTimeStamp" />
+          <ScalarProperty Name="iOrdenDetalleProceso" ColumnName="iOrdenDetalleProceso" />
+          <ScalarProperty Name="iOrdenProceso" ColumnName="iOrdenProceso" />
+          <ScalarProperty Name="iOrdenRequerimiento" ColumnName="iOrdenRequerimiento" />
+          <ScalarProperty Name="iOrden" ColumnName="iOrden" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_Equipo">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_Equipo)">
+        <MappingFragment StoreEntitySet="tblCat_Equipo">
+          <ScalarProperty Name="iIdEquipo" ColumnName="iIdEquipo" />
+          <ScalarProperty Name="cNombreEquipo" ColumnName="cNombreEquipo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_Usuarios">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_Usuarios)">
+        <MappingFragment StoreEntitySet="tblCat_Usuarios">
+          <ScalarProperty Name="iIdUsuario" ColumnName="iIdUsuario" />
+          <ScalarProperty Name="cNombreUsuario" ColumnName="cNombreUsuario" />
+          <ScalarProperty Name="cClaveUsuario" ColumnName="cClaveUsuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRel_Equipos">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblRel_Equipos)">
+        <MappingFragment StoreEntitySet="tblRel_Equipos">
+          <ScalarProperty Name="iIdRelEquipos" ColumnName="iIdRelEquipos" />
+          <ScalarProperty Name="iIdUsuario" ColumnName="iIdUsuario" />
+          <ScalarProperty Name="iIdEquipo" ColumnName="iIdEquipo" />
+          <ScalarProperty Name="dtFechaIngreso" ColumnName="dtFechaIngreso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRel_ProcesoRevision">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblRel_ProcesoRevision)">
+        <MappingFragment StoreEntitySet="tblRel_ProcesoRevision">
+          <ScalarProperty Name="iIdRel_ProcesoRevision" ColumnName="iIdRel_ProcesoRevision" />
+          <ScalarProperty Name="iIdProceso" ColumnName="iIdProceso" />
+          <ScalarProperty Name="iIdEquipo" ColumnName="iIdEquipo" />
+          <ScalarProperty Name="iRevision" ColumnName="iRevision" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRel_EquipoFecha">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblRel_EquipoFecha)">
+        <MappingFragment StoreEntitySet="tblRel_EquipoFecha">
+          <ScalarProperty Name="iIdRel_EquipoFecha" ColumnName="iIdRel_EquipoFecha" />
+          <ScalarProperty Name="iIdEquipo" ColumnName="iIdEquipo" />
+          <ScalarProperty Name="dtFechaInicio" ColumnName="dtFechaInicio" />
+          <ScalarProperty Name="dtFechaFin" ColumnName="dtFechaFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_Plan">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_Plan)">
+        <MappingFragment StoreEntitySet="tblCat_Plan">
+          <ScalarProperty Name="iIdPlan" ColumnName="iIdPlan" />
+          <ScalarProperty Name="dtFechaCreacion" ColumnName="dtFechaCreacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_TipoTarea">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_TipoTarea)">
+        <MappingFragment StoreEntitySet="tblCat_TipoTarea">
+          <ScalarProperty Name="iIdTipoTarea" ColumnName="iIdTipoTarea" />
+          <ScalarProperty Name="cNombreTarea" ColumnName="cNombreTarea" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_Sistema">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_Sistema)">
+        <MappingFragment StoreEntitySet="tblCat_Sistema">
+          <ScalarProperty Name="iIdSistema" ColumnName="iIdSistema" />
+          <ScalarProperty Name="cNombreSistema" ColumnName="cNombreSistema" />
+          <ScalarProperty Name="cDescripcion" ColumnName="cDescripcion" />
+          <ScalarProperty Name="cRuta" ColumnName="cRuta" />
+          <ScalarProperty Name="iOrden" ColumnName="iOrden" />
+          <ScalarProperty Name="iImagen" ColumnName="iImagen" />
+          <ScalarProperty Name="dtAlta" ColumnName="dtAlta" />
+          <ScalarProperty Name="dtModificacion" ColumnName="dtModificacion" />
+          <ScalarProperty Name="lActivo" ColumnName="lActivo" />
+          <ScalarProperty Name="cCheckSum" ColumnName="cCheckSum" />
+          <ScalarProperty Name="lFrontEnd" ColumnName="lFrontEnd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_Proceso">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_Proceso)">
+        <MappingFragment StoreEntitySet="tblCat_Proceso">
+          <ScalarProperty Name="iIdProceso" ColumnName="iIdProceso" />
+          <ScalarProperty Name="cNombreProceso" ColumnName="cNombreProceso" />
+          <ScalarProperty Name="cDescripcion" ColumnName="cDescripcion" />
+          <ScalarProperty Name="iOrden" ColumnName="iOrden" />
+          <ScalarProperty Name="dtAlta" ColumnName="dtAlta" />
+          <ScalarProperty Name="dtModificacion" ColumnName="dtModificacion" />
+          <ScalarProperty Name="lActivo" ColumnName="lActivo" />
+          <ScalarProperty Name="lEditable" ColumnName="lEditable" />
+          <ScalarProperty Name="iTipoProceso" ColumnName="iTipoProceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_VersionProceso">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_VersionProceso)">
+        <MappingFragment StoreEntitySet="tblCat_VersionProceso">
+          <ScalarProperty Name="iIdVersionProceso" ColumnName="iIdVersionProceso" />
+          <ScalarProperty Name="iIdProceso" ColumnName="iIdProceso" />
+          <ScalarProperty Name="iNumeroVersion" ColumnName="iNumeroVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRel_EquipoPlan">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblRel_EquipoPlan)">
+        <MappingFragment StoreEntitySet="tblRel_EquipoPlan">
+          <ScalarProperty Name="iIdRelEquipoPlan" ColumnName="iIdRelEquipoPlan" />
+          <ScalarProperty Name="iIdEquipo" ColumnName="iIdEquipo" />
+          <ScalarProperty Name="iIdPlan" ColumnName="iIdPlan" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_Perfil">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_Perfil)">
+        <MappingFragment StoreEntitySet="tblCat_Perfil">
+          <ScalarProperty Name="iIdPerfil" ColumnName="iIdPerfil" />
+          <ScalarProperty Name="cNombre" ColumnName="cNombre" />
+          <ScalarProperty Name="iPrioridad" ColumnName="iPrioridad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRel_UsuarioPerfil">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblRel_UsuarioPerfil)">
+        <MappingFragment StoreEntitySet="tblRel_UsuarioPerfil">
+          <ScalarProperty Name="iIdRelUsuarioPerfil" ColumnName="iIdRelUsuarioPerfil" />
+          <ScalarProperty Name="iIdUsuario" ColumnName="iIdUsuario" />
+          <ScalarProperty Name="iIdPerfil" ColumnName="iIdPerfil" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_ControlesUI">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_ControlesUI)">
+        <MappingFragment StoreEntitySet="tblCat_ControlesUI">
+          <ScalarProperty Name="iIdControlesUI" ColumnName="iIdControlesUI" />
+          <ScalarProperty Name="cIdHTML" ColumnName="cIdHTML" />
+          <ScalarProperty Name="lHabilitado" ColumnName="lHabilitado" />
+          <ScalarProperty Name="iIdPerfil" ColumnName="iIdPerfil" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCat_TareasOpcionales">
+      <EntityTypeMapping TypeName="IsTypeOf(TSP_DEVModel.tblCat_TareasOpcionales)">
+        <MappingFragment StoreEntitySet="tblCat_TareasOpcionales">
+          <ScalarProperty Name="iIdTareaOpcional" ColumnName="iIdTareaOpcional" />
+          <ScalarProperty Name="cNombreTareaOpcional" ColumnName="cNombreTareaOpcional" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

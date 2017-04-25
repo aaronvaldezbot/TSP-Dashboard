@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="872e78a4f91d4b699f8cc28283dabbb4" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_Modulo" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_DetalleProceso" Width="1.5" PointX="3.125" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_WBS" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblCat_Title_iIdTitle" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_Equipo" Width="1.5" PointX="7.25" PointY="9" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_Usuarios" Width="1.5" PointX="7.375" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblRel_Equipos" Width="1.5" PointX="9.625" PointY="8.875" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblRel_ProcesoRevision" Width="1.5" PointX="9.625" PointY="5.875" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblRel_Equipos_iIdEquipo" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblRel_ProcesoRevision_iIdEquipo" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblRel_Equipos_iIdUsuario" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblRel_EquipoFecha" Width="1.5" PointX="9.625" PointY="12" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblRel_EquipoFecha_iIdEquipo" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_Plan" Width="1.5" PointX="3.375" PointY="8.875" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblCat_WBS_iIdPlan" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_TipoTarea" Width="1.5" PointX="0.625" PointY="8.875" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_Sistema" Width="1.5" PointX="7.75" PointY="1.25" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblCat_Modulo_iIdSistema" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_Proceso" Width="1.5" PointX="0.5" PointY="3" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblCat_DetalleProceso_iIdProceso" />
+        <AssociationConnector Association="TSP_DEVModel.FK__tblRel_ProcesoRevision_iIdProceso" />
+        <AssociationConnector Association="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_VersionProceso" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="TSP_DEVModel.iIdProceso" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_VersionProcesotblCat_DetalleProceso" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblRel_EquipoPlan" Width="1.5" PointX="0.5" PointY="11" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_Perfil" Width="1.5" PointX="3.125" PointY="11" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblRel_UsuarioPerfil" Width="1.5" PointX="0.625" PointY="13.625" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_ControlesUI" Width="1.5" PointX="3.375" PointY="13.75" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_UsuariostblRel_UsuarioPerfil" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_PerfiltblRel_UsuarioPerfil" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_PerfiltblCat_ControlesUI" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_EquipotblRel_EquipoPlan" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_PlantblRel_EquipoPlan" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_UsuariostblCat_WBS" />
+        <EntityTypeShape EntityType="TSP_DEVModel.tblCat_TareasOpcionales" Width="1.5" PointX="12.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

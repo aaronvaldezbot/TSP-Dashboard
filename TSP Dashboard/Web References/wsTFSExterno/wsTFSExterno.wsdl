@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerTiposTarea">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sProyecto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sColeccion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerTiposTareaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerTiposTareaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerTituloElementoTFS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdTFS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sProyecto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sColeccion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerTituloElementoTFSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerTituloElementoTFSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerUsuarios">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sProyecto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sColeccion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerUsuariosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerUsuariosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerCapacidadSprint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sSprint" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sProyecto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sColeccion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerCapacidadSprintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerCapacidadSprintResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerIteraciones">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sProyecto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sColeccion" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtenerIteracionesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObtenerIteracionesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GuardarWBS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jsonWBS" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GuardarWBSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GuardarWBSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerTiposTareaSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerTiposTarea" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerTiposTareaSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerTiposTareaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerTituloElementoTFSSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerTituloElementoTFS" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerTituloElementoTFSSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerTituloElementoTFSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerUsuariosSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerUsuarios" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerUsuariosSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerUsuariosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerCapacidadSprintSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerCapacidadSprint" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerCapacidadSprintSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerCapacidadSprintResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerIteracionesSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtenerIteraciones" />
+  </wsdl:message>
+  <wsdl:message name="ObtenerIteracionesSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtenerIteracionesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GuardarWBSSoapIn">
+    <wsdl:part name="parameters" element="tns:GuardarWBS" />
+  </wsdl:message>
+  <wsdl:message name="GuardarWBSSoapOut">
+    <wsdl:part name="parameters" element="tns:GuardarWBSResponse" />
+  </wsdl:message>
+  <wsdl:portType name="wsTFSExternoSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerTiposTarea">
+      <wsdl:input message="tns:ObtenerTiposTareaSoapIn" />
+      <wsdl:output message="tns:ObtenerTiposTareaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerTituloElementoTFS">
+      <wsdl:input message="tns:ObtenerTituloElementoTFSSoapIn" />
+      <wsdl:output message="tns:ObtenerTituloElementoTFSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerUsuarios">
+      <wsdl:input message="tns:ObtenerUsuariosSoapIn" />
+      <wsdl:output message="tns:ObtenerUsuariosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerCapacidadSprint">
+      <wsdl:input message="tns:ObtenerCapacidadSprintSoapIn" />
+      <wsdl:output message="tns:ObtenerCapacidadSprintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerIteraciones">
+      <wsdl:input message="tns:ObtenerIteracionesSoapIn" />
+      <wsdl:output message="tns:ObtenerIteracionesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GuardarWBS">
+      <wsdl:input message="tns:GuardarWBSSoapIn" />
+      <wsdl:output message="tns:GuardarWBSSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsTFSExternoSoap" type="tns:wsTFSExternoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerTiposTarea">
+      <soap:operation soapAction="http://tempuri.org/ObtenerTiposTarea" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerTituloElementoTFS">
+      <soap:operation soapAction="http://tempuri.org/ObtenerTituloElementoTFS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerUsuarios">
+      <soap:operation soapAction="http://tempuri.org/ObtenerUsuarios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerCapacidadSprint">
+      <soap:operation soapAction="http://tempuri.org/ObtenerCapacidadSprint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerIteraciones">
+      <soap:operation soapAction="http://tempuri.org/ObtenerIteraciones" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GuardarWBS">
+      <soap:operation soapAction="http://tempuri.org/GuardarWBS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsTFSExternoSoap12" type="tns:wsTFSExternoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerTiposTarea">
+      <soap12:operation soapAction="http://tempuri.org/ObtenerTiposTarea" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerTituloElementoTFS">
+      <soap12:operation soapAction="http://tempuri.org/ObtenerTituloElementoTFS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerUsuarios">
+      <soap12:operation soapAction="http://tempuri.org/ObtenerUsuarios" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerCapacidadSprint">
+      <soap12:operation soapAction="http://tempuri.org/ObtenerCapacidadSprint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerIteraciones">
+      <soap12:operation soapAction="http://tempuri.org/ObtenerIteraciones" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GuardarWBS">
+      <soap12:operation soapAction="http://tempuri.org/GuardarWBS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsTFSExterno">
+    <wsdl:port name="wsTFSExternoSoap" binding="tns:wsTFSExternoSoap">
+      <soap:address location="http://bot-fswws/reportes/wsTFSExterno.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsTFSExternoSoap12" binding="tns:wsTFSExternoSoap12">
+      <soap12:address location="http://bot-fswws/reportes/wsTFSExterno.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -53,3 +53,7 @@ Temporary Items
 /TSP Dashboard.Tests/bin/Debug
 /TSPDAO/bin/Debug
 /TSPDAO/obj/Debug
+/TSP Dashboard/obj/Debug/TempPE
+/packages/EntityFramework.6.1.3/lib
+*.cache
+/TSP Dashboard/obj/Debug/edmxResourcesToEmbed/Models
