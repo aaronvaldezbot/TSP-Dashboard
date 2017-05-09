@@ -26,16 +26,17 @@ namespace TSP_Dashboard.Models
         public Nullable<System.DateTime> dtModificacion { get; set; }
         public Nullable<int> iIdProceso { get; set; }
         public bool lActivo { get; set; }
-        public Nullable<int> iIdTipoTarea { get; set; }
         public Nullable<int> iRevision { get; set; }
         public int iIdVersionProceso { get; set; }
         public bool lRequerida { get; set; }
         public decimal dPorcentaje { get; set; }
         public bool lTamaño { get; set; }
+        public int iIdTipoTarea { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCat_WBS> tblCat_WBS { get; set; }
         public virtual tblCat_Proceso tblCat_Proceso { get; set; }
         public virtual tblCat_VersionProceso tblCat_VersionProceso { get; set; }
+        public virtual tblCat_TipoTarea tblCat_TipoTarea { get; set; }
     }
 }

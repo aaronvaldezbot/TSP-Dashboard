@@ -41,6 +41,8 @@
         <AssociationConnector Association="TSP_DEVModel.tblCat_PlantblRel_EquipoPlan" />
         <AssociationConnector Association="TSP_DEVModel.tblCat_UsuariostblCat_WBS" />
         <EntityTypeShape EntityType="TSP_DEVModel.tblCat_TareasOpcionales" Width="1.5" PointX="12.375" PointY="0.75" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_TipoTareatblCat_DetalleProceso_iIdTipoTarea" />
+        <AssociationConnector Association="TSP_DEVModel.tblCat_WBStblCat_TipoTarea_iIdTipoTarea" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

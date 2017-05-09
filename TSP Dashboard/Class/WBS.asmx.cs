@@ -10,6 +10,7 @@ using System.Net;
 using System.IO;
 using System.Web.Script.Services;
 using TSP_Dashboard.DTO;
+using TSP_Dashboard.ClasesWBS;
 
 namespace TSP_Dashboard.Class
 {
@@ -38,13 +39,14 @@ namespace TSP_Dashboard.Class
             List<tblCat_DetalleProceso> lstdetProceso = daoWBS.ObtenerProcesoNuevo(iIdProceso);
             Generico.Generico gen = new Generico.Generico();
             List<tblCat_WBS> lstWBS = ObtenerRequerimiento(iIdProceso, iIdRQM, iIdPlan);
+			List<tblCat_TipoTarea> lstTipoTarea = daoWBS.ObtenerTipoTarea();
             //if (lstWBS.Count < 1)
             //{
             //    return htmlRow;
             //}
             //else
             //{
-                htmlRow = gen.ContenedorGrid(lstTitle, lstdetProceso, lstWBS, hibrido);
+                htmlRow = gen.ContenedorGrid(lstTitle, lstdetProceso, lstWBS, lstTipoTarea, hibrido);
                 return htmlRow;
             //}
             
@@ -147,11 +149,11 @@ namespace TSP_Dashboard.Class
         /// </summary>
         /// <returns>una cadena con todos los registros pedidos separados por una coma(,)</returns>
         [WebMethod]
-        public string Requerimiento()
+        public string Requerimiento(int iIdPlan)
         {
             List<int> lstRequerimiento = new List<int>();
             WBSBussines daoWBS = new WBSBussines();
-            lstRequerimiento = daoWBS.ObtenerRequerimiento();
+            lstRequerimiento = daoWBS.ObtenerRequerimiento(iIdPlan);
             string cRequerimiento = "";
             int icontador = 1;
             foreach (var item in lstRequerimiento)
@@ -215,7 +217,7 @@ namespace TSP_Dashboard.Class
                     isemana = obj[i].isemana,
 						dValor_ganado_acumulado = obj[i].dValor_ganado_acumulado,
 						dValor_ganado_semanal = obj[i].dValor_ganado_semanal,
-                    cTipo_de_tarea = obj[i].cTipo_de_tarea,
+                    iIdTipoTarea = obj[i].iIdTipoTarea,
                     cUnidad_de_medida = obj[i].cUnidad_de_medida,
                     dtFecha_de_inicio = (obj[i].dtFecha_de_inicio),
 					dtFechaFinal = obj[i].dtFechaFinal,
@@ -267,7 +269,7 @@ namespace TSP_Dashboard.Class
 					isemana = obj[i].isemana,
 					dValor_ganado_acumulado = obj[i].dValor_ganado_acumulado,
 					dValor_ganado_semanal = obj[i].dValor_ganado_semanal,
-					cTipo_de_tarea = obj[i].cTipo_de_tarea,
+					iIdTipoTarea = obj[i].iIdTipoTarea,
 					cUnidad_de_medida = obj[i].cUnidad_de_medida,
 					dtFecha_de_inicio = (obj[i].dtFecha_de_inicio),
 					dtFechaFinal = obj[i].dtFechaFinal,
@@ -427,11 +429,11 @@ namespace TSP_Dashboard.Class
         }
 
         [WebMethod]
-        public string ObtenerPlan()
+        public string ObtenerPlan(Guid iIdEquipo)
         {
             List<tblCat_Plan> lstPlan = new List<tblCat_Plan>();
             WBSBussines daoWBS = new WBSBussines();
-            lstPlan = daoWBS.ObtenerPlan();
+            lstPlan = daoWBS.ObtenerPlan(iIdEquipo);
             string json = "{'Planes': [";
             int icontador = 1;
 			var tamaño = lstPlan.Count;
@@ -482,13 +484,14 @@ namespace TSP_Dashboard.Class
             List<tblCat_Proceso> lstTitle = daoWBS.ObtenerTitle(iIdProceso);
             Generico.Generico gen = new Generico.Generico();
             List<tblCat_DetalleProceso> lstWBS = daoWBS.ObtenerProcesoNuevo(iIdProceso);
+			List<tblCat_TipoTarea> lstTipoTarea = daoWBS.ObtenerTipoTarea();
             //if (lstWBS.Count < 1)
             //{
             //    return htmlRow;
             //}
             //else
             //{
-            htmlRow = gen.NuevoGrid(lstTitle, lstWBS, iIdRQM, iIdPlan);
+            htmlRow = gen.NuevoGrid(lstTitle, lstWBS, iIdRQM, iIdPlan, lstTipoTarea);
             return htmlRow;
             //}
 
@@ -603,7 +606,7 @@ namespace TSP_Dashboard.Class
                     + "'isemana': '" + item.isemana + "',"
                     + "'dValor_ganado_acumulado': '" + item.dValor_ganado_acumulado + "',"
                     + "'dValor_ganado_semanal': '" + item.dValor_ganado_semanal + "',"
-                    + "'cTipo_de_tarea': '" + item.cTipo_de_tarea + "',"
+                    + "'cTipo_de_tarea': '" + item.iIdTipoTarea + "',"
                     + "'cUnidad_de_medida': '" + item.cUnidad_de_medida + "',"
                     + "'dtFecha_de_inicio': '" + item.dtFecha_de_inicio + "',"
                     + "'dtHoras_Acumuladas': '" + item.dtHoras_Acumuladas + "',"
@@ -675,7 +678,7 @@ namespace TSP_Dashboard.Class
         }
 
         [WebMethod]
-        public int NuevoEquipo(string cNombreEquipo, string dtFechaInicio, string dtFechaFinal)
+        public Guid NuevoEquipo(string cNombreEquipo, string dtFechaInicio, string dtFechaFinal)
         {
             WBSBussines service = new WBSBussines();
             DateTime fechaInicio;
@@ -690,7 +693,7 @@ namespace TSP_Dashboard.Class
             {
                 cNombreEquipo = cNombreEquipo
             };
-            int iIdEquipo = service.NuevoEquipo(nuevoEquipo);
+            Guid iIdEquipo = service.NuevoEquipo(nuevoEquipo);
             var nuevoEquipoFecha = new tblRel_EquipoFecha
             {
                 iIdEquipo = iIdEquipo,
@@ -764,10 +767,10 @@ namespace TSP_Dashboard.Class
 		}
 
 		[WebMethod]
-		public List<int> obtenerProcesosByPlanRqm(int plan, int rqm)
+		public List<WBSOrdenProcesoDTO> obtenerProcesosByPlanRqm(int plan, int rqm)
 		{
 			WBSBussines daoWBS = new WBSBussines();
-			List<int> procesos = daoWBS.obtenerProcesosByPlanRqm(plan, rqm);
+			List<WBSOrdenProcesoDTO> procesos = daoWBS.obtenerProcesosByPlanRqm(plan, rqm);
 			return procesos;
 		}
 
@@ -789,11 +792,89 @@ namespace TSP_Dashboard.Class
 		}
 
 		[WebMethod]
+		public tblCat_Plan AgregarPlan()
+		{
+			WBSBussines daoWbs = new WBSBussines();
+			tblCat_Plan nuevoPlan = daoWbs.AgregarPlan();
+			return nuevoPlan;
+		}
+
+		[WebMethod]
 		public int ObtenerMaxFolioPlan(int plan)
 		{
 			WBSBussines daoWBS = new WBSBussines();
-			int MaxGrupo = daoWBS.ObtenerMaxFolioPlan(plan);
-			return MaxGrupo;
+			int maxFolio = daoWBS.ObtenerMaxFolioPlan(plan);
+			return maxFolio;
 		}
+
+		[WebMethod]
+		public tblCat_Plan GuardarPlanEquipo(Guid iIdEquipo, string cNombreEquipo)
+		{
+			WBSBussines daoWBS = new WBSBussines();
+			//iIdPlan = daoWBS.GuardarPlan(iIdPlan);
+			var NuevoPlan = AgregarPlan();
+			var iIdPlan = NuevoPlan.iIdPlan;
+			var tblEquipo = new tblCat_Equipo
+			{
+				iIdEquipo = iIdEquipo,
+				cNombreEquipo = cNombreEquipo
+			};
+
+			daoWBS.GuardarEquipo(tblEquipo);
+			var relEquipoPlan = new tblRel_EquipoPlan
+			{
+				iIdPlan = iIdPlan,
+				iIdEquipo = iIdEquipo
+			};
+			daoWBS.GuardarPlanEquipo(relEquipoPlan);
+			return NuevoPlan;
+		}
+
+		[WebMethod]
+		public string EnviarTFS(string JsonWbs, string sColeccion, string sProyecto)
+		{
+			//ElementosHijosWBS Tarea;
+			//List<JsonWBS> oListaWBS = Newtonsoft.Json.JsonConvert.DeserializeObject<List<JsonWBS>>(JsonWbs);
+			//return JsonWbs;
+			//foreach (var itemPadre in oListaWBS)
+			//{
+			//	//Aqui accedo a las propiedades del primer nivel
+			//	if (itemPadre.Raiz.Count > 0 && itemPadre.Modo == "Hibrido")
+			//	{
+			//		//para considerar el componente o contenedor del modo hibrido(a consideracion o mejora)
+			//	}
+			//	foreach (var itemElementos in itemPadre.elementos)
+			//	{
+			//		//Aqui accedo a los elementos al nivel de procesos(analisis, diseño y construccion)
+			//		foreach (var itemHijos in itemElementos.Hijos)
+			//		{
+			//			//Aqui accedo a los elementos a nivel de tareas(elab de caso de uso, reviews, peer review, etc)
+			//			Tarea = itemHijos.elementos[0];
+			//		}
+			//		//Proceso = itemElementos + Tarea;
+			//	}
+			//	//padre = itemPadre + Proceso
+			//}
+
+			wsTFSExterno.wsTFSExterno wsExterno = new wsTFSExterno.wsTFSExterno();
+			wsExterno.UseDefaultCredentials = true;
+			string prueba = wsExterno.EnviarTFS(JsonWbs, sColeccion, sProyecto);
+			return prueba;
+
+		}
+
+		[WebMethod]
+		public void EliminarRegistroByPlanRequerimiento(int iIdPlan, int iIdRequerimiento)
+		{
+			WBSBussines daoWBS = new WBSBussines();
+			daoWBS.EliminarRegistroByPlanRequerimiento(iIdPlan, iIdRequerimiento);
+		}
+	}
+
+	public class DatosEquipos
+	{
+		public int iIdPlan { get; set; }
+		public Guid iIdEquipo { get; set; }
+		public string cNombreEquipo { get; set; }
 	}
 }

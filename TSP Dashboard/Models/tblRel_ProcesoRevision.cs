@@ -16,7 +16,7 @@ namespace TSP_Dashboard.Models
     {
         public int iIdRel_ProcesoRevision { get; set; }
         public int iIdProceso { get; set; }
-        public int iIdEquipo { get; set; }
+        public System.Guid iIdEquipo { get; set; }
         public int iRevision { get; set; }
     
         public virtual tblCat_Equipo tblCat_Equipo { get; set; }

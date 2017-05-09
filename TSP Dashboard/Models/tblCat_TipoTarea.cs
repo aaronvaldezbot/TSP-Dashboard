@@ -14,7 +14,20 @@ namespace TSP_Dashboard.Models
     
     public partial class tblCat_TipoTarea
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblCat_TipoTarea()
+        {
+            this.tblCat_DetalleProceso = new HashSet<tblCat_DetalleProceso>();
+            this.tblCat_WBS = new HashSet<tblCat_WBS>();
+        }
+    
         public int iIdTipoTarea { get; set; }
         public string cNombreTarea { get; set; }
+        public string cUnidad_de_medida { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCat_DetalleProceso> tblCat_DetalleProceso { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblCat_WBS> tblCat_WBS { get; set; }
     }
 }

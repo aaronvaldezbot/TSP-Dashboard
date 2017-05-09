@@ -31,7 +31,7 @@ namespace TSP_Dashboard.Models
         public int isemana { get; set; }
         public decimal dValor_ganado_acumulado { get; set; }
         public decimal dValor_ganado_semanal { get; set; }
-        public string cTipo_de_tarea { get; set; }
+        public int iIdTipoTarea { get; set; }
         public string cUnidad_de_medida { get; set; }
         public System.DateTime dtFecha_de_inicio { get; set; }
         public System.DateTime dtFechaFinal { get; set; }
@@ -55,5 +55,6 @@ namespace TSP_Dashboard.Models
         public virtual tblCat_Plan tblCat_Plan { get; set; }
         public virtual tblCat_Proceso tblCat_Proceso { get; set; }
         public virtual tblCat_Usuarios tblCat_Usuarios { get; set; }
+        public virtual tblCat_TipoTarea tblCat_TipoTarea { get; set; }
     }
 }

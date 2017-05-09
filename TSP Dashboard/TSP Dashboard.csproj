@@ -9351,6 +9351,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Bussines\SistemaBussines.cs" />
     <Compile Include="Bussines\WBSBussines.cs" />
+    <Compile Include="ClasesWBS\ElementosHijosWBS.cs" />
+    <Compile Include="ClasesWBS\ElementosWBS.cs" />
+    <Compile Include="ClasesWBS\HijosWBS.cs" />
+    <Compile Include="ClasesWBS\JsonWBS.cs" />
     <Compile Include="Class\SistemaClass.cs" />
     <Compile Include="Class\roleInfo.cs" />
     <Compile Include="Class\WBS.asmx.cs">
@@ -9372,6 +9376,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="DTO\UsuarioDTO.cs" />
+    <Compile Include="DTO\WBSOrdenProcesoDTO.cs" />
     <Compile Include="Generico\Enums.cs" />
     <Compile Include="Generico\Generico.cs" />
     <Compile Include="Global.asax.cs">

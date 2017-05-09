@@ -15,7 +15,7 @@ namespace TSP_Dashboard.Models
     public partial class tblRel_EquipoFecha
     {
         public int iIdRel_EquipoFecha { get; set; }
-        public int iIdEquipo { get; set; }
+        public System.Guid iIdEquipo { get; set; }
         public System.DateTime dtFechaInicio { get; set; }
         public System.DateTime dtFechaFin { get; set; }
     

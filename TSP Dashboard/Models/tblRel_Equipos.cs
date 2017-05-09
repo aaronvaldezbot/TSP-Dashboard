@@ -16,7 +16,7 @@ namespace TSP_Dashboard.Models
     {
         public int iIdRelEquipos { get; set; }
         public System.Guid iIdUsuario { get; set; }
-        public int iIdEquipo { get; set; }
+        public System.Guid iIdEquipo { get; set; }
         public System.DateTime dtFechaIngreso { get; set; }
     
         public virtual tblCat_Equipo tblCat_Equipo { get; set; }

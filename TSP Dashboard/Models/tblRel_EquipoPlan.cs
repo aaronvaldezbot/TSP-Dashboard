@@ -15,7 +15,7 @@ namespace TSP_Dashboard.Models
     public partial class tblRel_EquipoPlan
     {
         public int iIdRelEquipoPlan { get; set; }
-        public int iIdEquipo { get; set; }
+        public System.Guid iIdEquipo { get; set; }
         public int iIdPlan { get; set; }
     
         public virtual tblCat_Equipo tblCat_Equipo { get; set; }

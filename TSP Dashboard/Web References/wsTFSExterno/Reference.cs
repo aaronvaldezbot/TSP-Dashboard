@@ -23,7 +23,7 @@ namespace TSP_Dashboard.wsTFSExterno {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="wsTFSExternoSoap", Namespace="http://tempuri.org/")]
@@ -41,7 +41,7 @@ namespace TSP_Dashboard.wsTFSExterno {
         
         private System.Threading.SendOrPostCallback ObtenerIteracionesOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GuardarWBSOperationCompleted;
+        private System.Threading.SendOrPostCallback EnviarTFSOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -100,7 +100,7 @@ namespace TSP_Dashboard.wsTFSExterno {
         public event ObtenerIteracionesCompletedEventHandler ObtenerIteracionesCompleted;
         
         /// <remarks/>
-        public event GuardarWBSCompletedEventHandler GuardarWBSCompleted;
+        public event EnviarTFSCompletedEventHandler EnviarTFSCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/HelloWorld", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -293,31 +293,35 @@ namespace TSP_Dashboard.wsTFSExterno {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GuardarWBS", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GuardarWBS(string jsonWBS) {
-            object[] results = this.Invoke("GuardarWBS", new object[] {
-                        jsonWBS});
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/EnviarTFS", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string EnviarTFS(string JsonWbs, string sColeccion, string sProyecto) {
+            object[] results = this.Invoke("EnviarTFS", new object[] {
+                        JsonWbs,
+                        sColeccion,
+                        sProyecto});
             return ((string)(results[0]));
         }
         
         /// <remarks/>
-        public void GuardarWBSAsync(string jsonWBS) {
-            this.GuardarWBSAsync(jsonWBS, null);
+        public void EnviarTFSAsync(string JsonWbs, string sColeccion, string sProyecto) {
+            this.EnviarTFSAsync(JsonWbs, sColeccion, sProyecto, null);
         }
         
         /// <remarks/>
-        public void GuardarWBSAsync(string jsonWBS, object userState) {
-            if ((this.GuardarWBSOperationCompleted == null)) {
-                this.GuardarWBSOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGuardarWBSOperationCompleted);
+        public void EnviarTFSAsync(string JsonWbs, string sColeccion, string sProyecto, object userState) {
+            if ((this.EnviarTFSOperationCompleted == null)) {
+                this.EnviarTFSOperationCompleted = new System.Threading.SendOrPostCallback(this.OnEnviarTFSOperationCompleted);
             }
-            this.InvokeAsync("GuardarWBS", new object[] {
-                        jsonWBS}, this.GuardarWBSOperationCompleted, userState);
+            this.InvokeAsync("EnviarTFS", new object[] {
+                        JsonWbs,
+                        sColeccion,
+                        sProyecto}, this.EnviarTFSOperationCompleted, userState);
         }
         
-        private void OnGuardarWBSOperationCompleted(object arg) {
-            if ((this.GuardarWBSCompleted != null)) {
+        private void OnEnviarTFSOperationCompleted(object arg) {
+            if ((this.EnviarTFSCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GuardarWBSCompleted(this, new GuardarWBSCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.EnviarTFSCompleted(this, new EnviarTFSCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -341,11 +345,11 @@ namespace TSP_Dashboard.wsTFSExterno {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void HelloWorldCompletedEventHandler(object sender, HelloWorldCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class HelloWorldCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -367,11 +371,11 @@ namespace TSP_Dashboard.wsTFSExterno {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void ObtenerTiposTareaCompletedEventHandler(object sender, ObtenerTiposTareaCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ObtenerTiposTareaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -393,11 +397,11 @@ namespace TSP_Dashboard.wsTFSExterno {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void ObtenerTituloElementoTFSCompletedEventHandler(object sender, ObtenerTituloElementoTFSCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ObtenerTituloElementoTFSCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -419,11 +423,11 @@ namespace TSP_Dashboard.wsTFSExterno {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void ObtenerUsuariosCompletedEventHandler(object sender, ObtenerUsuariosCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ObtenerUsuariosCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -445,11 +449,11 @@ namespace TSP_Dashboard.wsTFSExterno {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void ObtenerCapacidadSprintCompletedEventHandler(object sender, ObtenerCapacidadSprintCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ObtenerCapacidadSprintCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -471,11 +475,11 @@ namespace TSP_Dashboard.wsTFSExterno {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void ObtenerIteracionesCompletedEventHandler(object sender, ObtenerIteracionesCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ObtenerIteracionesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -497,18 +501,18 @@ namespace TSP_Dashboard.wsTFSExterno {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
-    public delegate void GuardarWBSCompletedEventHandler(object sender, GuardarWBSCompletedEventArgs e);
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    public delegate void EnviarTFSCompletedEventHandler(object sender, EnviarTFSCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1055.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GuardarWBSCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class EnviarTFSCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GuardarWBSCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal EnviarTFSCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

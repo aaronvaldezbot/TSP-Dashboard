@@ -23,7 +23,7 @@ namespace TSP_Dashboard.Models
             this.tblRel_EquipoPlan = new HashSet<tblRel_EquipoPlan>();
         }
     
-        public int iIdEquipo { get; set; }
+        public System.Guid iIdEquipo { get; set; }
         public string cNombreEquipo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

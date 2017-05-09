@@ -91,17 +91,19 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GuardarWBS">
+      <s:element name="EnviarTFS">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="jsonWBS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="JsonWbs" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sColeccion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sProyecto" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GuardarWBSResponse">
+      <s:element name="EnviarTFSResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GuardarWBSResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EnviarTFSResult" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -143,11 +145,11 @@
   <wsdl:message name="ObtenerIteracionesSoapOut">
     <wsdl:part name="parameters" element="tns:ObtenerIteracionesResponse" />
   </wsdl:message>
-  <wsdl:message name="GuardarWBSSoapIn">
-    <wsdl:part name="parameters" element="tns:GuardarWBS" />
+  <wsdl:message name="EnviarTFSSoapIn">
+    <wsdl:part name="parameters" element="tns:EnviarTFS" />
   </wsdl:message>
-  <wsdl:message name="GuardarWBSSoapOut">
-    <wsdl:part name="parameters" element="tns:GuardarWBSResponse" />
+  <wsdl:message name="EnviarTFSSoapOut">
+    <wsdl:part name="parameters" element="tns:EnviarTFSResponse" />
   </wsdl:message>
   <wsdl:portType name="wsTFSExternoSoap">
     <wsdl:operation name="HelloWorld">
@@ -174,9 +176,9 @@
       <wsdl:input message="tns:ObtenerIteracionesSoapIn" />
       <wsdl:output message="tns:ObtenerIteracionesSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GuardarWBS">
-      <wsdl:input message="tns:GuardarWBSSoapIn" />
-      <wsdl:output message="tns:GuardarWBSSoapOut" />
+    <wsdl:operation name="EnviarTFS">
+      <wsdl:input message="tns:EnviarTFSSoapIn" />
+      <wsdl:output message="tns:EnviarTFSSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="wsTFSExternoSoap" type="tns:wsTFSExternoSoap">
@@ -235,8 +237,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GuardarWBS">
-      <soap:operation soapAction="http://tempuri.org/GuardarWBS" style="document" />
+    <wsdl:operation name="EnviarTFS">
+      <soap:operation soapAction="http://tempuri.org/EnviarTFS" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -301,8 +303,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GuardarWBS">
-      <soap12:operation soapAction="http://tempuri.org/GuardarWBS" style="document" />
+    <wsdl:operation name="EnviarTFS">
+      <soap12:operation soapAction="http://tempuri.org/EnviarTFS" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

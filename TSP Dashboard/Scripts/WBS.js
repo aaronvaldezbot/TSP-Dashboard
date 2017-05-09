@@ -2,12 +2,18 @@
 //http://bot-fswws/reportes/wstfs.asmx?op=ObtenerUsuarios
 //ObtenerTituloElementoTFS
 ///wsTFSExterno.asmx/ObtenerIteraciones
+
+//me que en poner el metodo para noticar al usuario por que estan deshabilitados los controles
+//Aplicar la nomenclatura al arrWBS y que se visualice en el grid por medio del metodo para poner los valores al grid
+//Ultimas pruebas
+
+//--------Tiempos de carga por usuarios(tentativo en la configuracion de equipo junto al nombre del integrante como tabla parecida a la de configuracion global)-----------
+//Agregar descripcion al primary(Tentativa despues de hacer el guardado)
 var NumeroRegistros = 0;
 var cIdProcesoGlobal = "";
 var iIdEtapa = 0;
 var esAgregado = false;
 var noFilaPorProceso;
-var siguienteplan = 1;
 var ultimoplan;
 var estaGuardado;
 var longitud;
@@ -36,9 +42,11 @@ var modoNormal = false;
 var iIdProcesoPrev;
 var iIdRQMPrev;
 var iIdPlanPrev;
+var sePerderaDatos = false
 var estaCambiandoPlan = false, estaCambiandoRqm = false, estaCambiandoProceso = false;
 var sSprint, sUserName, sPassword, sProyecto, sColeccion;
 var UniqueNameUsuario;
+var PlanesMaximos = 5;
 var ColeccionesProyectos = [
 	{
 		"Nombre": "BOT",
@@ -53,12 +61,11 @@ var ColeccionesProyectos = [
 		"Proyectos": ["SIMP", "PRUEBASIAC"]
 	}
 ]
+var ListoEnvioTFS = false;
 jQuery(document).ready(function () {
 	$(".modal.fade").each(function (index, domEle) {
 		$(domEle).css("cssText", "overflow: visible !important");
 	});
-	//$("body").attr("class", "page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo");
-	//$("body").show();
 	arrRQM = new Array();
 	allRQM = new Array();
 	jsonTemporal = { General: [], Totales: [] };
@@ -74,7 +81,7 @@ jQuery(document).ready(function () {
 	planGlobal = [];
 	arrUsuariosTFSGlobal = new Array();
 	arrS2Usuarios = new Array();
-	UniqueNameUsuario = $("#nombreUsuario").text();
+	UniqueNameUsuario = $("#nombreUsuario").text().trim();
 	$("#UserNameTop").text(UniqueNameUsuario.split("\\")[1]);
 	//GenerarRowProcesos(1, 16196, 1, esAgregado);
 	$("#iIdPorcentajeTareas_Análisis").on('change', function (e) {
@@ -111,13 +118,23 @@ jQuery(document).ready(function () {
 	//$("#UserImage").attr("src", arrUser[0].teamMember.imageUrl);
 	ObtenerUsuariosTFS();
 	obtenerEtapas();
-	obtenerRequerimientos();
-	obtenerPlan();
+	//obtenerRequerimientos();
+	//obtenerPlan();
 	//formulaValorGanado();
 	temporalprueba();
 	//CargarEquipos();
 	s2usuarios();
-	//$("#btnOrdenar").prop("disabled", true);
+	DeshabilitarControles("menuOrdenar", true, "Se Activa al momento de cargar un Proceso");
+	DeshabilitarControles("menuNomenclatura", true, "Se Activa al momento de cargar un Proceso");
+	DeshabilitarControles("menuConfiguracionGlobal", true, "Se Activa al momento de cargar un Proceso");
+	DeshabilitarControles("menuAgregarRqm", true, "Se Activa al momento de elegir un Plan");
+	DeshabilitarControles("menuAgregarProceso", true, "Se Activa al momento de elegir un Plan y un Requerimiento");
+	DeshabilitarControles("menuConfiguracionGlobal", true, "Se Activa al momento de cargar un Proceso")
+	DeshabilitarControles("menuGuardarWBS", true, "Se Activa al momento de cargar un Proceso");
+	DeshabilitarControles("menuCalcularWBS", true, "Se Activa al momento de cargar un Proceso");
+	DeshabilitarControles("menuEnviarTFS", true, "Se Activa al momento de cargar un Proceso");
+	DeshabilitarControles("menuPreview", true, "Se Activa al momento de cargar un Proceso");
+
 
 	$("#iIdEtapas").on("select2:open", function () {
 		//debugger;
@@ -140,7 +157,6 @@ jQuery(document).ready(function () {
 		estaCambiandoPlan = false;
 		estaCambiandoRqm = true;
 	})
-
 	//debugger;
 	//usuariosabd();
 	/*$(window).load(function () {
@@ -153,7 +169,22 @@ jQuery(document).ready(function () {
 	//});
 });
 
+function DeshabilitarControles(idControl, disabled, event) {
+	$("#" + idControl).prop("disabled", disabled);
+	if (disabled) {
+		$("#" + idControl).css("background-color", "gainsboro");
+		$("#" + idControl).attr("onclick", "AlertasControlDeshabilidado('" + event + "')")
+		//$("#" + idControl).attr("onclick", "")
+	}
+	else {
+		$("#" + idControl).css("background-color", "");
+		$("#" + idControl).attr("onclick", event);
+	}
+}
 
+function AlertasControlDeshabilidado(texto) {
+	Alertas(1, "Activacion", texto);
+}
 
 //function GenerarRowProcesos(iIdProceso,iIdRQM)
 //{
@@ -186,7 +217,7 @@ function filtrarJsonTemporal(data, plan, rqm, proceso) {
 }
 
 function CambiarHtmlJsonTemporal(data, plan, rqm, proceso, seCambio) {
-	
+
 	return data.filter(
         function (data) {
         	if (data.iIdPlan == plan && data.iIdRequerimiento == rqm && data.iIdProceso == proceso) {
@@ -203,6 +234,8 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 	var $rowProcesos = $("#datatable_ajax tbody");
 	var indice;
 	var gridGuardado = new Array();
+	//$("#asignado").val(0).trigger("change");
+	//$("#revisor").val(0).trigger("change");
 	//debugger;
 	//$.each(jsonTemporal.General, function (index, domEle) {
 	//    if (domEle.iIdProceso == iIdProceso && domEle.iIdRequerimiento == iIdRQM && domEle.iIdPlan == iIdPlan) {
@@ -224,6 +257,8 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 	}
 	if (gridGuardado.length != 0) {
 		$rowProcesos.html("");
+		$("#asignado").val(0).trigger("change");
+		$("#revisor").val(0).trigger("change");
 		$rowProcesos.append(gridGuardado[0].htmlText);
 
 
@@ -248,11 +283,19 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 		OrdenarProcesos();
 		AgregarPreview(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 		AplicarNomenclatura();
+		AplicarRateGlobal();
 		//CambiarAsignado();
 		//CambiarRevisor();
-		$("#btnOrdenar").prop("disabled", false);
+		//$("#btnOrdenar").prop("disabled", false);
+		DeshabilitarControles("menuOrdenar", false, "");
 		//$("#btnNomenclatura").prop("disabled", false);
-		$("#btnPrevisualizar").prop("disabled", false);
+		DeshabilitarControles("menuNomenclatura", false, "");
+		//$("#btnPrevisualizar").prop("disabled", false);
+		DeshabilitarControles("menuPreview", false, "previewCompleto();");
+		DeshabilitarControles("menuConfiguracionGlobal", false, "")
+		DeshabilitarControles("menuGuardarWBS", false, "GuardarWBS();");
+		DeshabilitarControles("menuCalcularWBS", false, "calcularValorGanado();");
+		DeshabilitarControles("menuEnviarTFS", false, "EnviarTFS();");
 
 	}
 	else {
@@ -265,16 +308,27 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 			dataType: "json",
 			success: function (response) {
 				//debugger;
+				//$("#asignado").val(0).trigger("change");
+				//$("#revisor").val(0).trigger("change");
 				respuesta = response.d;
 				if (respuesta == "") {
-					UsuariosToArray();
-					$("#btnOrdenar").prop("disabled", true);
+					//UsuariosToArray();
+					//$("#btnOrdenar").prop("disabled", true);
+					DeshabilitarControles("menuOrdenar", true, "Se Activa al momento de cargar un Proceso");
 					//$("#btnNomenclatura").prop("disabled", true);
-					$("#btnPrevisualizar").prop("disabled", true);
+					DeshabilitarControles("menuNomenclatura", true, "Se Activa al momento de cargar un Proceso");
+					//$("#btnPrevisualizar").prop("disabled", true);
+					DeshabilitarControles("menuPreview", true, "Se Activa al momento de cargar un Proceso");
+					DeshabilitarControles("menuConfiguracionGlobal", true, "Se Activa al momento de cargar un Proceso")
+					DeshabilitarControles("menuGuardarWBS", true, "Se Activa al momento de cargar un Proceso");
+					DeshabilitarControles("menuCalcularWBS", true, "Se Activa al momento de cargar un Proceso");
+					DeshabilitarControles("menuEnviarTFS", true, "Se Activa al momento de cargar un Proceso");
 					//GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan, agregado);
 					//alert("No existe registro alguno, si desea puede crear un nuevo proceso");
 					Alertas(1, "Alerta", "No existe registro alguno, si desea puede crear un nuevo proceso")
 					$rowProcesos.html("");
+					$("#asignado").val(0).trigger("change");
+					$("#revisor").val(0).trigger("change");
 					RegistroNuevo = true;
 
 				}
@@ -286,6 +340,8 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 					//}
 					//else {
 					$rowProcesos.html("");
+					$("#asignado").val(0).trigger("change");
+					$("#revisor").val(0).trigger("change");
 					if (iIdProceso == 4) {
 						for (var i = 1; i < 4; i++) {
 							$.ajax({
@@ -300,7 +356,7 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 								},
 								error: function (xhr, estatus) {
 									//alert("Error " + estatus);
-									Alertas(2, "Error", "Error de carga de datos")
+									Alertas(2, "Error", "Error de carga de datos del WBS")
 								}
 							});
 						}
@@ -340,18 +396,28 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 					}
 					OrdenarProcesos();
 					AgregarPreview(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
-					//AplicarNomenclatura();
+					AplicarNomenclatura();
+					AplicarRateGlobal();
 					//CambiarAsignado();
 					//CambiarRevisor();
-					$("#btnOrdenar").prop("disabled", false);
+					//$("#btnOrdenar").prop("disabled", false);
+					DeshabilitarControles("menuOrdenar", false, "");
 					//$("#btnNomenclatura").prop("disabled", false);
-					$("#btnPrevisualizar").prop("disabled", false);
+					DeshabilitarControles("menuNomenclatura", false, "");
+					//$("#btnPrevisualizar").prop("disabled", false);
+					DeshabilitarControles("menuPreview", false, "previewCompleto();");
+					DeshabilitarControles("menuConfiguracionGlobal", false, "")
+					DeshabilitarControles("menuGuardarWBS", false, "GuardarWBS();");
+					DeshabilitarControles("menuCalcularWBS", false, "calcularValorGanado();");
+					DeshabilitarControles("menuEnviarTFS", false, "EnviarTFS();");
+					sePerderaDatos = true;
 				}
 				inputsChange();
+
 			},
 			error: function (xhr, estatus) {
 				//alert("Error " + estatus);
-				Alertas(2, "Error", "Error de carga de datos")
+				Alertas(2, "Error", "Error de carga de datos del WBS")
 			}
 		});
 
@@ -472,11 +538,15 @@ function ValorGanado(rowTiempoTotalProcesos, rowPorcentajeTarea, dOriginalEstima
 }
 
 var cambiar = true;
+var cNombresProcesos = ["Análisis", "Diseño", "Desarrollo", "Hibrido", "MultiProceso"];
 function ObtenerRequerimiento() {
 	//var arrUsers = new Array();
 	//debugger;
+	//$("#asignado").val(0).trigger("change");
+	//$("#revisor").val(0).trigger("change");
 	var grid = $("#datatable_ajax tbody");
 	var iIdEtapas = $('#iIdEtapas').val();
+
 	var iIdRQM = $('#iIdRequerimiento').val();
 	var iIdPlan = $('#iIdPlan').val();
 	var cont = 0;
@@ -484,20 +554,24 @@ function ObtenerRequerimiento() {
 	iIdPlanGlobal = iIdPlan;
 	iIdRQMGlobal = iIdRQM;
 	//debugger;
-	if (jsonTemporal.General != 0 && $(grid).children().length != 0) {
-		CambiarHtmlJsonTemporal(jsonTemporal.General, (estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal, (estaCambiandoProceso) ? iIdProcesoPrev : iIdProcesoGlobal)
-		var plan = (estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, rqm = (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal, proceso = (estaCambiandoProceso) ? iIdProcesoPrev : iIdProcesoGlobal;
+	if (jsonTemporal.General != 0 && $(grid).children().length != 0 && iIdEtapas != null && iIdRQM != null) {
+		CambiarHtmlJsonTemporal(jsonTemporal.General, (estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal, (estaCambiandoProceso && iIdProcesoPrev != 0) ? iIdProcesoPrev : iIdProcesoGlobal)
+		var plan = (estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, rqm = (estaCambiandoRqm && iIdRQMPrev != 0) ? iIdRQMPrev : iIdRQMGlobal, proceso = (estaCambiandoProceso && iIdProcesoPrev != 0) ? iIdProcesoPrev : iIdProcesoGlobal;
 		GuardarWBS2(plan, rqm, proceso);
 	}
-	UsuariosToArray();
+	//UsuariosToArray();
 	if (iIdPlan != "" || iIdPlan != null) {
 		$("#iIdPlan").prop("disabled", true);
+		DeshabilitarControles("menuAgregarPlan", true, "Es necesario recargar la pagina ya que el control de Plan esta bloqueado");
+		DeshabilitarControles
 		$("#iIdRequerimiento").prop("disabled", false);
-		$("#agregarRqm").prop("disabled", false);
+		//$("#agregarRqm").prop("disabled", false);
+		DeshabilitarControles("menuAgregarRqm", false, "");
 	}
 	if (iIdRQM != "") {
 		$("#iIdEtapas").prop("disabled", false);
-		$("#agregarproceso").prop("disabled", false);
+		//$("#agregarproceso").prop("disabled", false);
+		DeshabilitarControles("menuAgregarProceso", false, "AgregarProceso();");
 	}
 	//GetOriginalEstimate();
 	//debugger;
@@ -512,8 +586,11 @@ function ObtenerRequerimiento() {
 			//AgregarPreview(iIdPlanPrev, iIdRQMPrev, iIdProcesoPrev);
 		}
 		if (iIdEtapas == 4 && cambiar) {
+			var arrTemp = filtrarArrWBSPorModo(arrWBS, iIdPlan, iIdRQM, "Normal");
+			modoNormal = (arrTemp.length > 0) ? true : false;
 			if (modoNormal) {
-				var confirmacion = confirm("Se encuentra en el modo Normal, Si cambia a modo Híbrido, perdera toda su informacion, desea continuar?");
+				//var confirmacion = confirm("Se encuentra en el modo Normal, Si cambia a modo Híbrido, perdera toda su informacion, desea continuar?");
+				var confirmacion = confirm("El Requerimiento " + iIdRQM + " se encuenta en modo Normal, si cambia a modo Híbrido perdera su informacion antes guardada(incluso de la base de datos), desea continuar?");
 				if (confirmacion) {
 					//$(jsonTemporal.General).each(function (index, domEle) {
 					//    //debugger;
@@ -523,6 +600,8 @@ function ObtenerRequerimiento() {
 					//        cont++;
 					//    }
 					//});
+					EliminarRegistroByPlanRequerimiento((estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal)
+					GuardarWBS2((estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal, (estaCambiandoProceso && iIdProcesoPrev != 0) ? iIdProcesoPrev : iIdProcesoGlobal);
 					jsonTemporal.General = filtrarJsonTemporalParaHibrido(jsonTemporal.General, iIdPlan, iIdRQM);
 					arrWBS = filtrarArrWBSByModo(arrWBS, iIdPlan, iIdRQM, "Normal");
 					arrPreview = filtrarArrPreview(arrPreview, iIdPlan, iIdRQM);
@@ -538,12 +617,23 @@ function ObtenerRequerimiento() {
 					cambiar = true;
 				}
 				else {
-					cambiar = false;
-					$("#iIdEtapas").val(iIdProcesoPrev).trigger("change");
+					//$("#iIdEtapas").val(0).trigger("change");
+					//$("#iIdRequerimiento").val(0).trigger("change");
+					//$(grid).html("");
+					//cambiar = true;
+
+					$(grid).html("");
+					//if (estaCambiandoRqm) {
+					//	$("#iIdRequerimiento").val(iIdRQMPrev).trigger("change");
+					//}
+					//else if (estaCambiandoProceso){
+					//	$("#iIdEtapas").val(iIdProcesoPrev).trigger("change");
+					//}
 					cambiar = true;
 				}
 			}
 			else {
+				//GuardarWBS2(plan, rqm, proceso);
 				GenerarRowProcesos(iIdEtapas, iIdRQM, iIdPlan, true)
 				//GenerarRowProcesos(1, iIdRQM, iIdPlan, true)
 				//GenerarRowProcesos(2, iIdRQM, iIdPlan, true)
@@ -553,10 +643,15 @@ function ObtenerRequerimiento() {
 
 		}
 		else if (iIdEtapa != 4 && cambiar) {
+			var arrTemp = filtrarArrWBSPorModo(arrWBS, iIdPlan, iIdRQM, "Hibrido");
+			modoHibrido = (arrTemp.length > 0) ? true : false;
 			if (modoHibrido) {
-				var confirmacion = confirm("Se encuentra en el modo Híbrido, Si cambia a modo Normal, perdera toda su informacion, desea continuar?");
+				//var confirmacion = confirm("Se encuentra en el modo Híbrido, Si cambia a modo Normal, perdera toda su informacion, desea continuar?");
+				var confirmacion = confirm("El Requerimiento " + iIdRQM + " se encuenta en modo Híbrido, si cambia a modo Normal perdera su informacion antes guardada(incluso de la base de datos), desea continuar?");
 				if (confirmacion) {
 					$("#datatable_ajax tbody").html("");
+					$("#asignado").val(0).trigger("change");
+					$("#revisor").val(0).trigger("change");
 					//$(jsonTemporal.General).each(function (index, domEle) {
 					//    if (domEle.iIdRequerimiento.indexOf(iIdRQM) != -1) {
 					//        //domEle.pop();
@@ -565,10 +660,12 @@ function ObtenerRequerimiento() {
 					//    }
 					//});
 					//GuardarWBS2();
+					EliminarRegistroByPlanRequerimiento((estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal)
 					jsonTemporal.General = filtrarJsonTemporalParaHibrido(jsonTemporal.General, iIdPlan, iIdRQM)
 					arrWBS = filtrarArrWBSByModo(arrWBS, iIdPlan, iIdRQM, "Hibrido")
 					arrPreview = filtrarArrPreview(arrPreview, iIdPlan, iIdRQM);
 					GenerarRowProcesos(iIdEtapas, iIdRQM, iIdPlan, false);
+					GuardarWBS2((estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal, (estaCambiandoProceso && iIdProcesoPrev != 0) ? iIdProcesoPrev : iIdProcesoGlobal);
 					modoNormal = true;
 					modoHibrido = false;
 					cont = 0;
@@ -576,12 +673,23 @@ function ObtenerRequerimiento() {
 					cambiar = true
 				}
 				else {
-					cambiar = false;
-					$("#iIdEtapas").val(iIdProcesoPrev).trigger("change");
-					cambiar = true
+					//$("#iIdEtapas").val(0).trigger("change");
+					//$("#iIdRequerimiento").val(0).trigger("change");
+					//$(grid).html("");
+					//cambiar = true
+
+					$(grid).html("");
+					//if (estaCambiandoRqm) {
+					//	$("#iIdRequerimiento").val(iIdRQMPrev).trigger("change");
+					//}
+					//else if (estaCambiandoProceso) {
+					//	$("#iIdEtapas").val(iIdProcesoPrev).trigger("change");
+					//}
+					cambiar = true;
 				}
 			}
 			else {
+				//GuardarWBS2(plan, rqm, proceso);
 				GenerarRowProcesos(iIdEtapas, iIdRQM, iIdPlan, false);
 				modoNormal = true;
 				cambia = true;
@@ -645,15 +753,17 @@ function obtenerEtapas() {
 
 //funcion para obtener los requerimientos de la BD y ponerlos en la pagina por medio de un <select>
 function obtenerRequerimientos() {
-	sProyecto = "PRUEBASIAC";
-	sColeccion = "BLUEOCEAN";
+	//sProyecto = "PRUEBASIAC";
+	//sColeccion = "BLUEOCEAN";
+
+	var plan = $("#iIdPlan option:selected").val();
 	var cRequerimiento = "";
 	var nombreRequerimiento = "";
 	$.ajax({
 		type: "POST",
 		url: "../../Class/WBS.asmx/Requerimiento",
 		async: false,
-		data: null,
+		data: '{"iIdPlan": "' + plan + '"}',
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (response) {
@@ -661,7 +771,7 @@ function obtenerRequerimientos() {
 		},
 		error: function (xhr, estatus) {
 			//alert("Error " + estatus);
-			Alertas(2, "Error", "Error de carga de datos")
+			Alertas(2, "Error", "Error de carga de datos de los requerimientos")
 		}
 	});
 	if (cRequerimiento != "") {
@@ -792,11 +902,12 @@ function obtenerModulos(idSistema,nombreSistema) {
         $("#Modulos").append(elementoOption);
     });
 }*/
-
+var aplicarConfGlobal = false
 function ConfiguracionGlobal() {
 	var horas = $("#txtModalHoras").val();
 	$("#ModalConfiguracionGlobal").modal("hide");
 	//console.log(horas);
+
 	AplicarRateGlobal();
 }
 
@@ -809,33 +920,39 @@ function AplicarRateGlobal() {
 	rateDesarrollo = parseFloat($(rates[2]).val());
 	switch (iIdProcesoGlobal) {
 		case "1":
-			var temp = $("tr.primary")
-			$(temp).each(function (index, domEle) {
-				$(domEle).find("input[id^=iIdRate_]").val(rateAnalisis).trigger("change");
-			});
+			if (rateAnalisis != 0) {
+				var temp = $("tr.primary")
+				$(temp).each(function (index, domEle) {
+					$(domEle).find("input[id^=iIdRate_]").val(rateAnalisis).trigger("change");
+				});
+			}
 			break;
 		case "2":
-			var temp = $("tr.primary")
-			$(temp).each(function (index, domEle) {
-				$(domEle).find("input[id^=iIdRate_]").val(rateDiseño).trigger("change");
-			});
+			if (rateDiseño != 0) {
+				var temp = $("tr.primary")
+				$(temp).each(function (index, domEle) {
+					$(domEle).find("input[id^=iIdRate_]").val(rateDiseño).trigger("change");
+				});
+			}
 			break;
 		case "3":
-			var temp = $("tr.primary")
-			$(temp).each(function (index, domEle) {
-				$(domEle).find("input[id^=iIdRate_]").val(rateDesarrollo).trigger("change");
-			});
+			if (rateDesarrollo != 0) {
+				var temp = $("tr.primary")
+				$(temp).each(function (index, domEle) {
+					$(domEle).find("input[id^=iIdRate_]").val(rateDesarrollo).trigger("change");
+				});
+			}
 			break;
 		case "4":
 			var temp = $("tr.primary")
 			$(temp).each(function (index, domEle) {
-				if ($(domEle).find("input[id^=iIdDetalleProceso_]").attr("id").split("_")[1] == 4) {
+				if ($(domEle).find("input[id^=iIdDetalleProceso_]").attr("id").split("_")[1] == 4 && rateAnalisis != 0) {
 					$(domEle).find("input[id^=iIdRate_]").val(rateAnalisis).trigger("change");
 				}
-				else if ($(domEle).find("input[id^=iIdDetalleProceso_]").attr("id").split("_")[1] == 21) {
+				else if ($(domEle).find("input[id^=iIdDetalleProceso_]").attr("id").split("_")[1] == 21 && rateDiseño != 0) {
 					$(domEle).find("input[id^=iIdRate_]").val(rateDiseño).trigger("change");
 				}
-				else if ($(domEle).find("input[id^=iIdDetalleProceso_]").attr("id").split("_")[1] == 36) {
+				else if ($(domEle).find("input[id^=iIdDetalleProceso_]").attr("id").split("_")[1] == 36 && rateDesarrollo != 0) {
 					$(domEle).find("input[id^=iIdRate_]").val(rateDesarrollo).trigger("change");
 				}
 			});
@@ -1017,7 +1134,8 @@ function GuardarWBSAntiguo() {
 				isemana: iSemana,
 				dValor_ganado_acumulado: dValorAcumulado,
 				dValor_ganado_semanal: dValorSemanal,
-				cTipo_de_tarea: cTipoTarea,
+				cTipoTarea: cTipoTarea,
+				iIdTipoTarea: iIdTipoTarea,
 				cUnidad_de_medida: cUnidadMedida,
 				dtFecha_de_inicio: dtFechaInicio,
 				dtHoras_Acumuladas: dtFechaInicio,
@@ -1126,8 +1244,30 @@ function GuardarWBSAntiguo() {
 	}
 }
 
+function GuardarPlanEquipo(idEquipo, nombreEquipo) {
+	var nuevoPlan;
+	$.ajax({
+		url: "../../Class/WBS.asmx/GuardarPlanEquipo",
+		method: "POST",
+		async: false,
+		//data: '{"obj": [{"iIdPlan": "' + idplan + '", "iIdEquipo": "' + idEquipo + '", "cNombreEquipo": "' + nombreEquipo + '"}]}',
+		data: '{"iIdEquipo": "' + idEquipo + '", "cNombreEquipo": "' + nombreEquipo + '"}',
+		datatype: "json",
+		contentType: "application/json",
+		success: function (respJson) {
+			nuevoPlan = respJson.d;
+		},
+		error: function (xhr, estatus) {
+			estaGuardado = false;
+			nuevoPlan = "";
+		}
+	});
+	return nuevoPlan
+}
+
 function GuardarWBS() {
 	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
+	//GuardarPlanEquipo(iIdPlanGlobal, arrEquipoSeleccionado.IdTFSIteracion, arrEquipoSeleccionado.NombreIteracion)
 	var jsonWBS = new Array();
 	var arrTemp = new Array();
 	var raizGuardada = false;
@@ -1135,94 +1275,101 @@ function GuardarWBS() {
 	var contDetProceso = 1;
 	var contProceso = 1;
 	var estaGuardando = false;
+	var guardadoActualizado = true;
 	var maxGrupo = ObtenerMaxGrupo() + 1;
 	var maxFolio = ObtenerMaxFolioPlan(iIdPlanGlobal) + 1;
 	jsonWBS = { Guardar: [], Actualizar: [] }
 	var dtAlta = new Date().toISOString().split("T")[0];
 	$(arrWBS).each(function (indexRaiz, domEleRaiz) {
-		$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
-			if (domEleRaiz.Modo == "Hibrido" && !raizGuardada) {
-				if (domEleRaiz.elementos.Raiz[0].estaGuardado == 0) {
-					estaGuardando = true;
-					jsonWBS.Guardar.push({
-						iIdUsuario: domEleRaiz.elementos.Raiz[0].iIdUsuario,
-						iIdDetalleProceso: domEleRaiz.elementos.Raiz[0].iIdDetalleProceso,
-						iRequerimiento: domEleRaiz.iIdRequerimiento,
-						cWork_Item_Type: domEleRaiz.elementos.Raiz[0].cWork_Item_Type,
-						iIdProcesos: domEleRaiz.elementos.Raiz[0].iIdProceso,
-						iTipoElemento: domEleRaiz.elementos.Raiz[0].iTipoElemento,
-						dRemaining_Work: domEleRaiz.elementos.Raiz[0].dRemaining_Work,
-						dOriginal_Estimate: domEleRaiz.elementos.Raiz[0].dOriginal_Estimate,
-						dTiempo_Total_del_proceso: domEleRaiz.elementos.Raiz[0].dTiempo_Total_del_proceso,
-						dPorcentaje_de_tareas: domEleRaiz.elementos.Raiz[0].dPorcentaje_de_tareas,
-						dtamanios: domEleRaiz.elementos.Raiz[0].dtamanios,
-						dRate: domEleRaiz.elementos.Raiz[0].dRate,
-						dValor_ganado: domEleRaiz.elementos.Raiz[0].dValor_ganado,
-						isemana: domEleRaiz.elementos.Raiz[0].isemana,
-						dValor_ganado_acumulado: 0,
-						dValor_ganado_semanal: 0,
-						cTipo_de_tarea: domEleRaiz.elementos.Raiz[0].cTipo_de_tarea,
-						cUnidad_de_medida: domEleRaiz.elementos.Raiz[0].cUnidad_de_medida,
-						dtFecha_de_inicio: domEleRaiz.elementos.Raiz[0].dtFecha_de_inicio,
-						dtFechaFinal: domEleRaiz.elementos.Raiz[0].dtFechaFinal,
-						dtHoras_Acumuladas: dtAlta,
-						dtModificacion: dtAlta,
-						dtAlta: dtAlta,
-						lActivo: true,
-						iIdPlan: domEleRaiz.iIdPlan,
-						lTFS: false,
-						iIdTFS: domEleRaiz.elementos.Raiz[0].iIdTFS,
-						iIdWBS: maxFolio,
-						iGrupo: maxGrupo,
-						cTituloProceso: domEleRaiz.elementos.Raiz[0].cTituloProceso,
-						iOrdenDetalleProceso: contDetProceso,
-						iOrdenProceso: contProceso
-					});
-					domEleRaiz.elementos.Raiz[0].iIdWBS = maxFolio
-					domEleRaiz.elementos.Raiz[0].iGrupo = maxGrupo
-					maxFolio++;
-					contProceso++;
-				}
-				else {
-					estaGuardando = false;
-					jsonWBS.Actualizar.push({
-						iIdUsuario: domEleRaiz.elementos.Raiz[0].iIdUsuario,
-						iIdDetalleProceso: domEleRaiz.elementos.Raiz[0].iIdDetalleProceso,
-						iRequerimiento: domEleRaiz.iIdRequerimiento,
-						cWork_Item_Type: domEleRaiz.elementos.Raiz[0].cWork_Item_Type,
-						iIdProcesos: domEleRaiz.elementos.Raiz[0].iIdProceso,
-						iTipoElemento: domEleRaiz.elementos.Raiz[0].iTipoElemento,
-						dRemaining_Work: domEleRaiz.elementos.Raiz[0].dRemaining_Work,
-						dOriginal_Estimate: domEleRaiz.elementos.Raiz[0].dOriginal_Estimate,
-						dTiempo_Total_del_proceso: domEleRaiz.elementos.Raiz[0].dTiempo_Total_del_proceso,
-						dPorcentaje_de_tareas: domEleRaiz.elementos.Raiz[0].dPorcentaje_de_tareas,
-						dtamanios: domEleRaiz.elementos.Raiz[0].dtamanios,
-						dRate: domEleRaiz.elementos.Raiz[0].dRate,
-						dValor_ganado: domEleRaiz.elementos.Raiz[0].dValor_ganado,
-						isemana: domEleRaiz.elementos.Raiz[0].isemana,
-						dValor_ganado_acumulado: 0,
-						dValor_ganado_semanal: 0,
-						cTipo_de_tarea: domEleRaiz.elementos.Raiz[0].cTipo_de_tarea,
-						cUnidad_de_medida: domEleRaiz.elementos.Raiz[0].cUnidad_de_medida,
-						dtFecha_de_inicio: domEleRaiz.elementos.Raiz[0].dtFecha_de_inicio,
-						dtFechaFinal: domEleRaiz.elementos.Raiz[0].dtFechaFinal,
-						dtHoras_Acumuladas: dtAlta,
-						dtModificacion: dtAlta,
-						dtAlta: dtAlta,
-						lActivo: true,
-						iIdPlan: domEleRaiz.iIdPlan,
-						lTFS: false,
-						iIdTFS: domEleRaiz.elementos.Raiz[0].iIdTFS,
-						iIdWBS: domEleRaiz.elementos.Raiz[0].iIdWBS,
-						cTituloProceso: domEleRaiz.elementos.Raiz[0].cTituloProceso,
-						iOrdenDetalleProceso: contDetProceso,
-						iOrdenProceso: contProceso
-					});
-					contProceso++
-				}
-				maxGrupo = (estaGuardando) ? maxGrupo + 1 : maxGrupo;
-				raizGuardada = true;
+
+		if (domEleRaiz.Modo == "Hibrido" && !raizGuardada) {
+			if (domEleRaiz.Raiz[0].estaGuardado == 0) {
+				estaGuardando = true;
+				jsonWBS.Guardar.push({
+					iIdUsuario: domEleRaiz.Raiz[0].iIdUsuario,
+					iIdDetalleProceso: domEleRaiz.Raiz[0].iIdDetalleProceso,
+					iRequerimiento: domEleRaiz.iIdRequerimiento,
+					cWork_Item_Type: domEleRaiz.Raiz[0].cWork_Item_Type,
+					iIdProcesos: domEleRaiz.Raiz[0].iIdProcesos,
+					iTipoElemento: domEleRaiz.Raiz[0].iTipoElemento,
+					dRemaining_Work: domEleRaiz.Raiz[0].dRemaining_Work,
+					dOriginal_Estimate: domEleRaiz.Raiz[0].dOriginal_Estimate,
+					dTiempo_Total_del_proceso: domEleRaiz.Raiz[0].dTiempo_Total_del_proceso,
+					dPorcentaje_de_tareas: domEleRaiz.Raiz[0].dPorcentaje_de_tareas,
+					dtamanios: domEleRaiz.Raiz[0].dtamanios,
+					dRate: domEleRaiz.Raiz[0].dRate,
+					dValor_ganado: domEleRaiz.Raiz[0].dValor_ganado,
+					isemana: domEleRaiz.Raiz[0].isemana,
+					dValor_ganado_acumulado: 0,
+					dValor_ganado_semanal: 0,
+					cTipoTarea: domEleRaiz.Raiz[0].cTipoTarea,
+					iIdTipoTarea: domEleRaiz.Raiz[0].iIdTipoTarea,
+					cUnidad_de_medida: domEleRaiz.Raiz[0].cUnidad_de_medida,
+					dtFecha_de_inicio: domEleRaiz.Raiz[0].dtFecha_de_inicio,
+					dtFechaFinal: domEleRaiz.Raiz[0].dtFechaFinal,
+					dtHoras_Acumuladas: dtAlta,
+					dtModificacion: dtAlta,
+					dtAlta: dtAlta,
+					lActivo: true,
+					iIdPlan: domEleRaiz.iIdPlan,
+					lTFS: false,
+					iIdTFS: domEleRaiz.Raiz[0].iIdTFS,
+					iIdWBS: maxFolio,
+					iGrupo: maxGrupo,
+					cTituloProceso: domEleRaiz.Raiz[0].cTituloProceso,
+					iOrdenDetalleProceso: contDetProceso,
+					iOrdenProceso: contProceso,
+					cTipoInspeccion: domEleRaiz.Raiz[0].cTipoInspeccion
+				});
+				domEleRaiz.Raiz[0].iIdWBS = maxFolio
+				domEleRaiz.Raiz[0].iGrupo = maxGrupo
+				maxFolio++;
+				contProceso++;
 			}
+			else {
+				estaGuardando = false;
+				jsonWBS.Actualizar.push({
+					iIdUsuario: domEleRaiz.Raiz[0].iIdUsuario,
+					iIdDetalleProceso: domEleRaiz.Raiz[0].iIdDetalleProceso,
+					iRequerimiento: domEleRaiz.iIdRequerimiento,
+					cWork_Item_Type: domEleRaiz.Raiz[0].cWork_Item_Type,
+					iIdProcesos: domEleRaiz.Raiz[0].iIdProcesos,
+					iTipoElemento: domEleRaiz.Raiz[0].iTipoElemento,
+					dRemaining_Work: domEleRaiz.Raiz[0].dRemaining_Work,
+					dOriginal_Estimate: domEleRaiz.Raiz[0].dOriginal_Estimate,
+					dTiempo_Total_del_proceso: domEleRaiz.Raiz[0].dTiempo_Total_del_proceso,
+					dPorcentaje_de_tareas: domEleRaiz.Raiz[0].dPorcentaje_de_tareas,
+					dtamanios: domEleRaiz.Raiz[0].dtamanios,
+					dRate: domEleRaiz.Raiz[0].dRate,
+					dValor_ganado: domEleRaiz.Raiz[0].dValor_ganado,
+					isemana: domEleRaiz.Raiz[0].isemana,
+					dValor_ganado_acumulado: 0,
+					dValor_ganado_semanal: 0,
+					cTipoTarea: domEleRaiz.Raiz[0].cTipoTarea,
+					iIdTipoTarea: domEleRaiz.Raiz[0].iIdTipoTarea,
+					cUnidad_de_medida: domEleRaiz.Raiz[0].cUnidad_de_medida,
+					dtFecha_de_inicio: domEleRaiz.Raiz[0].dtFecha_de_inicio,
+					dtFechaFinal: domEleRaiz.Raiz[0].dtFechaFinal,
+					dtHoras_Acumuladas: dtAlta,
+					dtModificacion: dtAlta,
+					dtAlta: dtAlta,
+					lActivo: true,
+					iIdPlan: domEleRaiz.iIdPlan,
+					lTFS: false,
+					iIdTFS: domEleRaiz.Raiz[0].iIdTFS,
+					iIdWBS: domEleRaiz.Raiz[0].iIdWBS,
+					cTituloProceso: domEleRaiz.Raiz[0].cTituloProceso,
+					iOrdenDetalleProceso: contDetProceso,
+					iOrdenProceso: contProceso,
+					cTipoInspeccion: domEleRaiz.Raiz[0].cTipoInspeccion
+				});
+				contProceso++
+			}
+			maxGrupo = (estaGuardando) ? maxGrupo + 1 : maxGrupo;
+			raizGuardada = true;
+		}
+
+		$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
 			//contFolioWBS = ObtenerMaxFolioPlan(iIdPlanGlobal);
 			$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
 				if (domEleHijos.elementos[0].estaGuardado == 0) {
@@ -1244,7 +1391,8 @@ function GuardarWBS() {
 						isemana: domEleHijos.elementos[0].isemana,
 						dValor_ganado_acumulado: 0,
 						dValor_ganado_semanal: 0,
-						cTipo_de_tarea: domEleHijos.elementos[0].cTipo_de_tarea,
+						cTipoTarea: domEleHijos.elementos[0].cTipoTarea,
+						iIdTipoTarea: domEleHijos.elementos[0].iIdTipoTarea,
 						cUnidad_de_medida: domEleHijos.elementos[0].cUnidad_de_medida,
 						dtFecha_de_inicio: domEleHijos.elementos[0].dtFecha_de_inicio,
 						dtFechaFinal: domEleHijos.elementos[0].dtFechaFinal,
@@ -1259,7 +1407,8 @@ function GuardarWBS() {
 						iGrupo: maxGrupo,
 						cTituloProceso: domEleHijos.elementos[0].cTituloProceso,
 						iOrdenDetalleProceso: indexHijos + 1,
-						iOrdenProceso: contProceso
+						iOrdenProceso: contProceso,
+						cTipoInspeccion: domEleHijos.elementos[0].cTipoInspeccion
 					});
 					domEleHijos.elementos[0].iIdWBS = maxFolio
 					domEleHijos.elementos[0].iGrupo = maxGrupo
@@ -1284,7 +1433,8 @@ function GuardarWBS() {
 						isemana: domEleHijos.elementos[0].isemana,
 						dValor_ganado_acumulado: 0,
 						dValor_ganado_semanal: 0,
-						cTipo_de_tarea: domEleHijos.elementos[0].cTipo_de_tarea,
+						cTipoTarea: domEleHijos.elementos[0].cTipoTarea,
+						iIdTipoTarea: domEleHijos.elementos[0].iIdTipoTarea,
 						cUnidad_de_medida: domEleHijos.elementos[0].cUnidad_de_medida,
 						dtFecha_de_inicio: domEleHijos.elementos[0].dtFecha_de_inicio,
 						dtFechaFinal: domEleHijos.elementos[0].dtFechaFinal,
@@ -1298,7 +1448,8 @@ function GuardarWBS() {
 						iIdWBS: domEleHijos.elementos[0].iIdWBS,
 						cTituloProceso: domEleHijos.elementos[0].cTituloProceso,
 						iOrdenDetalleProceso: indexHijos + 1,
-						iOrdenProceso: contProceso
+						iOrdenProceso: contProceso,
+						cTipoInspeccion: domEleHijos.elementos[0].cTipoInspeccion
 					});
 				}
 				contDetProceso++;
@@ -1306,6 +1457,7 @@ function GuardarWBS() {
 			maxGrupo = (estaGuardando) ? maxGrupo + 1 : maxGrupo;
 			contProceso++;
 		});
+		raizGuardada = false;
 	});
 	var contFilas = 0;
 	if (jsonWBS.Actualizar.length != 0) {
@@ -1329,9 +1481,11 @@ function GuardarWBS() {
 				//jsonTemporal.General[indiceGlobal].longitud = longi;
 				//contFilas = jsonWBS.Actualizar.length - 1;
 				Alertas(0, "Datos Actualizados", "Los datos han sido actualizados correctamente")
+				//guardadoActualizado = true;
 			},
 			error: function (xhr, estatus) {
 				estaGuardado = false;
+				guardadoActualizado = false
 			}
 		});
 	}
@@ -1370,46 +1524,84 @@ function GuardarWBS() {
 				//});
 
 				Alertas(0, "Datos Guardados", "Los datos han sido guardados correctamente")
+				//guardadoActualizado = true
 			},
 			error: function (xhr, estatus) {
 				Alertas(2, "Error", "Ocurrio un error, los datos no fueron guardados")
+				guardadoActualizado = false
 			}
 		});
 	}
-	
-	$(arrWBS).each(function (indexRaiz, domEleRaiz) {
-		if (domEleRaiz.iIdPlan == iIdPlanGlobal && domEleRaiz.iIdRequerimiento == iIdRQMGlobal && domEleRaiz.Modo != "Normal") {
-			domEleRaiz.elementos.Raiz[0].estaGuardado = 1;
-			$(".raiz").find("[id*=iIdWBS_]").val(domEleRaiz.elementos.Raiz[0].iIdWBS).trigger("change")
-			$(".raiz").find("[id*=estaGuardado_]").val(1).trigger("change")
-			$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
-				$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
-					domEleHijos.elementos[0].estaGuardado = 1;
-					if (domElementos.iIdProceso == 1 || domElementos.iIdProceso == 2 || domElementos.iIdProceso == 3) {
-						$(filas[contFilas]).find("[id*=estaGuardado_]").val(1).trigger("change");
-						$(filas[contFilas]).find("[id*=iIdWBS_]").val(domEleHijos.elementos[0].iIdWBS).trigger("change")
-						contFilas++;
-					}
-					//cont++;
-				})
-			})
-		}
-		else {
-			$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
-				$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
-					domEleHijos.elementos[0].estaGuardado = 1;
-					if (domElementos.iIdProceso == iIdProcesoGlobal) {
-						$(filas[contFilas]).find("[id*=estaGuardado_]").val(1).trigger("change");
-						$(filas[contFilas]).find("[id*=iIdWBS_]").val(domEleHijos.elementos[0].iIdWBS).trigger("change")
-						contFilas++;
-					}
-					//cont++;
-				})
-			})
-		}
-		
-	})
 
+	if (guardadoActualizado) {
+		$(arrWBS).each(function (indexRaiz, domEleRaiz) {
+			if (domEleRaiz.Raiz.length > 0) {
+				domEleRaiz.Raiz[0].estaGuardado = 1
+				if (domEleRaiz.iIdPlan == iIdPlanGlobal && domEleRaiz.iIdRequerimiento == iIdRQMGlobal) {
+					$(".raiz").find("[id*=iIdWBS_]").val(domEleRaiz.Raiz[0].iIdWBS).trigger("change")
+					$(".raiz").find("[id*=estaGuardado_]").val(1).trigger("change")
+				}
+			}
+			//else if (domEleRaiz.iIdPlan == iIdPlanGlobal && domEleRaiz.iIdRequerimiento == iIdRQMGlobal && domEleRaiz.Modo == "Normal") {
+
+			//}
+			$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
+				$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
+					domEleHijos.elementos[0].estaGuardado = 1;
+					if (domEleRaiz.iIdPlan == iIdPlanGlobal && domEleRaiz.iIdRequerimiento == iIdRQMGlobal && domEleRaiz.Modo == "Hibrido") {
+						$(filas[contFilas]).find("[id*=estaGuardado_]").val(1).trigger("change");
+						$(filas[contFilas]).find("[id*=iIdWBS_]").val(domEleHijos.elementos[0].iIdWBS).trigger("change")
+						contFilas++;
+					}
+					else if (domEleRaiz.iIdPlan == iIdPlanGlobal && domEleRaiz.iIdRequerimiento == iIdRQMGlobal && domEleRaiz.Modo == "Normal" && domElementos.iIdProceso == iIdProcesoGlobal) {
+						$(filas[contFilas]).find("[id*=estaGuardado_]").val(1).trigger("change");
+						$(filas[contFilas]).find("[id*=iIdWBS_]").val(domEleHijos.elementos[0].iIdWBS).trigger("change")
+						contFilas++;
+					}
+					//cont++;
+				})
+			})
+			//}
+
+			//$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
+			//	$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
+			//		domEleHijos.elementos[0].estaGuardado = 1;
+			//		if (domElementos.iIdProceso == iIdProcesoGlobal) {
+			//			$(filas[contFilas]).find("[id*=estaGuardado_]").val(1).trigger("change");
+			//			$(filas[contFilas]).find("[id*=iIdWBS_]").val(domEleHijos.elementos[0].iIdWBS).trigger("change")
+			//			contFilas++;
+			//		}
+			//		//cont++;
+			//	})
+			//})
+			//}
+
+		})
+	}
+
+
+}
+
+
+function EnviarTFS() {
+	debugger
+	//var a = JSON.stringify(arrWBS)
+	$.ajax({
+		url: "../../Class/WBS.asmx/EnviarTFS",
+		method: "POST",
+		async: false,
+		data: "{'JsonWbs':'" + JSON.stringify(arrWBS) + "', 'sColeccion': '" + sColeccion + "', 'sProyecto': '" + sProyecto + "'}",
+		contentType: "application/json; charset=utf-8",
+		datatype: "json",
+		success: function (respJson) {
+			Alertas(0, "Prueba", respJson);
+			debugger
+		},
+		error: function (xhr, estatus) {
+			debugger
+			estaGuardado = false;
+		}
+	});
 }
 
 function ObtenerMaxGrupo() {
@@ -1425,14 +1617,14 @@ function ObtenerMaxGrupo() {
 			maxGrupo = respJson.d;
 		},
 		error: function (xhr, estatus) {
-			Alertas(2, "Error", "Error en la carga de datos");
+			Alertas(2, "Error", "Error en la consulta, revisar que existan los datos en la BD");
 		}
 	});
 	return maxGrupo;
 }
 
 function ObtenerMaxFolioPlan() {
-	var maxFolioPlan;
+	//var maxFolioPlan;
 	$.ajax({
 		url: "../../Class/WBS.asmx/ObtenerMaxFolioPlan",
 		method: "POST",
@@ -1444,10 +1636,16 @@ function ObtenerMaxFolioPlan() {
 			maxFolioPlan = respJson.d;
 		},
 		error: function (xhr, estatus) {
-			Alertas(2, "Error", "Error en la carga de datos");
+			Alertas(2, "Error", "Error en la consulta, revisar que existan los datos en la BD");
 		}
 	});
 	return maxFolioPlan;
+}
+
+function FiltrarArrRQM(data, rqm) {
+	return data.filter(
+        function (data) { return data.iIdRQM == rqm }
+        );
 }
 
 var arrWBS = new Array();
@@ -1457,155 +1655,173 @@ var arrWbsFiltrado = new Array();
 var contFolioWBS = 0;
 var contFolioWBSCopia = 0;
 var arrRaizHibrido = new Array();
+var maxFolio = 0;
 function GuardarWBS2(plan, rqm, proceso) {
 	//jsonWbsTemp = null;
-	arrWbsFiltrado = new Array();
-	var iIdProceso;
-	var elementos = $("#datatable_ajax tbody tr");
-	var esHibrido = false;
-	var objProcesos = $(".primary");
-	var raiz = $(".raiz");
-	var existe = false;
-	var indice;
-	var dtAlta = new Date().toISOString().split("T")[0];
-	
-	$(arrWBS).each(function (indexRaiz, domEleRaiz) {
-		if (domEleRaiz.iIdPlan == plan && domEleRaiz.iIdRequerimiento == rqm && domEleRaiz.Modo == "Normal") {
-			if (domEleRaiz.elementos[0].iIdProceso == proceso) {
+	if ($("#iIdEtapas").val() != 0 || $("#iIdEtapas").val() != null) {
+		arrWbsFiltrado = new Array();
+		var iIdProceso;
+		var elementos = $("#datatable_ajax tbody tr");
+		var esHibrido = false;
+		var objProcesos = $(".primary");
+		var raiz = $(".raiz");
+		var existe = false;
+		var indice;
+		var dtAlta = new Date().toISOString().split("T")[0];
+		maxFolio = 0;
+		maxFolio = ObtenerMaxFolioPlan(iIdPlanGlobal) + 1;
+		var tipoTrabajo = FiltrarArrRQM(arrRQM, rqm);
+		tipoTrabajo = tipoTrabajo[0].cTipoElementoDeTrabajo;
+
+		$(arrWBS).each(function (indexRaiz, domEleRaiz) {
+			if (domEleRaiz.iIdPlan == plan && domEleRaiz.iIdRequerimiento == rqm && domEleRaiz.Modo == "Normal") {
+				if (domEleRaiz.elementos[0].iIdProceso == proceso) {
+					indice = indexRaiz;
+				}
+			}
+			else if (domEleRaiz.iIdPlan == plan && domEleRaiz.iIdRequerimiento == rqm && domEleRaiz.Modo == "Hibrido") {
 				indice = indexRaiz;
 			}
-		}
-		else if (domEleRaiz.iIdPlan == plan && domEleRaiz.iIdRequerimiento == rqm && domEleRaiz.Modo == "Hibrido") {
-			indice = indexRaiz;
-		}
-	});
-	if (indice == undefined) {
-		if (raiz.length != 0) {
-			arrWBS.push({
-				iIdRequerimiento: rqm,
-				iIdPlan: plan,
-				Modo: "Hibrido",
-				elementos: new Array(),
-			});
-			esHibrido = true;
-			contWBS = arrWBS.length - 1;
-			
-			arrRaizHibrido.push({
-				iIdUsuario: arrUser[0].teamMember.id,
-				cNombreUsuario: arrUser[0].teamMember.displayName.split("<")[0].trim(),
-				cNombreDetalleProceso: $("#NombreRaiz").val(),
-				iIdDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
-				iRequerimiento: rqm,
-				cWork_Item_Type: 0,
-				iIdProceso: 4,
-				dRemaining_Work: 0,
-				dOriginal_Estimate: 0,
-				dTiempo_Total_del_proceso: 0,
-				dPorcentaje_de_tareas: 0,
-				dtamanios: 0,
-				dRate: 0,
-				dValor_ganado: 0,
-				isemana: 0,
-				//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
-				//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
-				cTipo_de_tarea: 0,
-				cUnidad_de_medida: 0,
-				dtFecha_de_inicio: $(raiz).find("[id^=Fecha]").val(),
-				dtFechaFinal: $(raiz).find("[id^=FechaFinal]").val(),
-				//dtHoras_Acumuladas: $("#iIdUsuario" + noFila).val(),
-				//dtModificacion: $("#iIdUsuario" + noFila).val(),
-				dtAlta: dtAlta,
-				lActivo: true,
-				//iIdPlan: idPlan,
-				//lTFS: false,
-				iIdTFS: $(raiz).find("[id*=iIdTFS_]").val(),
-				iIdWBS: $(raiz).find("[id*=iIdWBS_]").val(),
-				iTipoElemento: 3,
-				cTituloProceso: $("#NombreRaiz").val(),
-				iGrupo: $(raiz).find("[id*=iGrupo_]").val(),
-				lAplicaMultiProceso: 0,
-				estaGuardado: $(raiz).find("[id*=estaGuardado_]").val()
-			});
-			//arrWBS[contWBS].elementos[index].Hijos.push({
-			//	index: 0,
-			//	elementos: arrTempWBS
-			//});
-		}
-		else {
-			arrWBS.push({
-				iIdRequerimiento: rqm,
-				iIdPlan: plan,
-				Modo: "Normal",
-				elementos: new Array()
-			});
-			contWBS = arrWBS.length - 1;
-		}
-		$(objProcesos).each(function (index, elemento) {
-			//debugger;
-			var nombreProceso = $(elemento).find("td input[id*=iIdDetalleProceso]").attr("name");
-			switch (nombreProceso) {
-				case "Análisis":
-					iIdProceso = 1;
-					break;
-				case "Diseño":
-					iIdProceso = 2;
-					break;
-				case "Desarrollo":
-					iIdProceso = 3;
-					break;
-			};
-			if (esHibrido) {
-				arrWBS[contWBS].elementos.push({
-					iIdProceso: iIdProceso,
-					Hijos: new Array(),
-					cTituloProceso: $(elemento).find("td input[id*=iIdDetalleProceso]").val()
+		});
+		if (indice == undefined) {
+			if (raiz.length != 0) {
+				arrRaizHibrido.push({
+					iIdUsuario: arrUser[0].teamMember.id,
+					cNombreUsuario: arrUser[0].teamMember.displayName.split("<")[0].trim(),
+					cNombreDetalleProceso: $(raiz).find("[id*=iIdDetalleProceso]").attr("name"),
+					iIdDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
+					iRequerimiento: rqm,
+					cWork_Item_Type: 0,
+					iIdProceso: 4,
+					dRemaining_Work: 0,
+					dOriginal_Estimate: 0,
+					dTiempo_Total_del_proceso: 0,
+					dPorcentaje_de_tareas: 0,
+					dtamanios: 0,
+					dRate: 0,
+					dValor_ganado: 0,
+					isemana: 0,
+					//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
+					//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
+					iIdTipoTarea: 1,
+					cTipoTarea: "Primary",
+					cUnidad_de_medida: "",
+					dtFecha_de_inicio: $(raiz).find("[id^=Fecha]").val(),
+					dtFechaFinal: $(raiz).find("[id^=FechaFinal]").val(),
+					//dtHoras_Acumuladas: $("#iIdUsuario" + noFila).val(),
+					//dtModificacion: $("#iIdUsuario" + noFila).val(),
+					dtAlta: dtAlta,
+					lActivo: true,
+					//iIdPlan: idPlan,
+					//lTFS: false,
+					iIdTFS: $(raiz).find("[id*=iIdTFS_]").val(),
+					iIdWBS: maxFolio, //$(raiz).find("[id*=iIdWBS_]").val(),
+					iTipoElemento: 3,
+					cTituloProceso: $(raiz).find("[id*=cTituloProceso_]").val(),
+					iGrupo: $(raiz).find("[id*=iGrupo_]").val(),
+					lAplicaMultiProceso: 0,
+					estaGuardado: $(raiz).find("[id*=estaGuardado_]").val(),
+					cTipoInspeccion: "Escritorio"
 				});
+				//arrWBS[contWBS].elementos[index].Hijos.push({
+				//	index: 0,
+				//	elementos: arrTempWBS
+				//});
+				maxFolio++;
+				arrWBS.push({
+					iIdRequerimiento: rqm,
+					iIdPlan: plan,
+					Modo: "Hibrido",
+					elementos: new Array(),
+					Raiz: arrRaizHibrido,
+					cTipoElementoDeTrabajo: tipoTrabajo
+				});
+				esHibrido = true;
+				contWBS = arrWBS.length - 1;
+				arrRaizHibrido = new Array();
 			}
 			else {
-				arrWBS[contWBS].elementos.push({
-					iIdProceso: iIdProceso,
-					Hijos: new Array(),
-					cTituloProceso: $(elemento).find("td input[id*=iIdDetalleProceso]").val()
+				arrWBS.push({
+					iIdRequerimiento: rqm,
+					iIdPlan: plan,
+					Modo: "Normal",
+					elementos: new Array(),
+					Raiz: new Array(),
+					cTipoElementoDeTrabajo: tipoTrabajo
 				});
+				contWBS = arrWBS.length - 1;
 			}
-			var Nombre = $(elemento).attr("name");
-			var Padre = Nombre.split("_")[1];
-			var todasFilas = document.querySelectorAll("tr[name$=_" + Padre + "]");
-			$(todasFilas).each(function (index2, elemento2) {
-				//if (index2 != 0) {
+			$(objProcesos).each(function (index, elemento) {
+				//debugger;
+				var nombreProceso = $(elemento).find("td input[id*=iIdDetalleProceso]").attr("name");
+				switch (nombreProceso) {
+					case "Análisis":
+						iIdProceso = 1;
+						break;
+					case "Diseño":
+						iIdProceso = 2;
+						break;
+					case "Desarrollo":
+						iIdProceso = 3;
+						break;
+				};
 				if (esHibrido) {
-					arrWBS[contWBS].elementos[index].Hijos.push({
-						index: index2 +1,
-						elementos: RecorrerFila(elemento2, plan, rqm, proceso, esHibrido)
+					arrWBS[contWBS].elementos.push({
+						iIdProceso: iIdProceso,
+						Hijos: new Array(),
+						cTituloProceso: $(elemento).find("td input[id*=iIdDetalleProceso]").val()
 					});
 				}
 				else {
-					arrWBS[contWBS].elementos[index].Hijos.push({
-						index: index2,
-						elementos: RecorrerFila(elemento2, plan, rqm, proceso, esHibrido)
+					arrWBS[contWBS].elementos.push({
+						iIdProceso: iIdProceso,
+						Hijos: new Array(),
+						cTituloProceso: $(elemento).find("td input[id*=iIdDetalleProceso]").val()
 					});
 				}
+				var Nombre = $(elemento).attr("name");
+				var Padre = Nombre.split("_")[1];
+				var todasFilas = document.querySelectorAll("tr[name$=_" + Padre + "]");
+				$(todasFilas).each(function (index2, elemento2) {
+					//if (index2 != 0) {
+					if (esHibrido) {
+						arrWBS[contWBS].elementos[index].Hijos.push({
+							index: index2 + 1,
+							elementos: RecorrerFila(elemento2, plan, rqm, proceso, esHibrido)
+						});
+					}
+					else {
+						arrWBS[contWBS].elementos[index].Hijos.push({
+							index: index2,
+							elementos: RecorrerFila(elemento2, plan, rqm, proceso, esHibrido)
+						});
+					}
 
-				//}
+					//}
+				});
 			});
-		});
-		if (esHibrido) {
-			arrWBS[contWBS].elementos.Raiz = arrRaizHibrido;
-			arrRaizHibrido = new Array();
+			//if (esHibrido) {
+			//	arrWBS[contWBS].elementos.Raiz = arrRaizHibrido;
+			//	arrRaizHibrido = new Array();
+			//}
+			//else {
+			//	arrWBS[contWBS].elementos.Raiz = [];
+			//}
+			console.log(arrWBS);
+			console.log(jsonWbsTemp);
+			//contWBS++;
+			jsonWbsTemp.push({
+				plan: plan,
+				rqm: rqm,
+				proceso: proceso,
+			})
 		}
-		console.log(arrWBS);
-		console.log(jsonWbsTemp);
-		//contWBS++;
-		jsonWbsTemp.push({
-			plan: plan,
-			rqm: rqm,
-			proceso: proceso,
-		})
-	}
-	else {
-		ActualizarJsonWBS(plan, rqm, proceso, indice);
+		else {
+			ActualizarJsonWBS(plan, rqm, proceso, indice);
 
+		}
 	}
+	
 }
 
 function RecorrerFila(fila, plan, rqm, proceso, eshibrido) {
@@ -1620,7 +1836,7 @@ function RecorrerFila(fila, plan, rqm, proceso, eshibrido) {
 	arrTempWBS.push({
 		iIdUsuario: $(fila).find("[id*=iIdUsuario]").val(),
 		cNombreUsuario: $(fila).find("[id*=iIdUsuario] option:selected").text(),
-		cNombreDetalleProceso: $(fila).find("[id^=iIdDetalleProceso]").val(),
+		cNombreDetalleProceso: $(fila).find("[id^=iIdDetalleProceso]").attr("name"),
 		iIdDetalleProceso: $(fila).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
 		iRequerimiento: rqm,
 		cWork_Item_Type: $(fila).find("[id*=iIdWork_]").val(),
@@ -1635,7 +1851,8 @@ function RecorrerFila(fila, plan, rqm, proceso, eshibrido) {
 		isemana: $(fila).find("[id*=iIdSemana_]").val(),
 		//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
 		//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
-		cTipo_de_tarea: $(fila).find("[id*=iIdTipoTarea_]").val(),
+		iIdTipoTarea: $(fila).find("[id*=iIdTipoTarea_]").val(),
+		cTipoTarea: $(fila).find("[id*=cTipoTarea_]").val(),
 		cUnidad_de_medida: $(fila).find("[id*=iIdUnidadMedida_]").val(),
 		dtFecha_de_inicio: $(fila).find("[id^=Fecha]").val(),
 		dtFechaFinal: $(fila).find("[id^=FechaFinal]").val(),
@@ -1646,13 +1863,15 @@ function RecorrerFila(fila, plan, rqm, proceso, eshibrido) {
 		//iIdPlan: idPlan,
 		//lTFS: false,
 		iIdTFS: $(fila).find("[id*=iIdTFS_]").val(),
-		iIdWBS: $(fila).find("[id*=iIdWBS_]").val(),
+		iIdWBS: maxFolio,//$(fila).find("[id*=iIdWBS_]").val(),
 		iTipoElemento: $(fila).find("[id*=iTipoElemento_]").val(),
 		cTituloProceso: $(fila).find("[id*=cTituloProceso_]").val(),
 		iGrupo: $(fila).find("[id*=iGrupo_]").val(),
-		lAplicaMultiProceso: $(fila).find("[id*=lAplicaMultiProceso_]").val(),
-		estaGuardado: $(fila).find("[id*=estaGuardado_]").val()
+		lAplicaMultiProceso: parseInt($(fila).find("[id*=lAplicaMultiProceso_]").val()),
+		estaGuardado: $(fila).find("[id*=estaGuardado_]").val(),
+		cTipoInspeccion: $(fila).find("[id*=cTipoInspeccion_]").val()
 	});
+	maxFolio++;
 	return arrTempWBS;
 }
 
@@ -1708,9 +1927,10 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 	//        indice = indexRaiz;
 	//    }
 	//});
-	if (iIdProcesoGlobal != 4) {
+	if (proceso != 4) {
 		arrWBS[indice].elementos = new Array();
 		arrWBS[indice].elementos = buscarYReemplazarElementosJsonWBS(plan, rqm, proceso);
+		arrWBS[indice].Raiz = [];
 		console.log(arrWBS);
 
 	}
@@ -1719,7 +1939,7 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 		arrRaizHibrido.push({
 			iIdUsuario: arrUser[0].teamMember.id,
 			cNombreUsuario: arrUser[0].teamMember.displayName.split("<")[0].trim(),
-			cNombreDetalleProceso: $("#NombreRaiz").val(),
+			cNombreDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("name"),
 			iIdDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
 			iRequerimiento: rqm,
 			cWork_Item_Type: 0,
@@ -1734,8 +1954,9 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 			isemana: 0,
 			//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
 			//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
-			cTipo_de_tarea: 0,
-			cUnidad_de_medida: 0,
+			iIdTipoTarea: 1,
+			cTipoTarea: "Primary",
+			cUnidad_de_medida: "",
 			dtFecha_de_inicio: $(raiz).find("[id^=Fecha]").val(),
 			dtFechaFinal: $(raiz).find("[id^=FechaFinal]").val(),
 			//dtHoras_Acumuladas: $("#iIdUsuario" + noFila).val(),
@@ -1747,14 +1968,15 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 			iIdTFS: $(raiz).find("[id*=iIdTFS_]").val(),
 			iIdWBS: $(raiz).find("[id*=iIdWBS_]").val(),
 			iTipoElemento: 3,
-			cTituloProceso: $("#NombreRaiz").val(),
+			cTituloProceso: $(raiz).find("[id*=cTituloProceso_]").val(),
 			iGrupo: $(raiz).find("[id*=iGrupo_]").val(),
 			lAplicaMultiProceso: 0,
-			estaGuardado: $(raiz).find("[id*=estaGuardado_]").val()
+			estaGuardado: $(raiz).find("[id*=estaGuardado_]").val(),
+			cTipoInspeccion: "Escritorio"
 		});
 		arrWBS[indice].elementos = new Array();
 		arrWBS[indice].elementos = buscarYReemplazarElementosJsonWBS(plan, rqm, proceso);
-		arrWBS[indice].elementos.Raiz = arrRaizHibrido;
+		arrWBS[indice].Raiz = arrRaizHibrido;
 		arrRaizHibrido = new Array();
 		console.log(arrWBS);
 	}
@@ -1769,7 +1991,7 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 	var dtAlta = new Date();
 	var raiz = $(".raiz");
 	var arrTempWBS = new Array();
-	
+
 	dtAlta = dtAlta.getFullYear() + "-" + (((dtAlta.getMonth() + 1) < 10 ? '0' : '') + (dtAlta.getMonth() + 1)) + "-" + dtAlta.getDate() + " " + dtAlta.getHours() + ":" + dtAlta.getMinutes() + ":" + dtAlta.getSeconds() + "." + dtAlta.getMilliseconds();
 	$($(".primary")).each(function (indexPadre, domElePadre) {
 		var idPadre = $(domElePadre).attr("name").split("_")[1];
@@ -1780,22 +2002,22 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 		//		cTituloProceso: $(domElePadre).find("[id*=cTituloProceso]").val()
 		//	});
 		//} else {
-			switch ($(domElePadre).find("[id^=iIdDetalleProceso]").attr("name")) {
-				case "Análisis":
-					proceso = 1;
-					break;
-				case "Diseño":
-					proceso = 2;
-					break;
-				case "Desarrollo":
-					proceso = 3;
-					break;
-			};
-			arrElemenentosTemp.push({
-				iIdProceso: proceso,
-				Hijos: new Array(),
-				cTituloProceso: $(domElePadre).find("[id*=cTituloProceso_]").val()
-			});
+		switch ($(domElePadre).find("[id^=iIdDetalleProceso]").attr("name")) {
+			case "Análisis":
+				proceso = 1;
+				break;
+			case "Diseño":
+				proceso = 2;
+				break;
+			case "Desarrollo":
+				proceso = 3;
+				break;
+		};
+		arrElemenentosTemp.push({
+			iIdProceso: proceso,
+			Hijos: new Array(),
+			cTituloProceso: $(domElePadre).find("[id*=cTituloProceso_]").val()
+		});
 		//}
 
 		$($("tr[name$=_" + idPadre + "]")).each(function (indexHijos, domEleHijos) {
@@ -1803,7 +2025,7 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 				arrTempWBS.push({
 					iIdUsuario: 0,
 					cNombreUsuario: "",
-					cNombreDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").val(),
+					cNombreDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("name"),
 					iIdDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
 					iRequerimiento: rqm,
 					cWork_Item_Type: 0,
@@ -1818,8 +2040,9 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 					isemana: 0,
 					//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
 					//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
-					cTipo_de_tarea: 0,
-					cUnidad_de_medida: 0,
+					iIdTipoTarea: 1,
+					cTipoTarea: "Primary",
+					cUnidad_de_medida: "",
 					dtFecha_de_inicio: $(raiz).find("[id^=Fecha]").val(),
 					dtFechaFinal: $(raiz).find("[id^=FechaFinal]").val(),
 					//dtHoras_Acumuladas: $("#iIdUsuario" + noFila).val(),
@@ -1831,10 +2054,11 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 					iIdTFS: $(raiz).find("[id*=iIdTFS_]").val(),
 					iIdWBS: $(raiz).find("[id*=iIdWBS_]").val(),
 					iTipoElemento: 3,
-					cTituloProceso: $("#NombreRaiz").val(),
+					cTituloProceso: $(raiz).find("[id*=cTituloProceso_]").val(),
 					iGrupo: $(raiz).find("[id*=iGrupo_]").val(),
 					lAplicaMultiProceso: 0,
-					estaGuardado: $(raiz).find("[id*=estaGuardado_]").val()
+					estaGuardado: $(raiz).find("[id*=estaGuardado_]").val(),
+					cTipoInspeccion: $(raiz).find("[id*=cTipoInspeccion_]").val()
 				});
 				arrHijosTemp.push({
 					index: indexHijos,
@@ -1849,7 +2073,7 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 				iIdUsuario: $(domEleHijos).find("[id*=iIdUsuario]").val(),
 				iIdDetalleProceso: $(domEleHijos).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
 				cNombreUsuario: $(domEleHijos).find("[id*=iIdUsuario] option:selected").text(),
-				cNombreDetalleProceso: $(domEleHijos).find("[id^=iIdDetalleProceso]").val(),
+				cNombreDetalleProceso: $(domEleHijos).find("[id^=iIdDetalleProceso]").attr("name"),
 				iRequerimiento: rqm,
 				cWork_Item_Type: $(domEleHijos).find("[id*=iIdWork_]").val(),
 				//iIdProcesos: $("#iIdUsuario" + noFila).val(),
@@ -1863,7 +2087,8 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 				isemana: $(domEleHijos).find("[id^=iIdSemana_]").val(),
 				dValor_ganado_acumulado: $(domEleHijos).find("[id^=iIdValorGanadoAcumulado_]").val(),
 				dValor_ganado_semanal: $(domEleHijos).find("[id^=iIdValorGanadoSemanal_]").val(),
-				cTipo_de_tarea: $(domEleHijos).find("[id^=iIdTipoTarea_]").val(),
+				iIdTipoTarea: $(domEleHijos).find("[id*=iIdTipoTarea_]").val(),
+				cTipoTarea: $(domEleHijos).find("[id*=cTipoTarea_]").val(),
 				cUnidad_de_medida: $(domEleHijos).find("[id^=iIdUnidadMedida_]").val(),
 				dtFecha_de_inicio: $(domEleHijos).find("[id^=Fecha]").val(),
 				dtFechaFinal: $(domEleHijos).find("[id^=FechaFinal]").val(),
@@ -1877,9 +2102,11 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 				iIdWBS: $(domEleHijos).find("[id*=iIdWBS_]").val(),
 				iTipoElemento: $(domEleHijos).find("[id*=iTipoElemento_]").val(),
 				cTituloProceso: $(domEleHijos).find("[id*=cTituloProceso_]").val(),
-				lAplicaMultiProceso: $(domEleHijos).find("[id*=lAplicaMultiProceso_]").val(),
+				lAplicaMultiProceso: parseInt($(domEleHijos).find("[id*=lAplicaMultiProceso_]").val()),
 				iGrupo: $(domEleHijos).find("[id*=iGrupo_]").val(),
-				estaGuardado: $(domEleHijos).find("[id*=estaGuardado_]").val()
+				estaGuardado: $(domEleHijos).find("[id*=estaGuardado_]").val(),
+				cTipoInspeccion: $(domEleHijos).find("[id*=cTipoInspeccion_]").val()
+
 			});
 			arrHijosTemp.push({
 				index: indexHijos + 1,
@@ -2001,32 +2228,69 @@ function AgregarProceso() {
 		else {
 			esAgregado = true;
 			GenerarRowProcesosNuevo(proceso, requerimiento, plan);
-			$("#btnOrdenar").prop("disabled", false);
+			//$("#btnOrdenar").prop("disabled", false);
+			DeshabilitarControles("menuOrdenar", false, "")
 			//$("#btnNomenclatura").prop("disabled", false);
-			$("#btnPrevisualizar").prop("disabled", false);
+			DeshabilitarControles("menuNomenclatura", false, "");
+			//$("#btnPrevisualizar").prop("disabled", false);
+			DeshabilitarControles("menuPreview", false, "previewCompleto();");
+			DeshabilitarControles("menuConfiguracionGlobal", false, "")
+			DeshabilitarControles("menuGuardarWBS", false, "GuardarWBS();");
+			DeshabilitarControles("menuCalcularWBS", false, "calcularValorGanado();");
+			DeshabilitarControles("menuEnviarTFS", false, "EnviarTFS();");
 			//OrdenarProcesos();
 		}
-		
+
 	}
 	else {
 		//alert("uno de los siguientes campos esta vacio: Proceso, Requerimiento, Plan")
-		Alertas(1, "Alerta", "uno de los siguientes campos esta vacio: Proceso, Requerimiento, Plan");
+		var primerComa = (plan != "" || requerimiento != "") ? "" : ",";
+		var segundaComa = (proceso != "" || requerimiento != "") ? "" : ",";
+		Alertas(1, "Alerta", "uno de los siguientes campos esta vacio: " + ((plan != "") ? "" : "Plan") + "" + primerComa + " " + ((requerimiento != "") ? "" : "Requerimiento") + "" + segundaComa + " " + ((proceso != "") ? "" : "Proceso") + "");
+		//Alertas(1, "Alerta", "uno de los siguientes campos esta vacio: " + ((plan != "") ? "" : "Plan") + "" + ((plan != "" && requerimiento != "") ? "" : ",") + " " + ((requerimiento != "") ? "" : "Requerimiento") + "" + ((proceso != "" && requerimiento != "") ? "" : ",") + " " + ((proceso != "") ? "" : "Proceso") + "");
 	}
 
 }
 
 var contPlan = 0;
 function AgregarPlan() {
-	if (contPlan < 1) {
-		$("#iIdPlan").append("<option class='form-control' value='" + siguienteplan + "'>" + siguienteplan + " - Sin Guardar</option>");
-		//$("#iIdPlan").val(siguienteplan);
-		var rows = $("#datatable_ajax thead tr");
-		longitud = rows.length;
-		//for (var i = 1; i < longitud; i++) {
-		//    var rows = $("#datatable_ajax thead tr");
-		//    rows = rows[i].children[1].lastChild.value = siguienteplan;
-		//}
-		contPlan++;
+	var siguienteplan;
+	var PlanGuardado;
+
+	if (contPlan < PlanesMaximos) {
+		PlanGuardado = GuardarPlanEquipo(arrEquipoSeleccionado.IdTFSIteracion, arrEquipoSeleccionado.NombreIteracion);
+		if (PlanGuardado != "") {
+			//$.ajax({
+			//	type: "POST",
+			//	url: "../../Class/WBS.asmx/AgregarPlan",
+			//	async: false,
+			//	data: null,
+			//	contentType: "application/json; charset=utf-8",
+			//	dataType: "json",
+			//	success: function (response) {
+			//		//implementar la respuesta del maxPlan
+			//		PlanGuardado = response.d;
+			//		siguienteplan = parseInt(PlanGuardado.iIdPlan);
+			//	},
+			//	error: function (xhr, estatus) {
+			//		Alertas(2, "Error", "Error de carga de datos")
+			//	}
+			//});
+
+			siguienteplan = parseInt(PlanGuardado.iIdPlan);
+
+			$("#iIdPlan").append("<option class='form-control' value='" + siguienteplan + "'>" + siguienteplan + " - " + new Date(parseFloat(PlanGuardado.dtFechaCreacion.split("(")[1].split(")")[0])).toISOString().split("T")[0].replace(/-/g, "/") + "</option>");
+			//$("#iIdPlan").val(siguienteplan);
+			var rows = $("#datatable_ajax thead tr");
+			longitud = rows.length;
+			//for (var i = 1; i < longitud; i++) {
+			//    var rows = $("#datatable_ajax thead tr");
+			//    rows = rows[i].children[1].lastChild.value = siguienteplan;
+			//}
+			contPlan++;
+			Alertas(0, "Operacion Exitosa", "El nuevo Plan ha sido creado");
+		}
+
 	}
 	else {
 		//alert("No se puede agregar mas planes por el momento.");
@@ -2065,7 +2329,7 @@ function obtenerPlan() {
 		type: "POST",
 		url: "../../Class/WBS.asmx/ObtenerPlan",
 		async: false,
-		data: null,
+		data: '{"iIdEquipo": "' + arrEquipoSeleccionado.IdTFSIteracion + '"}',
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (response) {
@@ -2075,12 +2339,12 @@ function obtenerPlan() {
 			$(planes.Planes).each(function (index, domEle) {
 				var elementoOption = $("<option class='form-control' value='" + domEle.iIdPlan + "'>" + domEle.iIdPlan + "- " + domEle.dtFechaCreacion.split(" ")[0] + "</option>");
 				$("#iIdPlan").append(elementoOption);
-				siguienteplan = parseInt(domEle.iIdPlan) + 1;
+				//siguienteplan = parseInt(domEle.iIdPlan) + 1;
 			})
 		},
 		error: function (xhr, estatus) {
 			//alert("Error " + estatus);
-			Alertas(2, "Error", "Error de carga de datos")
+			Alertas(2, "Error", "Error de carga de datos del plan")
 		}
 	});
 	//if (cPlan.length != "") {
@@ -2114,49 +2378,123 @@ function ObtenerDatosByPlan() {
 			$(response.d).each(function (indexrqm, eleRqm) {
 				var arrElementos = new Array();
 				var procesos = obtenerProcesosByPlanRqm(iIdPlanGlobal, eleRqm);
-				$(procesos).each(function (indexProceso, eleProceso) {
-					var tituloProceso;
-					var datos = ObtenerDatosByPlanRqmProceso(iIdPlanGlobal, eleRqm, eleProceso);
-
+				if (procesos[0].iIdProceso == 4) {
+					var arrRaiz = new Array();
 					var arrHijos = new Array();
+					$(procesos).each(function (indexProceso, eleProceso) {
+						var tituloProceso;
+						var datos = ObtenerDatosByPlanRqmProceso(iIdPlanGlobal, eleRqm, eleProceso.iIdProceso);
 
-					$(datos).each(function (indexDatosProcesos, eleDatosProcesos) {
-						var arrElementosHijos = new Array();
-						$(eleDatosProcesos).each(function (indexDatos, eleDatos) {
-							if (eleDatos.iTipoElemento == 3) {
-								esNormal = false;
-							}
-							tituloProceso = (indexDatos == 0) ? eleDatos.cTituloProceso : tituloProceso;
-							var arrDatos = new Array();
-							arrDatos.push(eleDatos)
-							arrElementosHijos.push({
-								elementos: arrDatos,
-								index: indexDatos
-							})
-						});
-						arrHijos.push({
-							iIdProceso: eleProceso,
-							Hijos: arrElementosHijos,
-							cTituloProceso: tituloProceso
-						});
+
+						if (indexProceso == 0) {
+							datos[0][0].dtFechaFinal = new Date(parseFloat(datos[0][0].dtFechaFinal.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+							datos[0][0].dtFecha_de_inicio = new Date(parseFloat(datos[0][0].dtFecha_de_inicio.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+							datos[0][0].dtAlta = new Date(parseFloat(datos[0][0].dtAlta.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+							datos[0][0].dtModificacion = new Date(parseFloat(datos[0][0].dtModificacion.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+							datos[0][0].dtHoras_Acumuladas = new Date(parseFloat(datos[0][0].dtHoras_Acumuladas.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+							datos[0][0].cNombreDetalleProceso = datos[0][0].cTituloProceso;
+
+							arrRaiz = datos[0];
+						}
+						else {
+							$(datos).each(function (indexDatosProcesos, eleDatosProcesos) {
+
+
+								var arrElementosHijos = new Array();
+								$(eleDatosProcesos).each(function (indexDatos, eleDatos) {
+									//if (eleDatos.iTipoElemento == 3) {
+									eleDatos.dtFechaFinal = new Date(parseFloat(eleDatos.dtFechaFinal.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+									eleDatos.dtFecha_de_inicio = new Date(parseFloat(eleDatos.dtFecha_de_inicio.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+									eleDatos.dtAlta = new Date(parseFloat(eleDatos.dtAlta.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+									eleDatos.dtModificacion = new Date(parseFloat(eleDatos.dtModificacion.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+									eleDatos.dtHoras_Acumuladas = new Date(parseFloat(eleDatos.dtHoras_Acumuladas.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+									eleDatos.cNombreDetalleProceso = eleDatos.cTituloProceso;
+									esNormal = false;
+									//}
+									tituloProceso = (indexDatos == 0) ? eleDatos.cTituloProceso : tituloProceso;
+									var arrDatos = new Array();
+									arrDatos.push(eleDatos)
+									arrElementosHijos.push({
+										elementos: arrDatos,
+										index: indexDatos
+									})
+								});
+								arrHijos.push({
+									iIdProceso: eleProceso.iIdProceso,
+									Hijos: arrElementosHijos,
+									cTituloProceso: tituloProceso
+								});
+
+							});
+						}
+
+						//arrDatos.push(arrHijos)
+						arrElementos = arrHijos;
+						//arrElementos.Raiz = arrRaiz;
+
+
+						//console.log(datos);
 					});
-
-					//arrDatos.push(arrHijos)
-					arrElementos.push(arrHijos);
 					arrWBS.push({
 						iIdPlan: iIdPlanGlobal,
 						iIdRequerimiento: eleRqm,
-						elementos: arrHijos,
-						Modo: (esNormal) ? "Normal" : "Hibrido"
+						elementos: arrElementos,
+						Modo: "Hibrido",
+						Raiz: arrRaiz
 					})
-					//console.log(datos);
-				});
+				}
+				else {
+					$(procesos).each(function (indexProceso, eleProceso) {
+						var tituloProceso;
+						var datos = ObtenerDatosByPlanRqmProceso(iIdPlanGlobal, eleRqm, eleProceso.iIdProceso);
+
+						var arrHijos = new Array();
+						$(datos).each(function (indexDatosProcesos, eleDatosProcesos) {
+							var arrElementosHijos = new Array();
+							$(eleDatosProcesos).each(function (indexDatos, eleDatos) {
+								//if (eleDatos.iTipoElemento == 3) {
+								eleDatos.dtFechaFinal = new Date(parseFloat(eleDatos.dtFechaFinal.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+								eleDatos.dtFecha_de_inicio = new Date(parseFloat(eleDatos.dtFecha_de_inicio.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+								eleDatos.dtAlta = new Date(parseFloat(eleDatos.dtAlta.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+								eleDatos.dtModificacion = new Date(parseFloat(eleDatos.dtModificacion.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+								eleDatos.dtHoras_Acumuladas = new Date(parseFloat(eleDatos.dtHoras_Acumuladas.split("(")[1].split(")")[0])).toISOString().split("T")[0];
+								eleDatos.cNombreDetalleProceso = eleDatos.cTituloProceso;
+								esNormal = true;
+								//}
+								tituloProceso = (indexDatos == 0) ? eleDatos.cTituloProceso : tituloProceso;
+								var arrDatos = new Array();
+								arrDatos.push(eleDatos)
+								arrElementosHijos.push({
+									elementos: arrDatos,
+									index: indexDatos
+								})
+							});
+							arrHijos.push({
+								iIdProceso: eleProceso.iIdProceso,
+								Hijos: arrElementosHijos,
+								cTituloProceso: tituloProceso
+							});
+							//arrHijos.Raiz = [];
+						});
+						//arrDatos.push(arrHijos)
+						//arrElementos = arrHijos;
+						arrWBS.push({
+							iIdPlan: iIdPlanGlobal,
+							iIdRequerimiento: eleRqm,
+							elementos: arrHijos,
+							Modo: "Normal",
+							Raiz: new Array()
+						})
+						//console.log(datos);
+					});
+				}
+
 
 			});
 		},
 		error: function (xhr, estatus) {
 			//alert("Error " + estatus);
-			Alertas(2, "Error", "Error de carga de datos");
+			Alertas(2, "Error", "Error en la carga de datos, verifique que existan en la BD");
 		}
 	});
 	console.log(arrWBS);
@@ -2176,7 +2514,7 @@ function obtenerProcesosByPlanRqm(plan, rqm) {
 		},
 		error: function (xhr, estatus) {
 			//alert("Error " + estatus);
-			Alertas(2, "Error", "Error de carga de datos");
+			Alertas(2, "Error", "Error de carga de datos!");
 		}
 	});
 	return procesos;
@@ -2196,22 +2534,23 @@ function ObtenerDatosByPlanRqmProceso(plan, rqm, proceso) {
 		},
 		error: function (xhr, estatus) {
 			//alert("Error " + estatus);
-			Alertas(2, "Error", "Error de carga de datos");
+			Alertas(2, "Error", "Error de carga de datos!!");
 		}
 	});
 	return datos;
 }
 
 var c = 0;
-function AgregarRQMModal(rqm, nombre) {
+function AgregarRQMModal(rqm, obj) {
 	//var rqm = $("#txtModalRQM").val();
 	if (allRQM.indexOf(rqm) == -1 && rqm != "") {
 		allRQM.push(rqm);
 		arrRQM.push({
 			iIdRQM: rqm,
-			Nombre: nombre
+			Nombre: obj.cTitulo,
+			cTipoElementoDeTrabajo: obj.cTipoElementoDeTrabajo,
 		});
-		var elemento = $("<tr role ='row' class='filter' id='" + rqm + "'><td><div class='btn-group btn-group-sm btn-group-solid'><button type='button' onclick='EliminarRQM(this)' class='btn red'><i class='fa fa-times-circle'></i></button></div></td><td>" + rqm + "</td><td>" + nombre + "</td></tr>");
+		var elemento = $("<tr role ='row' class='filter' id='" + rqm + "'><td><div class='btn-group btn-group-sm btn-group-solid'><button type='button' onclick='EliminarRQM(this)' class='btn red'><i class='fa fa-times-circle'></i></button></div></td><td>" + rqm + "</td><td>" + obj.cTitulo + "</td></tr>");
 		$("#tbodyModalRQM").append(elemento);
 	}
 	else {
@@ -2243,13 +2582,17 @@ function EliminarRQMToAllRQM(data, rqm) {
 
 function AgregarRQMGrid() {
 	if (arrRQM.length > 0) {
+		var cont = 0;
 		$.each(arrRQM, function (index, domEle) {
 			var elementoOption = $("<option class='form-control' value='" + domEle.iIdRQM + "'>" + domEle.iIdRQM + "- " + domEle.Nombre + "</option>");
 			$("#iIdRequerimiento").append(elementoOption);
+			cont++;
 		});
-		arrRQM = new Array();
+		//arrRQM = new Array();
 		//$("#tbodyModalRQM").html("");
 		$("#ModaRQM").modal("hide");
+		var mensaje = (cont > 1) ? "Los Requerimientos han sido agregados" : "El Requerimiento ha sido agregado"
+		Alertas(0, "Operacion Exitosa", mensaje);
 	}
 	else {
 		//alert("necesita ingresar un requerimiento");
@@ -2320,8 +2663,10 @@ function GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan) {
 			OrdenarProcesos();
 			AgregarPreview(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 			AplicarNomenclatura();
-			CambiarAsignado();
-			CambiarRevisor();
+			AplicarRateGlobal();
+			//CambiarAsignado();
+			//CambiarRevisor();
+			sePerderaDatos = true;
 		},
 		error: function (xhr, estatus) {
 			//alert("Error " + estatus);
@@ -2344,7 +2689,7 @@ function ocultarElementos() {
 	//    var idPadre = $(domEle).attr("name");
 	//    idPadre = idPadre.split("_")[1];
 	//    var tareas = $("tr[name$=_" + idPadre + "]")
-	//    long = tareas.length;
+	//    long = tareas.length;<
 	//});
 	var noPadres = $("tr.noprimary");
 	$(noPadres).each(function (index, domEle) {
@@ -2398,11 +2743,11 @@ function ocultarElementos() {
 	//}
 }
 
-//window.onbeforeunload = function () {
-//    if (jsonTemporal.length != 0) {
-//        return "";
-//    }
-//}
+window.onbeforeunload = function () {
+	if (sePerderaDatos) {
+		return "";
+	}
+}
 
 function UsuariosToArray() {
 	//debugger;
@@ -2480,7 +2825,12 @@ function ObtenerUsuariosTFS() {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (response) {
-			cUsuario = JSON.parse(response.d);
+			try {
+				cUsuario = JSON.parse(response.d);
+			} catch (e) {
+				Alertas(2, "Error", "Carga de usuario erronea, verificar conexion");
+			}
+
 			//cUsuario = JSON.parse(cUsuario.d);
 		},
 		error: function (xhr, estatus) {
@@ -2534,7 +2884,7 @@ function GetNombreRQMById() {
 		success: function (response) {
 			//debugger;
 			//alert(response.d);
-			AgregarRQMModal(iIdRQM, response.d);
+			AgregarRQMModal(iIdRQM, JSON.parse(response.d));
 			$("#txtModalRQM").val("");
 		},
 		error: function (xhr, estatus) {
@@ -2678,6 +3028,8 @@ function insertarProceso() {
 	//CambiarRevisor();
 	ocultarElementos();
 	OrdenarProcesos();
+	AplicarNomenclatura();
+	AplicarRateGlobal();
 	//UsuariosGuardados(iIdRQMGlobal, proceso, iIdPlanGlobal);
 }
 
@@ -2911,7 +3263,6 @@ function GuardarEquipos() {
 
 	//$(arrUsuariosFiltrados.datosUsuario.value).each(function (index, domEle) {
 	//    var elemento = $(domEle).text();
-	//    var fecha = elemento.split(" ")[0];
 	//    //alert("iIdEquipo: " + equipo + ", fecha de ingreso: " + fecha);
 	//    //          arrUsuariosFiltrados.push($(domEle).attr("id").split("_")[1]);
 	//});
@@ -2921,12 +3272,13 @@ function GuardarEquipos() {
 	if (equipo != "") {
 		arrUsuariosFiltrados = BuscarIteracion(arrIteracionesPorUsuario, equipo);
 		$("#iIdPlan").prop("disabled", false);
-		$("#agregarplan").prop("disabled", false);
+		//$("#agregarplan").prop("disabled", false);
 		$("#modalSmElegirEquipo").modal("hide");
 		arrEquipoSeleccionado = arrUsuariosFiltrados[0];
 		AgregarUsuariosFiltrados(arrEquipoSeleccionado);
 		MostrarEquipoSeleccionado(arrEquipoSeleccionado);
 		$("#UserLogin").show();
+		obtenerPlan();
 	}
 	else {
 		//alert("Necesita seleccionar un equipo")
@@ -2947,8 +3299,15 @@ function MostrarEquipoSeleccionado(equipoSeleccionado) {
 	hoy = "" + hoy.getFullYear() + "/" + (hoy.getMonth() + 1) + "/" + hoy.getDate();
 
 	$(equipoSeleccionado.datosUsuario.value).each(function (index, domEle) {
-		var elementoLista = $("<li class='list-group-item' id='" + domEle.teamMember.id + "'><span hidden>" + hoy + "</span> " + domEle.teamMember.displayName.split("<")[0].trim() + "</li>");
-		$("#listaIntegrantes").append(elementoLista);
+		var elementoTabla = $("<tr>" +
+                            "<td>" +
+							"<input type='text' class='form-control form-filter input-sm' id='ModalNombreIntegrante_" + index + "' value='" + domEle.teamMember.displayName.split("<")[0].trim() + "' readonly>" +
+							"</td>" +
+                            "<td>" +
+                                "<input type='text' class='form-control form-filter input-sm' id='ModalCapacidadUsuario_" + index + "' value='N/A' readonly>" +
+                            "</td>" +
+							"</tr>");
+		$("#tableIntegrantes tbody").append(elementoTabla);
 	});
 	$("#DPDiasInhabiles").datepicker({
 		clearBtn: true,
@@ -2966,7 +3325,12 @@ function MostrarEquipoSeleccionado(equipoSeleccionado) {
 //var arrDiasInhabiles = new Array();
 function ConfigurarEquipo() {
 	//var arrDiasInhabiles = $("#DPDiasInhabiles input").val().split(",");
-	arrEquipoSeleccionado.IteracionData.DiasInhabiles = $("#DPDiasInhabiles input").val().split(",");
+	if ($("#DPDiasInhabiles input").val() != "") {
+		arrEquipoSeleccionado.IteracionData.DiasInhabiles = $("#DPDiasInhabiles input").val().split(",");
+	}
+	else {
+		arrEquipoSeleccionado.IteracionData.DiasInhabiles = new Array();
+	}
 	//var arrDiasSprint = new Array();
 	var arrDiasDisponibles = new Array();
 	$("#ModalConfigurarEquipo").modal("hide");
@@ -3074,8 +3438,8 @@ function BotonDeOrdenar(adonde) {
 	adonde = $(adonde).attr("id");
 	var max = $("#modalSelectOrdenamiento option").length;
 	var id = parseInt($("#modalSelectOrdenamiento option:selected").attr("class"));
-	var elemento = $("#modalSelectOrdenamiento option:selected");
-	var tamaño = elemento.length;
+	var elementos = $("#modalSelectOrdenamiento option:selected");
+	var tamaño = elementos.length;
 	var newid = (tamaño > 1) ? (id + tamaño - 1) : id;
 	var tempo = parseInt(id);
 	var valido = true;
@@ -3092,13 +3456,13 @@ function BotonDeOrdenar(adonde) {
 	if (adonde == "arriba" && id != 1 && newid != 1 && valido) {
 		id--;
 		$("#modalSelectOrdenamiento option:selected").remove();
-		$("." + id).before(elemento);
+		$("." + id).before(elementos);
 
 	}
 	else if (adonde == "abajo" && id != max && newid != max && valido) {
 		newid++;
 		$("#modalSelectOrdenamiento option:selected").remove();
-		$("." + newid).after(elemento);
+		$("." + newid).after(elementos);
 
 	}
 	$("#modalSelectOrdenamiento option").each(function (index, domEle) {
@@ -3133,21 +3497,32 @@ function OrdenarGrid() {
 		var temp = $("#modalSelectOrdenamiento option")[index];
 		$(temp).text("" + nombreProceso + "(Proceso: " + (index + 1) + ")");
 	});
-	Alertas(0, "Orden Completado", "No olvidar recalcular valores!")
+	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
+	AplicarNomenclatura();
+	calcularValorGanado();
+	Alertas(0, "Orden Completado", "Verifique la informacion ordenada");
 }
 
 
 function InsertarHibrido() {
 	var indice = new Array;
-	$("#btnOrdenar").prop("disabled", false);
+	//$("#btnOrdenar").prop("disabled", false);
+	DeshabilitarControles("menuOrdenar", false, "");
 	//$("#btnNomenclatura").prop("disabled", false);
-	$("#btnPrevisualizar").prop("disabled", false);
+	DeshabilitarControles("menuNomenclatura", false, "");
+	//$("#btnPrevisualizar").prop("disabled", false);
+	DeshabilitarControles("menuPreview", false, "previewCompleto();");
+	DeshabilitarControles("menuConfiguracionGlobal", false, "")
+	DeshabilitarControles("menuGuardarWBS", false, "GuardarWBS();");
+	DeshabilitarControles("menuCalcularWBS", false, "calcularValorGanado();");
+	DeshabilitarControles("menuEnviarTFS", false, "EnviarTFS();");
 	$("#datatable_ajax tbody").html("");
+
 	$("#datatable_ajax tbody").append($("<tr role='row' class='raiz' name='padre'><td>" +
 										   "<div class='btn-group btn-group-xs btn-group-solid'>" +
 										   "<button type='button' id='Procesos' onclick='obtenerPadre(0);' data-toggle='modal' class='btn blue'><i class='glyphicon glyphicon-plus-sign'></i></button>" +
 										   "</div>" +
-										   "</td><td colspan='100%'><input type='text' id='NombreRaiz' placeholder='Identificador de Agrupador' class='form-control form-filter input-sm'/></td><td hidden><input type = 'number'  value='3' name='iTipoElemento' id='iTipoElemento_Raiz'></td>" +
+										   "</td><td colspan='100%'><input type='text' id='cTituloProceso_0' placeholder='Identificador de Agrupador' class='form-control form-filter input-sm'/></td><td hidden><input type = 'number'  value='3' name='iTipoElemento' id='iTipoElemento_Raiz'></td>" +
 										   "<td hidden>" +
 											   "<input type = 'text' class='form-control form-filter input-sm' name='Componente' id='iIdDetalleProceso_1' value='1' readonly>" +
 										   "</td>" +
@@ -3202,16 +3577,46 @@ function InsertarHibrido() {
 	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 }
 
+function filtrarArrWBSPorModo(data, plan, rqm, modo) {
+	return data.filter(
+        function (data) {
+        	return data.iIdPlan == plan && data.iIdRequerimiento == rqm && data.Modo == modo
+        }
+        );
+}
+
 function filtrarJsonTemporalParaHibrido(data, plan, rqm) {
 	return data.filter(
-        function (data) { return data.iIdPlan != plan && data.iIdRequerimiento != rqm }
+        function (data) { return data.iIdPlan == plan && data.iIdRequerimiento != rqm }
         );
 }
 
 function filtrarArrWBSByModo(data, plan, rqm, modo) {
 	return data.filter(
         function (data) {
-        	return data.iIdPlan != plan && data.iIdRequerimiento != rqm && data.Modo != modo
+        	var condicional = (data.iIdPlan == plan && data.iIdRequerimiento == rqm && data.Modo == modo) ? false : true;
+        	return condicional
+        }
+        );
+}
+
+function filtrarArrWBSCompleto(data, plan, rqm, proceso, modo) {
+	return data.filter(
+        function (data) {
+        	if (data.iIdPlan == plan && data.iIdRequerimiento == rqm && data.Modo == "Normal") {
+        		if (data.elementos[0].iIdProceso == proceso) {
+        			return true;
+        		}
+        		else {
+        			return false;
+        		}
+        	}
+        	else if (data.iIdPlan == plan && data.iIdRequerimiento == rqm && data.Modo == "Hibrido") {
+        		return true;
+        	}
+        	else {
+        		return false;
+        	}
         }
         );
 }
@@ -3307,7 +3712,7 @@ function obtenerIteraciones(proyecto, coleccion) {
 				});
 				$("#modalIteraciones").show();
 			} catch (e) {
-				Alertas(2, "Error", "Eroor en la carga de datos")
+				Alertas(2, "Error", "Error en la carga de datos de los equipos")
 				$("#modals2Equipo").select2({
 					placeholder: "Seleccione su Equipo",
 					allowClear: true,
@@ -3404,10 +3809,10 @@ function Previsualizacion() {
 	$("#tablePreview tbody").html("");
 	$(arrPreview).each(function (index, domEle) {
 		if (domEle.iIdPlan == plan && domEle.iIdRQM == rqm) {
-			$(domEle.Datos).each(function (indice, elemento) {
+			$(domEle.Datos).each(function (indice, domEle2) {
 				var tblElemento = $("<tr>" +
-                            "<td>" + elemento.proceso + "</td>" +
-                            "<td>" + elemento.usuario + "</td>" +
+                            "<td>" + domEle2.proceso + "</td>" +
+                            "<td>" + domEle2.usuario + "</td>" +
                             "</tr>")
 				$("#tablePreview tbody").append(tblElemento);
 			});
@@ -3418,7 +3823,8 @@ function Previsualizacion() {
 }
 
 function previewCompleto() {
-	AgregarPreview(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
+	//AgregarPreview(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
+	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 	var arrTemp = arrPreview;
 	//debugger;
 	$("#divTree").html("");
@@ -3455,60 +3861,85 @@ function previewCompleto() {
 
 	//});
 	var arrTemp = new Array()
-	$("#iIdPlan option").each(function (indexPlan, domElePlan) {
+	var fechaFinalRQM;
+	$("#iIdPlan option:selected").each(function (indexPlan, domElePlan) {
 		if (domElePlan.value != "") {
 			cCadenaFinal += "<li>Plan " + domElePlan.value + "<ul>";
 			$("#iIdRequerimiento option").each(function (indexRqm, domEleRqm) {
 				if (domEleRqm.value != "") {
-					cCadenaFinal += "<li>REQ " + domEleRqm.value + "<ul>";
+
 
 					arrTemp = FiltrarArrWbs(arrWBS, domElePlan.value, domEleRqm.value);
-
-					$(arrTemp).each(function (indexRaiz, domEleRaiz) {
-						$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
-							var proceso, usuario, fechaFinal;
-							$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
-								if (indexHijos == 0) {
-									proceso = domEleHijos.elementos[0].cTituloProceso;
-									usuario = domEleHijos.elementos[0].cNombreUsuario;
-								}
-								fechaFinal = domEleHijos.elementos[0].dtFechaFinal
-								//preview hacer y tener en cuenta los campos de ordenamiento(dtp, proceso, rqm y general o algo asi) e implmentarlo para el ordenamiento a nivel proceso
-								//verificar que todo funcione junto con el modo hibrido
-
+					if (arrTemp.length > 0) {
+						//cCadenaFinal += "<li>REQ " + domEleRqm.value + "<ul>";
+						cCadenaFinal += "<li>REQ " + domEleRqm.value;
+						var cadenaTemp = ""
+						$(arrTemp).each(function (indexRaiz, domEleRaiz) {
+							$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
+								var proceso, usuario, FechaInicial, fechaFinal;
+								$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
+									if (indexHijos == 0) {
+										proceso = domEleHijos.elementos[0].cTituloProceso;
+										var arrUserTemp = filtrarUsuariosById(arrEquipoSeleccionado.datosUsuario.value, domEleHijos.elementos[0].iIdUsuario);
+										usuario = arrUserTemp[0].teamMember.displayName.split("<")[0].trim();
+									}
+									fechaFinal = domEleHijos.elementos[0].dtFechaFinal;
+									FechaInicial = domEleHijos.elementos[0].dtFecha_de_inicio;
+									//preview hacer y tener en cuenta los campos de ordenamiento(dtp, proceso, rqm y general o algo asi) e implmentarlo para el ordenamiento a nivel proceso
+									//verificar que todo funcione junto con el modo hibrido
+									fechaFinalRQM = domEleHijos.elementos[0].dtFechaFinal;
+								})
+								cadenaTemp += "<li>" +
+									"<table class='Fixed' style='display:inline;'>" +
+										"<tr><td><b style='color:green;'>" + proceso + "</b></td>" +
+										"<td><b style='color:black;'> - " + usuario + "</b>" +
+										"</td><td><b style='color:blue;'> - " + ((FechaInicial == "") ? "Fecha Inicial sin calcular" : FechaInicial) + "</b>" +
+										"</td><td><b style='color:blue;'> > " + ((fechaFinal == "") ? "Fecha Final sin calcular" : fechaFinal) + "</b></td></tr>" +
+										"</table></li>";
 							})
-							cCadenaFinal += "<li>" + proceso + "<b> > </b>" + usuario + "<b> > </b>" + fechaFinal + "</li>";
 						})
-					})
-					cCadenaFinal += "</ul></li>";
+						cCadenaFinal += " Finaliza: <b style='color:red;'>" + fechaFinalRQM + "</b><ul>" + cadenaTemp;
+						cCadenaFinal += "</ul></li>";
+					}
 				}
-				
-
-				//$("#iIdEtapas").each(function (indexProceso, domEleProceso) {
-					
-
-				//})
 			})
 			cCadenaFinal += "</ul></li>";
 		}
-		
+
 	})
 	$("#PreviewTree ul").append($(cCadenaFinal));
 	$('#PreviewTree').jstree({
+		//"core": {
+		//	"themes": {
+		//		"responsive": false
+		//	}
+		//},
+		//"max-width":"100px",
+		//"types": {
+		//	"default": {
+		//		"icon": "fa fa-folder icon-state-warning icon-lg"
+		//	},
+		//	"file": {
+		//		"icon": "fa fa-file icon-state-warning icon-lg"
+		//	}
+		//},
+		//"plugins": ["types"]
 		"core": {
 			"themes": {
 				"responsive": false
-			}
-		},
-		"types": {
-			"default": {
-				"icon": "fa fa-folder icon-state-warning icon-lg"
 			},
-			"file": {
-				"icon": "fa fa-file icon-state-warning icon-lg"
-			}
+			// so that create works
+			"check_callback": true,
+			"types": {
+				"default": { 
+					"icon": "fa fa-folder icon-state-warning icon-lg"
+				},
+				"file": {
+					"icon": "fa fa-file icon-state-warning icon-lg"
+				}
+			},
 		},
-		"plugins": ["types"]
+		"plugins": ["unique", "dnd"]
 	});
 	$("#PreviewTree").jstree("open_all");
 }
@@ -3584,27 +4015,80 @@ function AgregarPreview(idPlan, idRQM, idProceso) {
 	//}
 }
 
-
+var nomenclaturaAplicada = false;
 function AplicarNomenclatura() {
 	var nomPrimary = $("#iIdNomenclaturaPrimary").val();
 	var nomHijos = $("#iIdNomenclaturaHijos").val();
-	if (nomPrimary != "" && nomHijos != "") {
-		var rqm = iIdRQMGlobal;
-		var nodosPrimary = $(".primary");
-		var indice, indiceHijo;
-		$(nodosPrimary).each(function (index, domEle) {
-			indice = ((index + 1) < 10) ? "0" + (index + 1) : (index + 1);
-			var nombre = $(domEle).find("[id^=iIdDetalleProceso]").val()
-			$(domEle).find("[id^=iIdDetalleProceso]").val(nomPrimary + " " + rqm + " " + indice + "-" + nombre);
-			var padre = $(domEle).attr("name").split("_")[1];
-			var nodosHijos = $("tr.noprimary[name$=_" + padre + "]");
-			$(nodosHijos).each(function (indexHijo, elementoHijo) {
-				indiceHijo = ((indexHijo + 1) < 10) ? "0" + (indexHijo + 1) : (indexHijo + 1);
-				var hijo = $(elementoHijo).find("[id^=iIdDetalleProceso]").val();
-				$(elementoHijo).find("[id^=iIdDetalleProceso]").val(nomHijos + " " + rqm + " " + indice + "." + indiceHijo + "-" + hijo);
-			});
-		});
-		$("#ModalNomenclatura").modal("hide");
+	var grid = $("#datatable_ajax tbody tr[class*=primary]");
+	var modo = ($("#iIdEtapas").val() == 4) ? "Hibrido" : "Normal";
+	if (nomPrimary != "" && nomHijos != "" && grid.length > 0) {
+		GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
+		//var rqm = iIdRQMGlobal;
+		//var nodosPrimary = $(".primary");
+		//var indice, indiceHijo;
+		//$(nodosPrimary).each(function (index, domEle) {
+		//	indice = ((index + 1) < 10) ? "0" + (index + 1) : (index + 1);
+		//	var nombre = $(domEle).find("[id^=iIdDetalleProceso]").attr("name");
+		//	$(domEle).find("[id^=iIdDetalleProceso]").val("");
+		//	$(domEle).find("[id^=iIdDetalleProceso]").val(nomPrimary + " " + rqm + " " + indice + "-" + nombre);
+		//	var padre = $(domEle).attr("name").split("_")[1];
+		//	var nodosHijos = $("tr.noprimary[name$=_" + padre + "]");
+		//	$(nodosHijos).each(function (indexHijo, elementoHijo) {
+		//		indiceHijo = ((indexHijo + 1) < 10) ? "0" + (indexHijo + 1) : (indexHijo + 1);
+		//		var hijo = $(elementoHijo).find("[id^=iIdDetalleProceso]").attr("name");
+		//		$(elementoHijo).find("[id^=iIdDetalleProceso]").val("");
+		//		$(elementoHijo).find("[id^=iIdDetalleProceso]").val(nomHijos + " " + rqm + " " + indice + "." + indiceHijo + "-" + hijo);
+		//	});
+		//});
+		var plan = 0;
+		var contPrimary = 0;
+		var rqm = 0;
+		$(arrWBS).each(function (indexRaiz, domEleRaiz) {
+			if (rqm == 0 || domEleRaiz.iIdRequerimiento != rqm) {
+				rqm = domEleRaiz.iIdRequerimiento;
+				contPrimary = 1;
+			}
+
+			var cont = 0;
+			$(domEleRaiz.elementos).each(function (indexElementos, domElementos) {
+				var contHijos = 1;
+				$(domElementos.Hijos).each(function (indexHijos, domEleHijos) {
+					var nombre = domEleHijos.elementos[0].cNombreDetalleProceso;
+					var textPrimary = nomPrimary + " " + rqm + " : " + contPrimary + "-" + nombre
+					var textHijo = nomPrimary + " " + rqm + " : " + nomHijos + " " + contPrimary + "." + contHijos + "-" + nombre
+					domEleHijos.elementos[0].cTituloProceso = (indexHijos == 0) ? textPrimary : textHijo
+
+					if (domEleRaiz.iIdRequerimiento == iIdRQMGlobal && domEleRaiz.iIdPlan == iIdPlanGlobal && domEleRaiz.Modo == "Normal") {
+						if (domElementos.iIdProceso == iIdProcesoGlobal) {
+							//poner los valores de nomenclatura en el grid
+							$(grid[cont]).find("[id*=iIdDetalleProceso_]").val((indexHijos == 0) ? textPrimary : textHijo).trigger("change");
+							$(grid[cont]).find("[id*=cTituloProceso_]").val((indexHijos == 0) ? textPrimary : textHijo).trigger("change");
+						}
+					}
+					else if (domEleRaiz.iIdRequerimiento == iIdRQMGlobal && domEleRaiz.iIdPlan == iIdPlanGlobal && domEleRaiz.Modo == "Hibrido") {
+						$(grid[cont]).find("[id*=iIdDetalleProceso_]").val((indexHijos == 0) ? textPrimary : textHijo).trigger("change");
+						$(grid[cont]).find("[id*=cTituloProceso_]").val((indexHijos == 0) ? textPrimary : textHijo).trigger("change");
+					}
+					contHijos = (indexHijos == 0) ? contHijos : contHijos + 1;
+					cont++;
+				})
+				contPrimary++;
+			})
+		})
+
+		//var arrTemp = filtrarArrWBSCompleto(arrWBS, iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal, modo)
+
+		if ($("#ModalNomenclatura").attr("class").search("in") != -1) {
+			$("#ModalNomenclatura").modal("hide");
+			Alertas(0, "Nomenclatura", "La Nomenclatura ha sido aplicada.");
+		}
+		nomenclaturaAplicada = true;
+	}
+	else {
+		if ($("#ModalNomenclatura").attr("class").search("in") != -1) {
+			Alertas(1, "Nomenclatura", "Necesita establecer un prefijo para los Procesos y Tareas.");
+		}
+		nomenclaturaAplicada = false;
 	}
 }
 
@@ -3739,6 +4223,7 @@ var arrValoresGanados = new Array();
 function calcularValorGanado() {
 	var totalOriginalEstimado = 0;;
 	arrValoresGanados = new Array();
+	ConfigurarEquipo();
 	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 	var arrTemp = new Array();
 	for (var i = 0; i < 2; i++) {
@@ -3841,15 +4326,18 @@ var contDias = 0;
 var arrFechasUsuarios = new Array();
 var arrFechasInhabiles = new Array();
 var arrFechasParaGrid = new Array();
+var primeraFechaUsuario;
 //si en el recorrido de los dias que trabajo se encuentra un dia inhabil se pasa por alto o se toma en cuenta y se salta??????.
 function CalcularFechas() {
 	var fechaInicial = arrEquipoSeleccionado.IteracionData.dtFechaInicio.split("T")[0];
 	var ultimaFechaUsuario = fechaInicial;
-	var primeraFechaUsuario;
+	var PrimeraFechaHabil;
 	var arrUsuarioTemp = new Array();
 	var ultimaFecha;
 	var arrTemp = new Array();
+	arrFechasUsuarios = new Array();
 	arrFechasParaGrid = new Array();
+	ReiniciarCapacidadUsuario(arrEquipoSeleccionado.datosUsuario.value);
 	try {
 		$(arrWBS).each(function (indexRaiz, domEleRaiz) {
 			if (domEleRaiz.iIdPlan == iIdPlanGlobal) {
@@ -3910,7 +4398,9 @@ function CalcularFechas() {
 							contDias = 0;
 							diasTrabajados = 0;
 						}
-					})
+						PrimeraFechaHabil = (indexRaiz == 0 && indexElementos == 0) ? primeraFechaUsuario : PrimeraFechaHabil;
+						FiltrarYSumarCapacidadUsuario(arrEquipoSeleccionado.datosUsuario.value, arrUsuarioTemp[0].teamMember.id, capacidadTarea);
+					});
 					arrFechasParaGrid.push({
 						Plan: domEleRaiz.iIdPlan,
 						Rqm: domEleRaiz.iIdRequerimiento,
@@ -3924,7 +4414,12 @@ function CalcularFechas() {
 		})
 		horasRestantes = 0.0;
 		restante = 0;
-		arrFechasUsuarios = new Array();
+		CapacidadUsuarios()
+		if (PrimeraFechaHabil != undefined) {
+			$(".raiz").find("[id*=Fecha_]").val(PrimeraFechaHabil).trigger("change")
+			$(".raiz").find("[id*=FechaFinal_]").val(PrimeraFechaHabil).trigger("change")
+		}
+		Alertas(0, "Accion Realizada", "El calculo de Valores y Fechas se ha realizado con exito");
 	} catch (e) {
 		Alertas(1, e, "Hace falta introducir algunos datos");
 	}
@@ -3932,7 +4427,7 @@ function CalcularFechas() {
 }
 
 function calcularCapacidadUsuario(actividades) {
-	
+
 	var capacidad = 0;
 	$(actividades).each(function (index, domEle) {
 		capacidad += parseFloat(domEle.capacityPerDay);
@@ -3967,8 +4462,26 @@ function filtrarArrFechasUsuario(data, usuario) {
         );
 }
 
+function FiltrarYSumarCapacidadUsuario(data, usuario, capacidadASumar) {
+	return data.filter(
+        function (data) {
+        	if (data.teamMember.id == usuario) {
+        		data.CapacidadFinal += capacidadASumar;
+        	}
+        }
+        );
+}
+
+function ReiniciarCapacidadUsuario(data) {
+	return data.filter(
+        function (data) {
+        	data.CapacidadFinal = 0;
+        }
+        );
+}
+
 function CalcularCapacidadByUsuario(capacidadTarea, capacidadUsuario) {
-	
+
 	//if (capacidadTarea > capacidadUsuario) {
 	//    diasTrabajados = Math.ceil((capacidadTarea / capacidadUsuario) + horasRestantes);
 	//    horasRestantes = parseFloat(((capacidadUsuario * (Math.ceil(capacidadTarea / capacidadUsuario))) - capacidadTarea).toFixed(1));
@@ -4045,6 +4558,7 @@ function FiltrarFechaFinalOfInhabiles(fecha, inhabilesUsuario, diasATrabajar) {
 	var contDias = 0;
 	var fechaValida = false
 	var esDiaInhabil;
+	var primerDiaValidado = false;
 	arrFechasInhabiles = new Array();
 	$(arrEquipoSeleccionado.IteracionData.DiasInhabiles).each(function (index, ele) {
 		arrFechasInhabiles.push(ele);
@@ -4058,7 +4572,7 @@ function FiltrarFechaFinalOfInhabiles(fecha, inhabilesUsuario, diasATrabajar) {
 		var fechaTemp = new Date((typeof fecha == "string") ? fecha.replace(/-/g, "\/") : fecha);
 		fechaTemp = fechaTemp.toISOString().split("T")[0];
 		esDiaInhabil = filtrarByFechasInhabiles(arrFechasInhabiles, fechaTemp);
-		if (esDiaInhabil.length == 0) { 
+		if (esDiaInhabil.length == 0) {
 			fechaTemp = new Date(fechaTemp.replace(/-/g, "\/"));
 			//var temp = fechaTemp.getDay() + 1;
 			var temp = fechaTemp.getDay();
@@ -4081,8 +4595,12 @@ function FiltrarFechaFinalOfInhabiles(fecha, inhabilesUsuario, diasATrabajar) {
 					fecha = fechaTemp
 					fechaValida = true;
 					//contDias++;
+					if (!primerDiaValidado) {
+						primeraFechaUsuario = fecha;
+						primerDiaValidado = true;
+					}
 				}
-				
+
 
 			}
 
@@ -4113,7 +4631,7 @@ function Alertas(opcType, cabecero, message) {
 		horizontalEdge: "bottom",
 		verticalEdge: "right",
 		heading: cabecero,
-		life: 5000
+		life: 5000,
 	}, $button = $(this);
 
 
@@ -4131,5 +4649,75 @@ function Alertas(opcType, cabecero, message) {
 function CambiarTituloProceso(obj) {
 	var Nombre = $(obj).val();
 	var padre = obj.parentNode.parentNode;
-	$(padre).find("[id*=iIdDetalleProceso_]").val(Nombre).trigger("change");
+	if (Nombre == "") {
+		var temp = $(padre).find("[id*=iIdDetalleProceso_]").attr("name");
+		$(obj).val(temp).trigger("change")
+	}
+	else {
+		$(padre).find("[id*=iIdDetalleProceso_]").val(Nombre).trigger("change");
+	}
+
+}
+
+function CapacidadUsuarios() {
+	//var daysOffTeam = (arrEquipoSeleccionado.IteracionData.DiasInhabiles == undefined) ? 0 : arrEquipoSeleccionado.IteracionData.DiasInhabiles.length;
+	var daysOffTeam = (arrEquipoSeleccionado.IteracionData.DiasInhabiles == undefined) ? 0 : arrEquipoSeleccionado.IteracionData.DiasInhabiles.length;
+	var daysTeam = 0;
+	var fromDate = new Date(arrEquipoSeleccionado.IteracionData.dtFechaInicio.split("T")[0].replace(/-/g, "\/"));
+	var toDate = new Date(arrEquipoSeleccionado.IteracionData.dtFechaFinal.split("T")[0].replace(/-/g, "\/"));
+	while (fromDate < toDate) {
+		fromDate.setDate(fromDate.getDate() + 1);
+		++daysTeam;
+	}
+	$(arrEquipoSeleccionado.datosUsuario.value).each(function (index, domEle) {
+		var daysOffUser = CalculateNumberDaysOff(domEle.daysOff);
+		var diasTotales = daysTeam - (daysOffTeam + daysOffUser);
+		var CapacityUser = calcularCapacidadUsuario(domEle.activities);
+		var CapacidadTotal = diasTotales * CapacityUser;
+		var capacidadCalculada = domEle.CapacidadFinal
+		$("#ModalCapacidadUsuario_" + index).val(capacidadCalculada.toFixed(2) + " de " + CapacidadTotal.toFixed(2)).trigger("change");
+		if (capacidadCalculada > CapacidadTotal) {
+			$("#ModalCapacidadUsuario_" + index).css("color", "red");
+		}
+		else {
+			$("#ModalCapacidadUsuario_" + index).css("color", "green");
+		}
+	});
+}
+
+function CalculateNumberDaysOff(daysOff) {
+	var DaysOffCount = 0;
+	var fromDate, toDate;
+	$(daysOff).each(function (index, domEle) {
+		fromDate = new Date(domEle.start.split("T")[0].replace(/-/g, "\/"));
+		toDate = new Date(domEle.end.split("T")[0].replace(/-/g, "\/"));
+		while (fromDate < toDate) {
+			fromDate.setDate(fromDate.getDate() + 1);
+			++DaysOffCount;
+		}
+	})
+	return DaysOffCount;
+}
+
+function EliminarRegistroByPlanRequerimiento(idPlan, idRequerimiento) {
+	$.ajax({
+		type: "POST",
+		url: "../../Class/WBS.asmx/EliminarRegistroByPlanRequerimiento",
+		async: false,
+		data: '{"iIdPlan": "' + idPlan + '", "iIdRequerimiento": "' + idRequerimiento + '"}',
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: function (response) {
+			try {
+				Alertas(0, "Cambio de modo", "El cambio de modo sea ha realizado exitosamente")
+			} catch (e) {
+				Alertas(2, "Error", "Ocurrio un error en la consulta");
+			}
+
+		},
+		error: function (xhr, estatus) {
+			//alert("Error " + estatus);
+			Alertas(2, "Error", "Error de carga de datos")
+		}
+	});
 }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/24/2017 16:58:20
+-- Date Created: 05/09/2017 13:48:28
 -- Generated from EDMX file: C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard\Models\Model1.edmx
 -- --------------------------------------------------
 
@@ -70,6 +70,12 @@ IF OBJECT_ID(N'[dbo].[FK_tblCat_PlantblRel_EquipoPlan]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_tblCat_UsuariostblCat_WBS]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[tblCat_WBS] DROP CONSTRAINT [FK_tblCat_UsuariostblCat_WBS];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tblCat_TipoTareatblCat_DetalleProceso_iIdTipoTarea]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblCat_DetalleProceso] DROP CONSTRAINT [FK_tblCat_TipoTareatblCat_DetalleProceso_iIdTipoTarea];
+GO
+IF OBJECT_ID(N'[dbo].[FK_tblCat_WBStblCat_TipoTarea_iIdTipoTarea]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[tblCat_WBS] DROP CONSTRAINT [FK_tblCat_WBStblCat_TipoTarea_iIdTipoTarea];
 GO
 
 -- --------------------------------------------------
@@ -161,12 +167,12 @@ CREATE TABLE [dbo].[tblCat_DetalleProceso] (
     [dtModificacion] datetime  NULL,
     [iIdProceso] int  NULL,
     [lActivo] bit  NOT NULL,
-    [iIdTipoTarea] int  NULL,
     [iRevision] int  NULL,
     [iIdVersionProceso] int  NOT NULL,
     [lRequerida] bit  NOT NULL,
     [dPorcentaje] decimal(18,0)  NOT NULL,
-    [lTamaño] bit  NOT NULL
+    [lTamaño] bit  NOT NULL,
+    [iIdTipoTarea] int  NOT NULL
 );
 GO
 
@@ -189,7 +195,7 @@ CREATE TABLE [dbo].[tblCat_WBS] (
     [isemana] int  NOT NULL,
     [dValor_ganado_acumulado] decimal(18,3)  NOT NULL,
     [dValor_ganado_semanal] decimal(18,3)  NOT NULL,
-    [cTipo_de_tarea] varchar(160)  NOT NULL,
+    [iIdTipoTarea] int  NOT NULL,
     [cUnidad_de_medida] varchar(40)  NOT NULL,
     [dtFecha_de_inicio] datetime  NOT NULL,
     [dtFechaFinal] datetime  NOT NULL,
@@ -213,15 +219,15 @@ GO
 
 -- Creating table 'tblCat_Equipo'
 CREATE TABLE [dbo].[tblCat_Equipo] (
-    [iIdEquipo] int IDENTITY(1,1) NOT NULL,
-    [cNombreEquipo] varchar(20)  NOT NULL
+    [iIdEquipo] uniqueidentifier  NOT NULL,
+    [cNombreEquipo] varchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'tblCat_Usuarios'
 CREATE TABLE [dbo].[tblCat_Usuarios] (
     [iIdUsuario] uniqueidentifier  NOT NULL,
-    [cNombreUsuario] varchar(100)  NOT NULL,
+    [cNombreUsuario] varchar(max)  NOT NULL,
     [cClaveUsuario] varchar(50)  NOT NULL
 );
 GO
@@ -230,7 +236,7 @@ GO
 CREATE TABLE [dbo].[tblRel_Equipos] (
     [iIdRelEquipos] int IDENTITY(1,1) NOT NULL,
     [iIdUsuario] uniqueidentifier  NOT NULL,
-    [iIdEquipo] int  NOT NULL,
+    [iIdEquipo] uniqueidentifier  NOT NULL,
     [dtFechaIngreso] datetime  NOT NULL
 );
 GO
@@ -239,7 +245,7 @@ GO
 CREATE TABLE [dbo].[tblRel_ProcesoRevision] (
     [iIdRel_ProcesoRevision] int IDENTITY(1,1) NOT NULL,
     [iIdProceso] int  NOT NULL,
-    [iIdEquipo] int  NOT NULL,
+    [iIdEquipo] uniqueidentifier  NOT NULL,
     [iRevision] int  NOT NULL
 );
 GO
@@ -247,7 +253,7 @@ GO
 -- Creating table 'tblRel_EquipoFecha'
 CREATE TABLE [dbo].[tblRel_EquipoFecha] (
     [iIdRel_EquipoFecha] int IDENTITY(1,1) NOT NULL,
-    [iIdEquipo] int  NOT NULL,
+    [iIdEquipo] uniqueidentifier  NOT NULL,
     [dtFechaInicio] datetime  NOT NULL,
     [dtFechaFin] datetime  NOT NULL
 );
@@ -263,7 +269,8 @@ GO
 -- Creating table 'tblCat_TipoTarea'
 CREATE TABLE [dbo].[tblCat_TipoTarea] (
     [iIdTipoTarea] int IDENTITY(1,1) NOT NULL,
-    [cNombreTarea] varchar(20)  NOT NULL
+    [cNombreTarea] varchar(max)  NOT NULL,
+    [cUnidad_de_medida] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -308,7 +315,7 @@ GO
 -- Creating table 'tblRel_EquipoPlan'
 CREATE TABLE [dbo].[tblRel_EquipoPlan] (
     [iIdRelEquipoPlan] int IDENTITY(1,1) NOT NULL,
-    [iIdEquipo] int  NOT NULL,
+    [iIdEquipo] uniqueidentifier  NOT NULL,
     [iIdPlan] int  NOT NULL
 );
 GO
@@ -729,6 +736,36 @@ GO
 CREATE INDEX [IX_FK_tblCat_UsuariostblCat_WBS]
 ON [dbo].[tblCat_WBS]
     ([iIdUsuario]);
+GO
+
+-- Creating foreign key on [iIdTipoTarea] in table 'tblCat_DetalleProceso'
+ALTER TABLE [dbo].[tblCat_DetalleProceso]
+ADD CONSTRAINT [FK_tblCat_TipoTareatblCat_DetalleProceso_iIdTipoTarea]
+    FOREIGN KEY ([iIdTipoTarea])
+    REFERENCES [dbo].[tblCat_TipoTarea]
+        ([iIdTipoTarea])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblCat_TipoTareatblCat_DetalleProceso_iIdTipoTarea'
+CREATE INDEX [IX_FK_tblCat_TipoTareatblCat_DetalleProceso_iIdTipoTarea]
+ON [dbo].[tblCat_DetalleProceso]
+    ([iIdTipoTarea]);
+GO
+
+-- Creating foreign key on [iIdTipoTarea] in table 'tblCat_WBS'
+ALTER TABLE [dbo].[tblCat_WBS]
+ADD CONSTRAINT [FK_tblCat_WBStblCat_TipoTarea_iIdTipoTarea]
+    FOREIGN KEY ([iIdTipoTarea])
+    REFERENCES [dbo].[tblCat_TipoTarea]
+        ([iIdTipoTarea])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_tblCat_WBStblCat_TipoTarea_iIdTipoTarea'
+CREATE INDEX [IX_FK_tblCat_WBStblCat_TipoTarea_iIdTipoTarea]
+ON [dbo].[tblCat_WBS]
+    ([iIdTipoTarea]);
 GO
 
 -- --------------------------------------------------

@@ -4,6 +4,8 @@ using TSP_Dashboard.Models;
 using System.Data;
 using System;
 using TSP_Dashboard.DTO;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace TSP_Dashboard.Bussines
 {
@@ -22,8 +24,8 @@ namespace TSP_Dashboard.Bussines
                            select tblCat_Proceso).ToList();
 
 
-
-            return tbTitle;
+			this.con.Database.Connection.Close();
+			return tbTitle;
         }
 
         /// <summary>
@@ -37,22 +39,26 @@ namespace TSP_Dashboard.Bussines
 
             var tbEtapas = (from tblCat_Proceso in con.tblCat_Proceso
                             select tblCat_Proceso).ToList();
-            return tbEtapas;
+
+			this.con.Database.Connection.Close();
+			return tbEtapas;
         }
 
         /// <summary>
         /// Metodo que sirve para obtener los datos de la tabla tblCat_WBS para utilizar posteriormente
         /// </summary>
         /// <returns>Un a lista de tipo tblCat_WBS la cual contiene los datos obtenidos de la BD de esta tabla</returns>
-        public List<int> ObtenerRequerimiento()
+        public List<int> ObtenerRequerimiento(int iIdPlan)
         {
             this.con.Database.Connection.Open();
             this.con.Configuration.LazyLoadingEnabled = true;
 
-            var tbRequerimiento = (from tblCat_WBS in con.tblCat_WBS
-                                   select tblCat_WBS.iRequerimiento).Distinct().ToList();
-            //tbRequerimiento.Distinct();
-            return tbRequerimiento;
+            var tbRequerimiento = (from wbs in con.tblCat_WBS
+								   where wbs.iIdPlan == iIdPlan
+								   select wbs.iRequerimiento).Distinct().ToList();
+			//tbRequerimiento.Distinct();
+			this.con.Database.Connection.Close();
+			return tbRequerimiento;
         }
 
         public List<tblCat_WBS> ObtenerWBS(int iRequerimiento, int iIdProceso, int iIdPlan)
@@ -118,7 +124,7 @@ namespace TSP_Dashboard.Bussines
                 registro.isemana = wbs.isemana;
                 registro.dValor_ganado_acumulado = wbs.dValor_ganado_acumulado;
                 registro.dValor_ganado_semanal = wbs.dValor_ganado_semanal;
-                registro.cTipo_de_tarea = wbs.cTipo_de_tarea;
+                registro.iIdTipoTarea = wbs.iIdTipoTarea;
                 registro.cUnidad_de_medida = wbs.cUnidad_de_medida;
                 registro.dtFecha_de_inicio = wbs.dtFecha_de_inicio;
 				registro.dtFechaFinal = wbs.dtFechaFinal;
@@ -154,8 +160,9 @@ namespace TSP_Dashboard.Bussines
 
             var tbNombreSistema = (from tblCat_Sistema in con.tblCat_Sistema
                                    select tblCat_Sistema.cNombreSistema).ToList();
-            //tbNombreSistema.Distinct();
-            return tbNombreSistema;
+			//tbNombreSistema.Distinct();
+			this.con.Database.Connection.Close();
+			return tbNombreSistema;
         }
 
         /// <summary>
@@ -169,8 +176,9 @@ namespace TSP_Dashboard.Bussines
 
             var tbIdSistema = (from tblCat_Sistema in con.tblCat_Sistema
                                select tblCat_Sistema.iIdSistema).ToList();
-            //tbIdSistema.Distinct();
-            return tbIdSistema;
+			//tbIdSistema.Distinct();
+			this.con.Database.Connection.Close();
+			return tbIdSistema;
         }
 
         /// <summary>
@@ -186,8 +194,9 @@ namespace TSP_Dashboard.Bussines
             var tbNombreModulo = (from tblCat_Modulo in con.tblCat_Modulo
                                   where tblCat_Modulo.iIdSistema == IdSistema
                                   select tblCat_Modulo.cNombreModulo).ToList();
-            //tbModulo.Distinct();
-            return tbNombreModulo;
+			//tbModulo.Distinct();
+			this.con.Database.Connection.Close();
+			return tbNombreModulo;
         }
 
         /// <summary>
@@ -203,19 +212,24 @@ namespace TSP_Dashboard.Bussines
             var tbIdModulo = (from tblCat_Modulo in con.tblCat_Modulo
                               where tblCat_Modulo.iIdSistema == IdSistema
                               select tblCat_Modulo.iIdModulo).ToList();
-            //tbModulo.Distinct();
-            return tbIdModulo;
+			//tbModulo.Distinct();
+			this.con.Database.Connection.Close();
+			return tbIdModulo;
         }
 
-        public List<tblCat_Plan> ObtenerPlan()
+        public List<tblCat_Plan> ObtenerPlan(Guid iIdEquipo)
         {
             this.con.Database.Connection.Open();
             this.con.Configuration.LazyLoadingEnabled = true;
 
-            var tbPlan = (from tblCat_Plan in con.tblCat_Plan
-                          select tblCat_Plan).Distinct().ToList();
-            //tbRequerimiento.Distinct();
-            return tbPlan;
+            var tbPlan = (from plan in con.tblCat_Plan
+						  join equipo in con.tblRel_EquipoPlan
+						  on plan.iIdPlan equals equipo.iIdPlan
+						  where equipo.iIdEquipo == iIdEquipo
+                          select plan).Distinct().ToList();
+			//tbRequerimiento.Distinct();
+			this.con.Database.Connection.Close();
+			return tbPlan;
         }
 
         public DateTime ObtenerdtAltaPlan(int plan)
@@ -225,8 +239,9 @@ namespace TSP_Dashboard.Bussines
             var tbdtPlan = (from tblCat_WBS in con.tblCat_WBS
                             where tblCat_WBS.iIdPlan == plan
                             select tblCat_WBS.dtAlta).FirstOrDefault();
-            //tbRequerimiento.Distinct();
-            return tbdtPlan;
+			//tbRequerimiento.Distinct();
+			this.con.Database.Connection.Close();
+			return tbdtPlan;
         }
 
         public List<tblCat_DetalleProceso> ObtenerProcesoNuevo(int iIdProceso)
@@ -238,7 +253,9 @@ namespace TSP_Dashboard.Bussines
                                   where tblCat_DetalleProceso.iIdProceso == iIdProceso //&&
                                   //tblCat_WBS.iRequerimiento == iIdRQM
                                   select tblCat_DetalleProceso).ToList();
-            return tbWBSRegistros;
+
+			this.con.Database.Connection.Close();
+			return tbWBSRegistros;
         }
 
 
@@ -252,7 +269,9 @@ namespace TSP_Dashboard.Bussines
                               && wbs.iIdProcesos == iIdProceso
                               && wbs.iIdPlan == iIdPlan
                               select wbs.iIdUsuario).ToList();
-            return tblIdUsuarios;
+
+			this.con.Database.Connection.Close();
+			return tblIdUsuarios;
         }
 
         public decimal TotalOriginalEstimado()
@@ -262,7 +281,9 @@ namespace TSP_Dashboard.Bussines
 
             var total = (from wbs in con.tblCat_WBS
                          select wbs.dOriginal_Estimate).Sum();
-            return total;
+
+			this.con.Database.Connection.Close();
+			return total;
         }
 
         public List<decimal> ObtenerOriginalEstimados(int iIdPlan, int iIdRQM, int iIdProceso)
@@ -273,7 +294,9 @@ namespace TSP_Dashboard.Bussines
             var originalestimados = (from wbs in con.tblCat_WBS
                                      where wbs.iIdPlan == iIdPlan && wbs.iRequerimiento == iIdRQM && wbs.iIdProcesos == iIdProceso
                                      select wbs.dOriginal_Estimate).ToList();
-            return originalestimados;
+
+			this.con.Database.Connection.Close();
+			return originalestimados;
         }
 
         public List<tblCat_Equipo> CargarEquipos()
@@ -283,10 +306,12 @@ namespace TSP_Dashboard.Bussines
 
             var equipos = (from equipo in con.tblCat_Equipo
                            select equipo).ToList();
-            return equipos;
+
+			this.con.Database.Connection.Close();
+			return equipos;
         }
 
-        public int NuevoEquipo(tblCat_Equipo nuevoEquipo)
+        public Guid NuevoEquipo(tblCat_Equipo nuevoEquipo)
         {
             this.con.Database.Connection.Open();
             this.con.Configuration.LazyLoadingEnabled = true;
@@ -361,14 +386,29 @@ namespace TSP_Dashboard.Bussines
 			return reqs;
 		}
 
-		public List<int> obtenerProcesosByPlanRqm(int plan, int rqm)
+		public List<WBSOrdenProcesoDTO> obtenerProcesosByPlanRqm(int plan, int rqm)
 		{
-			this.con.Configuration.ProxyCreationEnabled = false;
+			try
+			{
+				this.con.Configuration.ProxyCreationEnabled = false;
 
-			var procesos = (from wbs in con.tblCat_WBS.AsNoTracking()
-						where wbs.iIdPlan == plan && wbs.iRequerimiento == rqm
-						select wbs.iIdProcesos).Distinct().ToList();
-			return procesos;
+				var procesos  = (from wbs in con.tblCat_WBS
+								where wbs.iIdPlan == plan && wbs.iRequerimiento == rqm
+								select new WBSOrdenProcesoDTO {iIdProceso = wbs.iIdProcesos , iOrdenProceso = wbs.iOrdenProceso}).Distinct();
+				var procesosOrdenados = procesos.OrderBy(q => q.iOrdenProceso).ToList();
+
+				var prueba = (from wbs in con.tblCat_WBS
+							 where wbs.iIdPlan == plan && wbs.iRequerimiento == rqm
+							 group wbs by wbs.iIdProcesos into g
+							 select new WBSOrdenProcesoDTO{ iIdProceso = g.Key, iOrdenProceso = g.Select(q => q.iOrdenProceso).Min() }).OrderBy(x => x.iOrdenProceso).ToList();
+				return prueba;
+			}
+			catch (Exception)
+			{
+
+				return null;
+			}
+			
 		}
 
 		public List<IGrouping<int, tblCat_WBS>> ObtenerDatosByPlanRqmProceso(int plan, int rqm, int proceso)
@@ -393,6 +433,7 @@ namespace TSP_Dashboard.Bussines
 								select wbs.iGrupo).Max();
 			}
 
+			this.con.Database.Connection.Close();
 			return maxGrupo;
 		}
 
@@ -401,16 +442,158 @@ namespace TSP_Dashboard.Bussines
 			this.con.Database.Connection.Open();
 			this.con.Configuration.LazyLoadingEnabled = true;
 
-			var maxFolio = 0;
+			int maxFolio = 0;
 			if (con.tblCat_WBS.FirstOrDefault() != null)
 			{
-				maxFolio = (from wbs in con.tblCat_WBS
-							where wbs.iIdPlan == plan
-							select wbs.iIdWBS).Max();
+				var Max = (from wbs in con.tblCat_WBS
+						   where wbs.iIdPlan == plan
+						   select wbs.iIdWBS).ToList();
+				maxFolio = (Max.Count > 0) ? Max.Max() : maxFolio;
 			}
-
+			this.con.Database.Connection.Close();
 			return maxFolio;
 		}
+
+		public tblCat_Plan AgregarPlan()
+		{
+			this.con.Database.Connection.Open();
+			this.con.Configuration.LazyLoadingEnabled = true;
+
+			//var planmax = 0;
+			//if (con.tblCat_Plan.FirstOrDefault() != null)
+			//{
+			//	planmax = (from plan in con.tblCat_Plan
+			//				   select plan.iIdPlan).Max();
+			//}
+			//planmax++;
+			var nuevoPlan = new tblCat_Plan
+			{
+				dtFechaCreacion = DateTime.Today
+			};
+			this.con.tblCat_Plan.Add(nuevoPlan);
+			this.con.SaveChanges();
+			this.con.Database.Connection.Close();
+			return nuevoPlan;
+		}
+
+		public void GuardarEquipo(tblCat_Equipo obj)
+		{
+			try
+			{
+				this.con.Database.Connection.Open();
+				this.con.Configuration.LazyLoadingEnabled = true;
+				this.con.Configuration.ProxyCreationEnabled = false;
+
+				var equipos = (from equipo in con.tblCat_Equipo
+							   where equipo.iIdEquipo == obj.iIdEquipo
+							   select 1).ToList();
+
+				if (equipos.Count == 0)
+				{
+					this.con.tblCat_Equipo.Add(obj);
+					this.con.SaveChanges();
+					
+				}
+				
+			}
+			catch (DbEntityValidationException dbEx)
+			{
+				foreach (var validationErrors in dbEx.EntityValidationErrors)
+				{
+					foreach (var validationError in validationErrors.ValidationErrors)
+					{
+						Trace.TraceInformation("Property: {0} Error: {1}",
+												validationError.PropertyName,
+												validationError.ErrorMessage);
+					}
+				}
+			}
+			finally
+			{
+				this.con.Database.Connection.Close();
+			}
+
+		}
+
+		public void GuardarPlanEquipo(tblRel_EquipoPlan obj)
+		{
+			try
+			{
+				this.con.Database.Connection.Open();
+				this.con.Configuration.LazyLoadingEnabled = true;
+
+				var equiposPlan = (from equipoplan in con.tblRel_EquipoPlan
+								   where equipoplan.iIdEquipo == obj.iIdEquipo &&
+								   equipoplan.iIdPlan == obj.iIdPlan
+								   select 1).ToList();
+
+				if (equiposPlan.Count == 0)
+				{
+					this.con.tblRel_EquipoPlan.Add(obj);
+					this.con.SaveChanges();
+				}
+			}
+			catch (Exception ex)
+			{
+
+				throw;
+			}
+			finally
+			{
+				this.con.Database.Connection.Close();
+			}
+
+		}
+
+		public void EliminarRegistroByPlanRequerimiento(int iIdPlan, int iIdRequerimiento)
+		{
+			this.con.Database.Connection.Open();
+			this.con.Configuration.LazyLoadingEnabled = true;
+
+			var registros = (from wbs in con.tblCat_WBS
+							 where wbs.iIdPlan == iIdPlan && wbs.iRequerimiento == iIdRequerimiento
+							 select wbs).ToList();
+
+			this.con.tblCat_WBS.RemoveRange(registros);
+			this.con.SaveChanges();
+			this.con.Database.Connection.Close();
+		}
+
+		public List<tblCat_TipoTarea> ObtenerTipoTarea()
+		{
+			this.con.Database.Connection.Open();
+			this.con.Configuration.LazyLoadingEnabled = true;
+
+			var tiposTareas = (from tt in con.tblCat_TipoTarea
+							   select tt).ToList();
+
+			return tiposTareas;
+		}
+
+		//public int GuardarPlan(int iIdPlan)
+		//{
+		//	tblCat_Plan plan;
+		//	var plan2 = 0;
+		//	plan2 = ConsultarUltimoPlan();
+		//	if (plan2 != iIdPlan)
+		//	{
+		//		var date = DateTime.Today;
+		//		var tblPlan = new tblCat_Plan
+		//		{
+		//			dtFechaCreacion = date
+		//		};
+		//		this.con.Database.Connection.Open();
+		//		this.con.Configuration.LazyLoadingEnabled = true;
+
+		//		this.con.tblCat_Plan.Add(tblPlan);
+		//		this.con.SaveChanges();
+		//		this.con.Database.Connection.Close();
+		//		plan2 = tblPlan.iIdPlan;
+		//	}
+
+		//	return plan2;
+
+		//}
 
 	}
 }

@@ -7,7 +7,7 @@ namespace TSP_Dashboard.Generico
 	class Generico
 	{
 		public static int cont = 0;
-		public string Grid(int iIdTitle, bool? lEditable, List<tblCat_DetalleProceso> lstdetProceso, string lVisible, string htmlRow, List<tblCat_WBS> cValorWBS, int lTipoProceso, bool hibrido)
+		public string Grid(int iIdTitle, bool? lEditable, List<tblCat_DetalleProceso> lstdetProceso, string lVisible, string htmlRow, List<tblCat_WBS> cValorWBS, int lTipoProceso, List<tblCat_TipoTarea> lstTipoTarea, bool hibrido)
 		{
 			string lVisibleComponente = "text";
 			string lEditableNombre = "readonly";
@@ -40,7 +40,9 @@ namespace TSP_Dashboard.Generico
 										   "<div class='btn-group btn-group-xs btn-group-solid'>" +
 										   "<button type='button' id='Procesos' onclick='obtenerPadre(0);' data-toggle='modal' class='btn blue'><i class='glyphicon glyphicon-plus-sign'></i></button>" +
 										   "</div>" +
-										   "</td><td colspan='100%'><input type='text' id='NombreRaiz' placeholder='Identificador de Agrupador' class='form-control form-filter input-sm'/></td><td hidden><input type = 'number'  value='3' name='iTipoElemento' id='iTipoElemento_Raiz'></td>" +
+										   "</td>" +
+										   "<td colspan='100%'><input type='text' id='cTituloProceso_0' placeholder='Identificador de Agrupador' class='form-control form-filter input-sm'value='" + cValorWBS[0].cTituloProceso + "'/></td>" +
+										   "<td hidden><input type = 'number'  value='3' name='iTipoElemento' id='iTipoElemento_Raiz'></td>" +
 										   "<td hidden>" +
 											   "<input type = 'text' class='form-control form-filter input-sm' name='" + lstdetProceso[contador].cNombreDetalleProceso + "' id='iIdDetalleProceso_" + cValorWBS[0].iIdDetalleProceso + "' value='" + lstdetProceso[contador].cNombreDetalleProceso + "' readonly>" +
 										   "</td>" +
@@ -54,7 +56,7 @@ namespace TSP_Dashboard.Generico
 											   "<input type = 'number'  value='" + cValorWBS[0].iIdTFS + "' name='iIdTFS' id='iIdTFS_" + cont + "'>" +
 										   "</td>" +
 										   "<td hidden>" +
-											   "<input type = 'number'  value='" + ((cValorWBS[0].lAplicaMultiProceso) ? 1 : 0) + "' name='' id='lAplicaMultiProceso_" + cont + "'>" +
+											   "<input type = 'number'  value='" + cValorWBS[0].lAplicaMultiProceso /*((cValorWBS[0].lAplicaMultiProceso) ? 1 : 0) */+ "' name='' id='lAplicaMultiProceso_" + cont + "'>" +
 										   "</td>" +
 										   "<td hidden>" +
 											   "<input type = 'number'  value='" + cValorWBS[0].iGrupo + "' name='' id='iGrupo_" + cont + "'>" +
@@ -133,20 +135,23 @@ namespace TSP_Dashboard.Generico
 											   "<input type ='" + lVisibleComponente + "' class='form-control form-filter input-sm' name='order_id' id='cTituloProceso_" + cont + "' value='" + item.cTituloProceso + "' " + lEditableNombre + " onblur='" + eventoPrincipal + "'>" +
 										   "</td>" +
 										   "<td>" +
-												   "<select name = 'order_status' class='form-control form-filter input-sm' id='iIdTipoInspeccion_" + cont + "'>" +
-												   "<option></ option >" +
-											   "<option value='I' selected>Inspección</option>" +
-											   "<option value = 'C' >Corrida.</option>" +
-												"<option value = 'E' >Escritorio </option>" +
+												   "<select name = 'order_status' class='form-control form-filter input-sm' id='cTipoInspeccion_" + cont + "'>" +
+												   //"<option></ option >" +
+												   "<option value = 'Escritorio'>Escritorio</option>" +
+												   "<option value = 'Caminata' >Caminata</option>" +
+												   "<option value='Inspección'>Inspección</option>" +
 												"</select>" +
 										   "</td>" +
-										   "<td>" +
-											  "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='iIdTipoTarea_" + cont + "' value='" + item.cTipo_de_tarea + "' readonly>" +
+										   "<td hidden>" +
+											  "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='iIdTipoTarea_" + cont + "' value='" + item.iIdTipoTarea + "' readonly>" +
+										   "</td>" +
+										   "<td hidden>" +
+											  "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='cTipoTarea_" + cont + "' value='" + lstTipoTarea.Find(x => x.iIdTipoTarea == item.iIdTipoTarea).cNombreTarea + "' readonly>" +
 										   "</td>" +
 										   "<td>" +
 											   "<input type = 'text' class='form-control form-filter input-sm' name='" + lstdetProceso[contador].cNombreDetalleProceso + "' id='iIdDetalleProceso_" + item.iIdDetalleProceso + "' value='" + lstdetProceso[contador].cNombreDetalleProceso + "' readonly>" +
 										   "</td>" +
-										   "<td>" +
+										   "<td hidden>" +
 											   "<input type = 'text' class='form-control form-filter input-sm' id='iIdWork_" + cont + "' name='order_ship_to' value='" + item.cWork_Item_Type + "' readonly>" +
 										   "</td>" +
 										   "<td>" +
@@ -280,7 +285,7 @@ namespace TSP_Dashboard.Generico
 			return htmlContenedor;
 		}
 
-		public string ContenedorGrid(List<tblCat_Proceso> lstTitle, List<tblCat_DetalleProceso> lstdetProceso, List<tblCat_WBS> lstWBS, bool hibrido)
+		public string ContenedorGrid(List<tblCat_Proceso> lstTitle, List<tblCat_DetalleProceso> lstdetProceso, List<tblCat_WBS> lstWBS, List<tblCat_TipoTarea> lstTipoTarea, bool hibrido)
 		{
 			int procesos = 1;
 			//int contador = 0;
@@ -301,7 +306,7 @@ namespace TSP_Dashboard.Generico
 			foreach (var item in lstTitle)
 			{
 
-				htmlRow = Grid(item.iIdProceso, item.lEditable, lstdetProceso, lVisible, htmlRow, lstWBS, item.iTipoProceso, hibrido);
+				htmlRow = Grid(item.iIdProceso, item.lEditable, lstdetProceso, lVisible, htmlRow, lstWBS, item.iTipoProceso, lstTipoTarea, hibrido);
 			}
 			lVisible = "number";
 			//if (!agregado)
@@ -394,7 +399,7 @@ namespace TSP_Dashboard.Generico
 			return htmlEncabezado;
 		}
 
-		public string NuevoGrid(List<tblCat_Proceso> lstProceso, List<tblCat_DetalleProceso> lstDetalleProceso, int iIdRQM, int iIdPlan)
+		public string NuevoGrid(List<tblCat_Proceso> lstProceso, List<tblCat_DetalleProceso> lstDetalleProceso, int iIdRQM, int iIdPlan, List<tblCat_TipoTarea> lstTipoTarea)
 		{
 			string lEditableNombre = "readonly";
 			string lVisibleNumber = "number";
@@ -469,20 +474,24 @@ namespace TSP_Dashboard.Generico
 										   "<td>" +
 											   "<input type ='" + lVisibleText + "' class='form-control form-filter input-sm' name='order_id' id='cTituloProceso_" + cont + "' value='" + item.cNombreDetalleProceso + "' " + lEditableNombre + " onblur='" + EventoPrincipal + "'>" +
 										   "</td>" +
-										   "<td>" +
-												   "<select name = 'order_status' class='form-control form-filter input-sm' id='iIdTipoInspeccion_" + cont + "'>" +
-											   "<option value='I' selected>Inspección</option>" +
-											   "<option value = 'C' >Corrida.</option>" +
-												"<option value = 'E' >Escritorio </option>" +
+											"<td>" +
+												   "<select name = 'order_status' class='form-control form-filter input-sm' id='cTipoInspeccion_" + cont + "'>" +
+												   //"<option></ option >" +
+												   "<option value = 'Escritorio'>Escritorio</option>" +
+												   "<option value = 'Caminata'>Caminata</option>" +
+												   "<option value='Inspección'>Inspección</option>" +
 												"</select>" +
 										   "</td>" +
-										   "<td>" +
-											  "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='iIdTipoTarea_" + cont + "' value='0' readonly>" +
+										   "<td hidden>" +
+											  "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='iIdTipoTarea_" + cont + "' value='" + item.iIdTipoTarea +"' readonly>" +
+										   "</td>" +
+										   "<td hidden>" +
+											  "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='cTipoTarea_" + cont + "' value='" + lstTipoTarea.Find(x => x.iIdTipoTarea == item.iIdTipoTarea).cNombreTarea + "' readonly>" +
 										   "</td>" +
 										   "<td>" +
 											   "<input type = 'text' class='form-control form-filter input-sm' name='" + item.cNombreDetalleProceso + "' id='iIdDetalleProceso_" + item.iIdDetalleProceso + "' value='" + item.cNombreDetalleProceso + "' readonly>" +
 										   "</td>" +
-										   "<td>" +
+										   "<td hidden>" +
 											   "<input type = 'text' class='form-control form-filter input-sm' id='iIdWork_" + cont + "' name='order_ship_to' value='0' readonly>" +
 										   "</td>" +
 										   "<td>" +
@@ -520,7 +529,7 @@ namespace TSP_Dashboard.Generico
 											 "<input type = 'number' step='0.1' min='0'   value='0' class='form-control form-filter input-sm' name='order_id' id='iIdValorGanadoSemanal_" + cont + "' readonly>" +
 										  "</td>" +
 											 "<td hidden>" +
-											   "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='iIdUnidadMedida_" + cont + "' value='0' readonly>" +
+											   "<input type = 'text' class='form-control form-filter input-sm' name='order_id' id='iIdUnidadMedida_" + cont + "' value='"+ lstTipoTarea.Find(x => x.iIdTipoTarea == item.iIdTipoTarea).cUnidad_de_medida + "' readonly>" +
 										   "</td>" +
 											"<td>" +
 													"<input type = 'text' class='form-control form-filter input-sm' id='Fecha_" + cont + "' readonly>" +
