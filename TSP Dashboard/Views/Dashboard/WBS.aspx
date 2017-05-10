@@ -83,7 +83,7 @@
 								<%--util-btn-margin-bottom-5--%>
 								<div class="actions" hidden>
 
-									<div class="modal fade bs-modal-sm" id="modalSmElegirEquipo" data-backdrop="static"  data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal fade bs-modal-sm" id="modalSmElegirEquipo" data-backdrop="static"  data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" >
 										<%--<div class="modal-dialog modal-sm">--%>
 										<div id="modalProyecto" hidden>
 											<select class="table-group-action-input form-control input-inline input-large select2-container" id="modals2Proyecto" onchange="">
@@ -107,6 +107,10 @@
 										</div>
 
 									</div>
+
+									<div class="" id="modalCargaEnvioTFS" data-backdrop="static"  data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+
+										</div>
 
 									<label id="nombreUsuario" hidden>
 										<asp:LoginName runat="server" />
@@ -573,7 +577,7 @@
 												<thead>
 													<tr role="row" class="heading">
 														<td></td>
-														<td>ID RQM</td>
+														<td>ID TFS</td>
 														<td>Nombre</td>
 													</tr>
 												</thead>
