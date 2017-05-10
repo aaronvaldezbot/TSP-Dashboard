@@ -57,3 +57,7 @@ Temporary Items
 /packages/EntityFramework.6.1.3/lib
 *.cache
 /TSP Dashboard/obj/Debug/edmxResourcesToEmbed/Models
+/Dominio
+/TSP Dashboard
+/TSP Dashboard.Tests/obj/Release
+/TSPDAO
