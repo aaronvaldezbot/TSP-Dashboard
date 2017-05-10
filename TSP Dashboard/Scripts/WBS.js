@@ -2532,7 +2532,6 @@ function AgregarRQMModal(rqm, obj) {
 		$("#tbodyModalRQM").append(elemento);
 	}
 	else {
-		//alert("Este Requerimiento ya esta agregado");
 		Alertas(1, "Alerta", "Este Requerimiento ya esta agregado")
 	}
 }
