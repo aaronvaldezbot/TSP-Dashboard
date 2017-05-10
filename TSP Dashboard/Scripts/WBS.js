@@ -62,6 +62,7 @@ var ColeccionesProyectos = [
 	}
 ]
 var ListoEnvioTFS = false;
+var arrRQMGlobal = new Array();
 jQuery(document).ready(function () {
 	$(".modal.fade").each(function (index, domEle) {
 		$(domEle).css("cssText", "overflow: visible !important");
@@ -758,7 +759,7 @@ function obtenerRequerimientos() {
 
 	var plan = $("#iIdPlan option:selected").val();
 	var cRequerimiento = "";
-	var nombreRequerimiento = "";
+	var objRQM = new Array();
 	$.ajax({
 		type: "POST",
 		url: "../../Class/WBS.asmx/Requerimiento",
@@ -787,16 +788,22 @@ function obtenerRequerimientos() {
 				success: function (response) {
 					//debugger;
 					//alert(response.d);
-					nombreRequerimiento = response.d
+					objRQM = JSON.parse(response.d)
+					arrRQMGlobal.push({
+						iIdRQM: domEle,
+						Nombre: objRQM.cTitulo,
+						cTipoElementoDeTrabajo: objRQM.cTipoElementoDeTrabajo,
+					})
+					//AgregarRQMModal(parseInt(domEle), objRQM);
 					//AgregarRQMModal(parseInt(domEle), nombreRequerimiento);
-					$("#txtModalRQM").val("");
+					//$("#txtModalRQM").val("");
 				},
 				error: function (xhr, estatus) {
 					//alert("No existe ese requerimiento");
 					Alertas(1, "Alerta", "No existe ese requerimiento")
 				}
 			});
-			var elementoOption = $("<option class='form-control' value='" + domEle + "'>" + domEle + "-" + nombreRequerimiento + "</option>");
+			var elementoOption = $("<option id='RQM_" + domEle + "' class='form-control' value='" + domEle + "'>" + domEle + "-" + objRQM.cTitulo + "</option>");
 			$("#iIdRequerimiento").append(elementoOption);
 			rqmGlobal.push(domEle);
 			localStorage.Requerimientos = rqmGlobal;
@@ -958,6 +965,7 @@ function AplicarRateGlobal() {
 			});
 			break;
 	}
+	ListoEnvioTFS = false;
 }
 
 function GuardarWBSAntiguo() {
@@ -1577,8 +1585,10 @@ function GuardarWBS() {
 			//}
 
 		})
+		$("#tbodyModalRQM").html("")
+		ListoEnvioTFS = true;
 	}
-
+	
 
 }
 
@@ -1586,22 +1596,31 @@ function GuardarWBS() {
 function EnviarTFS() {
 	debugger
 	//var a = JSON.stringify(arrWBS)
-	$.ajax({
-		url: "../../Class/WBS.asmx/EnviarTFS",
-		method: "POST",
-		async: false,
-		data: "{'JsonWbs':'" + JSON.stringify(arrWBS) + "', 'sColeccion': '" + sColeccion + "', 'sProyecto': '" + sProyecto + "'}",
-		contentType: "application/json; charset=utf-8",
-		datatype: "json",
-		success: function (respJson) {
-			Alertas(0, "Prueba", respJson);
-			debugger
-		},
-		error: function (xhr, estatus) {
-			debugger
-			estaGuardado = false;
-		}
-	});
+	if (ListoEnvioTFS) {
+		$("#modalCargaEnvioTFS").modal("show");
+		$.ajax({
+			url: "../../Class/WBS.asmx/EnviarTFS",
+			method: "POST",
+			async: false,
+			data: "{'JsonWbs':'" + JSON.stringify(arrWBS) + "', 'sColeccion': '" + sColeccion + "', 'sProyecto': '" + sProyecto + "'}",
+			contentType: "application/json; charset=utf-8",
+			datatype: "json",
+			success: function (respJson) {
+				$("#modalCargaEnvioTFS").modal("hide");
+				Alertas(0, "Prueba", respJson);
+				debugger
+			},
+			error: function (xhr, estatus) {
+				debugger
+				$("#modalCargaEnvioTFS").modal("show");
+				estaGuardado = false;
+			}
+		});
+	}
+	else {
+		Alertas(2, "Advertencia", "Necesita Guardar sus datos en la Base de Datos antes de Enviar la informacion al TFS")
+	}
+	
 }
 
 function ObtenerMaxGrupo() {
@@ -1670,7 +1689,7 @@ function GuardarWBS2(plan, rqm, proceso) {
 		var dtAlta = new Date().toISOString().split("T")[0];
 		maxFolio = 0;
 		maxFolio = ObtenerMaxFolioPlan(iIdPlanGlobal) + 1;
-		var tipoTrabajo = FiltrarArrRQM(arrRQM, rqm);
+		var tipoTrabajo = FiltrarArrRQM(arrRQMGlobal, rqm);
 		tipoTrabajo = tipoTrabajo[0].cTipoElementoDeTrabajo;
 
 		$(arrWBS).each(function (indexRaiz, domEleRaiz) {
@@ -1692,7 +1711,7 @@ function GuardarWBS2(plan, rqm, proceso) {
 					iIdDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
 					iRequerimiento: rqm,
 					cWork_Item_Type: 0,
-					iIdProceso: 4,
+					iIdProcesos: 4,
 					dRemaining_Work: 0,
 					dOriginal_Estimate: 0,
 					dTiempo_Total_del_proceso: 0,
@@ -1943,7 +1962,7 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 			iIdDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
 			iRequerimiento: rqm,
 			cWork_Item_Type: 0,
-			iIdProceso: 4,
+			iIdProcesos: 4,
 			dRemaining_Work: 0,
 			dOriginal_Estimate: 0,
 			dTiempo_Total_del_proceso: 0,
@@ -2029,7 +2048,7 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 					iIdDetalleProceso: $(raiz).find("[id^=iIdDetalleProceso]").attr("id").split("_")[1],
 					iRequerimiento: rqm,
 					cWork_Item_Type: 0,
-					//iIdProcesos: $("#iIdUsuario" + noFila).val(),
+					iIdProcesos: 4,
 					dRemaining_Work: 0,
 					dOriginal_Estimate: 0,
 					dTiempo_Total_del_proceso: 0,
@@ -2240,7 +2259,7 @@ function AgregarProceso() {
 			DeshabilitarControles("menuEnviarTFS", false, "EnviarTFS();");
 			//OrdenarProcesos();
 		}
-
+		ListoEnvioTFS = false;
 	}
 	else {
 		//alert("uno de los siguientes campos esta vacio: Proceso, Requerimiento, Plan")
@@ -2550,6 +2569,14 @@ function AgregarRQMModal(rqm, obj) {
 			Nombre: obj.cTitulo,
 			cTipoElementoDeTrabajo: obj.cTipoElementoDeTrabajo,
 		});
+		var existe = BuscarRQMExistente(arrRQMGlobal, rqm);
+		if (existe.length == 0) {
+			arrRQMGlobal.push({
+				iIdRQM: rqm,
+				Nombre: obj.cTitulo,
+				cTipoElementoDeTrabajo: obj.cTipoElementoDeTrabajo,
+			});
+		}
 		var elemento = $("<tr role ='row' class='filter' id='" + rqm + "'><td><div class='btn-group btn-group-sm btn-group-solid'><button type='button' onclick='EliminarRQM(this)' class='btn red'><i class='fa fa-times-circle'></i></button></div></td><td>" + rqm + "</td><td>" + obj.cTitulo + "</td></tr>");
 		$("#tbodyModalRQM").append(elemento);
 	}
@@ -2559,11 +2586,20 @@ function AgregarRQMModal(rqm, obj) {
 	}
 }
 
+function BuscarRQMExistente(data, rqm) {
+	return data.filter(
+        function (data) { return data.iIdRQM == rqm }
+        );
+}
+
 function EliminarRQM(obj) {
 	var padre = obj.parentNode.parentNode.parentNode;
 	var idRQM = $(padre).attr("id");
 	arrRQM = EliminarRQMToArrRQM(arrRQM, idRQM);
 	allRQM = EliminarRQMToAllRQM(allRQM, idRQM);
+	arrRQMGlobal = EliminarRQMToArrRQM(arrRQMGlobal, idRQM);
+	var rqmOpcion = $("#iIdRequerimiento").find("option[id=RQM_" + idRQM + "]");
+	$(rqmOpcion).remove();
 	$(padre).remove();
 
 }
@@ -2584,11 +2620,11 @@ function AgregarRQMGrid() {
 	if (arrRQM.length > 0) {
 		var cont = 0;
 		$.each(arrRQM, function (index, domEle) {
-			var elementoOption = $("<option class='form-control' value='" + domEle.iIdRQM + "'>" + domEle.iIdRQM + "- " + domEle.Nombre + "</option>");
+			var elementoOption = $("<option class='form-control' id='RQM_" + domEle.iIdRQM + "' value='" + domEle.iIdRQM + "'>" + domEle.iIdRQM + "- " + domEle.Nombre + "</option>");
 			$("#iIdRequerimiento").append(elementoOption);
 			cont++;
 		});
-		//arrRQM = new Array();
+		arrRQM = new Array();
 		//$("#tbodyModalRQM").html("");
 		$("#ModaRQM").modal("hide");
 		var mensaje = (cont > 1) ? "Los Requerimientos han sido agregados" : "El Requerimiento ha sido agregado"
@@ -2874,24 +2910,38 @@ function GetNombreRQMByIdEnter(e) {
 
 function GetNombreRQMById() {
 	var iIdRQM = parseInt($("#txtModalRQM").val());
-	$.ajax({
-		type: "POST",
-		url: "../../Class/WBS.asmx/NombreRQM",
-		async: false,
-		data: '{"Id":"' + iIdRQM + '", "sProyecto": "' + sProyecto + '", "sColeccion": "' + sColeccion + '"}',
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		success: function (response) {
-			//debugger;
-			//alert(response.d);
-			AgregarRQMModal(iIdRQM, JSON.parse(response.d));
-			$("#txtModalRQM").val("");
-		},
-		error: function (xhr, estatus) {
-			//alert("No existe ese requerimiento");
-			Alertas(1, "Alerta", "No existe ese requerimiento")
-		}
-	});
+	if (iIdRQM != "" || iIdRQM != null) {
+		$.ajax({
+			type: "POST",
+			url: "../../Class/WBS.asmx/NombreRQM",
+			async: false,
+			data: '{"Id":"' + iIdRQM + '", "sProyecto": "' + sProyecto + '", "sColeccion": "' + sColeccion + '"}',
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function (response) {
+				//debugger;
+				//alert(response.d);
+				var objRQM = JSON.parse(response.d);
+				if (objRQM.cTitulo != "") {
+					AgregarRQMModal(iIdRQM, objRQM);
+					$("#txtModalRQM").val("");
+					$("#txtModalRQM").focus();
+				}
+				else {
+					Alertas(1, "Alerta", "No existe ese requerimiento")
+				}
+				
+			},
+			error: function (xhr, estatus) {
+				//alert("No existe ese requerimiento");
+				Alertas(1, "Alerta", "No existe ese requerimiento")
+			}
+		});
+	}
+	else {
+		Alertas(1, "Alerta", "Necesita ingresar un Requerimiento");
+	}
+	
 }
 
 //d-m-y
@@ -3327,6 +3377,7 @@ function ConfigurarEquipo() {
 	//var arrDiasInhabiles = $("#DPDiasInhabiles input").val().split(",");
 	if ($("#DPDiasInhabiles input").val() != "") {
 		arrEquipoSeleccionado.IteracionData.DiasInhabiles = $("#DPDiasInhabiles input").val().split(",");
+		ListoEnvioTFS = false;
 	}
 	else {
 		arrEquipoSeleccionado.IteracionData.DiasInhabiles = new Array();
@@ -3497,9 +3548,10 @@ function OrdenarGrid() {
 		var temp = $("#modalSelectOrdenamiento option")[index];
 		$(temp).text("" + nombreProceso + "(Proceso: " + (index + 1) + ")");
 	});
-	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
+	
 	AplicarNomenclatura();
 	calcularValorGanado();
+	ListoEnvioTFS = false;
 	Alertas(0, "Orden Completado", "Verifique la informacion ordenada");
 }
 
@@ -4083,6 +4135,7 @@ function AplicarNomenclatura() {
 			Alertas(0, "Nomenclatura", "La Nomenclatura ha sido aplicada.");
 		}
 		nomenclaturaAplicada = true;
+		ListoEnvioTFS = false;
 	}
 	else {
 		if ($("#ModalNomenclatura").attr("class").search("in") != -1) {
@@ -4255,6 +4308,7 @@ function calcularValorGanado() {
 	}
 	CalcularFechas();
 	SetValoresGanadosToGrid(arrValoresGanados, arrFechasParaGrid)
+	ListoEnvioTFS = false;
 }
 
 function SetValoresGanadosToGrid(arrayValoresGanados, arrayFechas) {
