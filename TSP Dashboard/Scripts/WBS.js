@@ -2581,7 +2581,6 @@ function AgregarRQMGrid() {
 		Alertas(0, "Operacion Exitosa", mensaje);
 	}
 	else {
-		//alert("necesita ingresar un requerimiento");
 		Alertas(1, "Alerta", "Necesita ingresar un requerimiento")
 	}
 
@@ -2653,7 +2652,6 @@ function GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan) {
 			sePerderaDatos = true;
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
@@ -2754,8 +2752,6 @@ function UsuariosGuardados() {
 	//		cUsuarios = response.d;
 	//	},
 	//	error: function (xhr, estatus) {
-	//		//alert("Error " + estatus);
-	//		Alertas(2, "Error", "Error de carga de datos")
 	//	}
 	//});
 	//$(cUsuarios.split(',')).each(function (index, domEle) {
@@ -2810,7 +2806,6 @@ function ObtenerUsuariosTFS() {
 			//cUsuario = JSON.parse(cUsuario.d);
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
@@ -2857,7 +2852,6 @@ function GetNombreRQMById() {
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			success: function (response) {
-				//alert(response.d);
 				var objRQM = JSON.parse(response.d);
 				if (objRQM.cTitulo != "") {
 					AgregarRQMModal(iIdRQM, objRQM);
@@ -2870,7 +2864,6 @@ function GetNombreRQMById() {
 				
 			},
 			error: function (xhr, estatus) {
-				//alert("No existe ese requerimiento");
 				Alertas(1, "Alerta", "No existe ese requerimiento")
 			}
 		});
@@ -2907,7 +2900,6 @@ function fechaauto(fecha) {
 //            totaloriginalestimado = response.d;
 //        },
 //        error: function (xhr, estatus) {
-//            alert("Error " + estatus);
 //        }
 //    });
 //}
@@ -2943,7 +2935,6 @@ function temporalprueba() {
 
 					},
 					error: function (xhr, estatus) {
-						//alert("Error " + xhr);
 						Alertas(2, "Error", "Error de carga de datos")
 					}
 				});
@@ -2966,7 +2957,6 @@ function temporalprueba() {
 	//        });
 	//    },
 	//    error: function (xhr, estatus) {
-	//        alert("Error " + estatus);
 	//    }
 	//});
 }
@@ -3140,11 +3130,9 @@ function NuevoEquipo() {
 			$("#modalEquipo").find("select").append(elementoOption);
 		},
 		error: function (error) {
-			//alert("Ocurrio un error, " + error);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
-	//alert("Nombre " + nombreEquipo + ", fecha de inicio: " + fechaInicio + ", fecha de finalizacion " + fechaFinal);
 
 	$("#txtModalNombreEquipo").val("");
 	$("#modalFechaInicio").val("");
@@ -3162,7 +3150,6 @@ function AgregarIntegrante() {
 		arrIntegrantes.push(indexIntegrante);
 		$("#ModalNuevoIntegrante").modal("hide");
 	} else {
-		//alert("Este integrante ya se encuenta en el equipo")
 	}
 
 
@@ -3180,7 +3167,6 @@ function AgregarIntegranteHoy() {
 		arrIntegrantes.push(indexIntegrante);
 	}
 	else {
-		//alert("Este integrante ya se encuentra en el equipo");
 	}
 
 }
@@ -3201,7 +3187,6 @@ function usuariosabd() {
 		data: JSON.stringify({ usuarios: arrUsuariosTFSGlobal }),
 		dataType: "json",
 		success: function (response) {
-			//alert("ya");
 			Alertas(0, "Carga Completa", "Listo")
 		},
 		error: function (error) {
@@ -3239,7 +3224,6 @@ function GuardarEquipos() {
 
 	//$(arrUsuariosFiltrados.datosUsuario.value).each(function (index, domEle) {
 	//    var elemento = $(domEle).text();
-	//    //alert("iIdEquipo: " + equipo + ", fecha de ingreso: " + fecha);
 	//    //          arrUsuariosFiltrados.push($(domEle).attr("id").split("_")[1]);
 	//});
 	//$("#listaIntegrantes").html("");
@@ -3257,13 +3241,11 @@ function GuardarEquipos() {
 		obtenerPlan();
 	}
 	else {
-		//alert("Necesita seleccionar un equipo")
 		Alertas(1, "Seleccion de Equipo", "Necesita seleccionar un equipo");
 	}
 
 	//}
 	//else {
-	//    alert("Necesita poner todos los datos");
 	//}
 
 }
@@ -3671,7 +3653,6 @@ function obtenerIteraciones(proyecto, coleccion) {
 					$("#modals2Equipo").append(elementoOption);
 					//arrIteraciones.push(domEle);
 				});
-				//alert(cadena);
 				$("#modals2Equipo").select2({
 					placeholder: "Seleccione su Equipo",
 					allowClear: true,
@@ -3692,7 +3673,6 @@ function obtenerIteraciones(proyecto, coleccion) {
 
 		},
 		error: function (xhr, error) {
-			//alert(xhr + " " + error);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
