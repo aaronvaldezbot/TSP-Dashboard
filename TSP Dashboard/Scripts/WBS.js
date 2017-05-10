@@ -138,27 +138,23 @@ jQuery(document).ready(function () {
 
 
 	$("#iIdEtapas").on("select2:open", function () {
-		//debugger;
 		iIdProcesoPrev = this.value;
 		estaCambiandoProceso = true;
 		estaCambiandoPlan = false;
 		estaCambiandoRqm = false;
 	})
 	$("#iIdPlan").on("select2:open", function () {
-		//debugger;
 		iIdPlanPrev = this.value;
 		estaCambiandoProceso = false;
 		estaCambiandoPlan = true;
 		estaCambiandoRqm = false;
 	})
 	$("#iIdRequerimiento").on("select2:open", function () {
-		//debugger;
 		iIdRQMPrev = this.value;
 		estaCambiandoProceso = false;
 		estaCambiandoPlan = false;
 		estaCambiandoRqm = true;
 	})
-	//debugger;
 	//usuariosabd();
 	/*$(window).load(function () {
         
@@ -237,7 +233,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 	var gridGuardado = new Array();
 	//$("#asignado").val(0).trigger("change");
 	//$("#revisor").val(0).trigger("change");
-	//debugger;
 	//$.each(jsonTemporal.General, function (index, domEle) {
 	//    if (domEle.iIdProceso == iIdProceso && domEle.iIdRequerimiento == iIdRQM && domEle.iIdPlan == iIdPlan) {
 	//        /*if (!agregado) {
@@ -248,7 +243,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 	//    }
 	//});
 	//if (typeof (indice) !== "undefined" && !acabadeguardar) {
-	//    //debugger;
 	//    $rowProcesos.html("");
 	//    $rowProcesos.append(jsonTemporal.General[indice].htmlText);
 	//    jsonTemporal.General[indice].htmlText = $rowProcesos.children();
@@ -266,7 +260,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 
 		//$(".usuarios").parent().html("");
 
-		//debugger;
 		//for (var i = 0; i < arrTemp.length ; i++) {
 		//    var temp = $("#datatable_ajax tbody tr")[i].children[6]
 		//    temp = $(temp).find("select").val(arrTemp[i]);
@@ -308,7 +301,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			success: function (response) {
-				//debugger;
 				//$("#asignado").val(0).trigger("change");
 				//$("#revisor").val(0).trigger("change");
 				respuesta = response.d;
@@ -325,7 +317,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 					DeshabilitarControles("menuCalcularWBS", true, "Se Activa al momento de cargar un Proceso");
 					DeshabilitarControles("menuEnviarTFS", true, "Se Activa al momento de cargar un Proceso");
 					//GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan, agregado);
-					//alert("No existe registro alguno, si desea puede crear un nuevo proceso");
 					Alertas(1, "Alerta", "No existe registro alguno, si desea puede crear un nuevo proceso")
 					$rowProcesos.html("");
 					$("#asignado").val(0).trigger("change");
@@ -356,7 +347,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 									respuesta += respJson.d;
 								},
 								error: function (xhr, estatus) {
-									//alert("Error " + estatus);
 									Alertas(2, "Error", "Error de carga de datos del WBS")
 								}
 							});
@@ -369,14 +359,12 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 					$("#iIdRequerimiento").val(iIdRQM);
 					$("#iIdPlan").val(iIdPlan);
 					//}
-					//debugger;
 					obtenerUsuarios();
 
 					ocultarElementos();
 					UsuariosGuardados();
 					//SetValoresGanadosToGrid(arrValoresGanados, arrFechasParaGrid);
 
-					//debugger;
 					jsonTemporal.General.push({
 						iIdProceso: iIdProceso,
 						iIdRequerimiento: iIdRQM,
@@ -417,7 +405,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 
 			},
 			error: function (xhr, estatus) {
-				//alert("Error " + estatus);
 				Alertas(2, "Error", "Error de carga de datos del WBS")
 			}
 		});
@@ -458,7 +445,6 @@ function HorasAcumuladas() {
 			cProceso = response.d;
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
@@ -524,7 +510,6 @@ function GuardarDatos() {
 
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
@@ -542,7 +527,6 @@ var cambiar = true;
 var cNombresProcesos = ["Análisis", "Diseño", "Desarrollo", "Hibrido", "MultiProceso"];
 function ObtenerRequerimiento() {
 	//var arrUsers = new Array();
-	//debugger;
 	//$("#asignado").val(0).trigger("change");
 	//$("#revisor").val(0).trigger("change");
 	var grid = $("#datatable_ajax tbody");
@@ -554,7 +538,6 @@ function ObtenerRequerimiento() {
 	iIdProcesoGlobal = iIdEtapas;
 	iIdPlanGlobal = iIdPlan;
 	iIdRQMGlobal = iIdRQM;
-	//debugger;
 	if (jsonTemporal.General != 0 && $(grid).children().length != 0 && iIdEtapas != null && iIdRQM != null) {
 		CambiarHtmlJsonTemporal(jsonTemporal.General, (estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, (estaCambiandoRqm) ? iIdRQMPrev : iIdRQMGlobal, (estaCambiandoProceso && iIdProcesoPrev != 0) ? iIdProcesoPrev : iIdProcesoGlobal)
 		var plan = (estaCambiandoPlan) ? iIdPlanPrev : iIdPlanGlobal, rqm = (estaCambiandoRqm && iIdRQMPrev != 0) ? iIdRQMPrev : iIdRQMGlobal, proceso = (estaCambiandoProceso && iIdProcesoPrev != 0) ? iIdProcesoPrev : iIdProcesoGlobal;
@@ -575,7 +558,6 @@ function ObtenerRequerimiento() {
 		DeshabilitarControles("menuAgregarProceso", false, "AgregarProceso();");
 	}
 	//GetOriginalEstimate();
-	//debugger;
 	if (iIdEtapas != "" && iIdEtapas != null && iIdRQM != "" && iIdRQM != null && iIdPlan != "" && iIdPlan != null) {
 		if (iIdPlanPrev == "" && iIdRQMPrev == "") {
 			iIdPlanPrev = iIdPlan;
@@ -594,7 +576,6 @@ function ObtenerRequerimiento() {
 				var confirmacion = confirm("El Requerimiento " + iIdRQM + " se encuenta en modo Normal, si cambia a modo Híbrido perdera su informacion antes guardada(incluso de la base de datos), desea continuar?");
 				if (confirmacion) {
 					//$(jsonTemporal.General).each(function (index, domEle) {
-					//    //debugger;
 					//    if (domEle.iIdRequerimiento.indexOf(iIdRQM) != -1) {
 					//        //domEle.pop();
 					//        jsonTemporal.General.splice((index - cont), 1);
@@ -720,7 +701,6 @@ function obtenerEtapas() {
 			ArrProcesosGlobal = cEtapa;
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 		}
 	});
 	$(cEtapa.Proceso).each(function (index, domEle) {
@@ -771,7 +751,6 @@ function obtenerRequerimientos() {
 			cRequerimiento = response.d;
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos de los requerimientos")
 		}
 	});
@@ -786,8 +765,6 @@ function obtenerRequerimientos() {
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				success: function (response) {
-					//debugger;
-					//alert(response.d);
 					objRQM = JSON.parse(response.d)
 					arrRQMGlobal.push({
 						iIdRQM: domEle,
@@ -799,7 +776,6 @@ function obtenerRequerimientos() {
 					//$("#txtModalRQM").val("");
 				},
 				error: function (xhr, estatus) {
-					//alert("No existe ese requerimiento");
 					Alertas(1, "Alerta", "No existe ese requerimiento")
 				}
 			});
@@ -920,7 +896,6 @@ function ConfiguracionGlobal() {
 
 var rateAnalisis, rateDiseño, rateDesarrollo;
 function AplicarRateGlobal() {
-	//debugger;
 	var rates = $("input[id^=RateGlobal]");
 	rateAnalisis = parseFloat($(rates[0]).val());
 	rateDiseño = parseFloat($(rates[1]).val());
@@ -1004,7 +979,6 @@ function GuardarWBSAntiguo() {
 	var tjson = jsonTemporal.General[indiceGlobal];
 	var jsonWBS = new Array();
 	var linsert = false;
-	//debugger;
 	if (comparador.length > tjson.longitud) {
 		var contadorUpdate = tjson.longitud;
 		var contadorInsert = comparador.length - tjson.longitud;
@@ -1015,7 +989,6 @@ function GuardarWBSAntiguo() {
 
 	if (idReq != "" && idProceso != "" && idPlan != "") {
 		comparador.each(function (index, domEle) {
-			//debugger;
 			//if (index > 0) {
 			//console.log(domEle);
 			tabla = domEle.children;
@@ -1159,11 +1132,9 @@ function GuardarWBSAntiguo() {
 			//}
 		});
 		if (esCampoVacio > 0) {
-			//alert("No se puede continuar hay campos vacios");
 			Alertas(1, "Alerta", "No se puede continuar hay campos vacios")
 		}
 		else {
-			//debugger;
 			//if (linsert) {
 			//    var longi = jsonWBS.length;
 			//    var insertJson = new Array();
@@ -1178,7 +1149,6 @@ function GuardarWBSAntiguo() {
 
 			localStorage.setItem("Guardado_" + idReq + "_" + idProceso + "_" + idPlan, JSON.stringify(jsonWBS));
 			if (localStorage.getItem("Guardado_" + idReq + "_" + idProceso + "_" + idPlan) != "") {
-				//alert("Sus datos han sido guardados");
 				Alertas(0, "Operacion Exitosa", "Sus datos han sido guardados")
 				jsonTemporal.General[indiceGlobal].htmlText = $("#datatable_ajax tbody").html();
 				jsonTemporal.General[indiceGlobal].guardado = true;
@@ -1195,7 +1165,6 @@ function GuardarWBSAntiguo() {
 			//    datatype: "json",
 			//    contentType: "application/json",
 			//    success: function (respJson) {
-			//        //alert("Se han Guardado los datos");
 			//        //GenerarRowProcesos(jsonWBS[1].iIdEtapa, jsonWBS[1].iRequerimiento, jsonWBS[1].iIdPlan, esAgregado);
 			//        jsonWBS = insertJson;
 			//        estaGuardado = true;
@@ -1231,7 +1200,6 @@ function GuardarWBSAntiguo() {
 				//    });
 				//}
 				//if (estaGuardado) {
-				//    alert("Se han Guardado los datos");
 				//    jsonTemporal.General[indiceGlobal].htmlText = $("#datatable_ajax tbody").html();
 				//    jsonTemporal.General[indiceGlobal].guardado = true;
 				//    comprobacionJson = false;
@@ -1239,7 +1207,6 @@ function GuardarWBSAntiguo() {
 				//    RegistroNuevo = false;
 				//    $("#iIdPlan").html("");
 				//    obtenerPlan();
-				//    debugger;
 				//    GenerarRowProcesos(idProceso, idReq, idPlan, esAgregado);
 			}
 
@@ -1247,7 +1214,6 @@ function GuardarWBSAntiguo() {
 
 
 	} else {
-		//alert("Seleccione un Requerimiento y una Etapa");
 		Alertas(1, "Alerta", "Seleccione un Requerimiento y una Etapa")
 	}
 }
@@ -1480,7 +1446,6 @@ function GuardarWBS() {
 				$(respJson.d).each(function (index, domEle) {
 					arrTemp.push(domEle)
 				})
-				//alert("Se han Guardado los datos");
 				//GenerarRowProcesos(jsonWBS[1].iIdEtapa, jsonWBS[1].iRequerimiento, jsonWBS[1].iIdPlan, esAgregado);
 				//jsonWBS = insertJson;
 				estaGuardado = true;
@@ -1594,7 +1559,6 @@ function GuardarWBS() {
 
 
 function EnviarTFS() {
-	debugger
 	//var a = JSON.stringify(arrWBS)
 	if (ListoEnvioTFS) {
 		$("#modalCargaEnvioTFS").modal("show");
@@ -1608,10 +1572,8 @@ function EnviarTFS() {
 			success: function (respJson) {
 				$("#modalCargaEnvioTFS").modal("hide");
 				Alertas(0, "Prueba", respJson);
-				debugger
 			},
 			error: function (xhr, estatus) {
-				debugger
 				$("#modalCargaEnvioTFS").modal("show");
 				estaGuardado = false;
 			}
@@ -1771,7 +1733,6 @@ function GuardarWBS2(plan, rqm, proceso) {
 				contWBS = arrWBS.length - 1;
 			}
 			$(objProcesos).each(function (index, elemento) {
-				//debugger;
 				var nombreProceso = $(elemento).find("td input[id*=iIdDetalleProceso]").attr("name");
 				switch (nombreProceso) {
 					case "Análisis":
@@ -2154,7 +2115,6 @@ function filtrarJsonWBSbyProceso(data, proceso) {
 
 
 function obtenerUsuarios() {
-	//debugger;
 	//var numeroFilas = $("#datatable_ajax tbody tr").length;
 	////$(".usuarios").select2({
 	////    placeholder: "Usuarios",
@@ -2168,7 +2128,6 @@ function obtenerUsuarios() {
 	//    $(usuarios).find("select").html("");
 	//    //$(usuarios).find("select").append($("<option></option>"));
 	//    $.each(arrIntegrantes, function (index, domEle) {
-	//        //debugger
 	//        var elementoOption = $("<option class='form-control' value='" + arrUsuariosTFSGlobal[domEle].iIdUsuario + "'>" + arrUsuariosTFSGlobal[domEle].cNombreUsuario + "</option>");
 	//        var usuarios = $("#datatable_ajax tr")[i].children[6];
 	//        $(usuarios).find("select").append(elementoOption);
@@ -2211,7 +2170,6 @@ function CopiarArriba(nofila) {
 }
 
 function CopiarAbajo(nofila) {
-	//debugger;
 	var contador = nofila.parentNode.parentNode.parentNode;
 	//contador = contador.parentNode;
 	contador = contador.rowIndex;
@@ -2262,7 +2220,6 @@ function AgregarProceso() {
 		ListoEnvioTFS = false;
 	}
 	else {
-		//alert("uno de los siguientes campos esta vacio: Proceso, Requerimiento, Plan")
 		var primerComa = (plan != "" || requerimiento != "") ? "" : ",";
 		var segundaComa = (proceso != "" || requerimiento != "") ? "" : ",";
 		Alertas(1, "Alerta", "uno de los siguientes campos esta vacio: " + ((plan != "") ? "" : "Plan") + "" + primerComa + " " + ((requerimiento != "") ? "" : "Requerimiento") + "" + segundaComa + " " + ((proceso != "") ? "" : "Proceso") + "");
@@ -2312,7 +2269,6 @@ function AgregarPlan() {
 
 	}
 	else {
-		//alert("No se puede agregar mas planes por el momento.");
 		Alertas(1, "Alerta", "No se puede agregar mas planes por el momento.")
 	}
 
@@ -2335,7 +2291,6 @@ function altaPlan(plan) {
 			fecha = String(fecha[0]);
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
@@ -2362,7 +2317,6 @@ function obtenerPlan() {
 			})
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos del plan")
 		}
 	});
@@ -2512,7 +2466,6 @@ function ObtenerDatosByPlan() {
 			});
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error en la carga de datos, verifique que existan en la BD");
 		}
 	});
@@ -2532,7 +2485,6 @@ function obtenerProcesosByPlanRqm(plan, rqm) {
 			procesos = response.d
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos!");
 		}
 	});
@@ -2552,7 +2504,6 @@ function ObtenerDatosByPlanRqmProceso(plan, rqm, proceso) {
 			datos = response.d
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos!!");
 		}
 	});
@@ -2648,7 +2599,6 @@ function GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan) {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (response) {
-			//debugger;
 			respuesta = response.d;
 			//var temp= grid.html();            
 			//grid.append(temp);
@@ -2659,7 +2609,6 @@ function GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan) {
 			//changePlan();
 			obtenerUsuarios();
 			var indice;
-			//debugger;
 			//$.each(jsonTemporal.General, function (index, domEle) {
 			//    if (domEle.iIdProceso == iIdProceso && domEle.iIdRequerimiento == iIdRQM && domEle.iIdPlan == iIdPlan) {
 			//        //domEle.htmlText = grid.html();
@@ -2717,7 +2666,6 @@ function GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan) {
 }
 
 function ocultarElementos() {
-	//debugger;
 	var long;
 	var proceso = $("#iIdEtapas").val();
 	var procesos = $("tr[name*=padre]");
@@ -2734,7 +2682,6 @@ function ocultarElementos() {
 	});
 	var filas = $("#datatable_ajax tbody tr.filter");
 	$(filas).each(function (index, domEle) {
-		//debugger;
 		var tarea = $(domEle.children)[4];
 		if ($(tarea.children).val().search("Review") == -1) {
 			var inspeccion = $(domEle.children)[2];
@@ -2786,7 +2733,6 @@ window.onbeforeunload = function () {
 }
 
 function UsuariosToArray() {
-	//debugger;
 	var arrUsers = new Array();
 	if (jsonTemporal.General.length != 0) {
 		for (var i = 0; i < $("#datatable_ajax tbody tr").length; i++) {
@@ -2806,7 +2752,6 @@ function UsuariosGuardados() {
 	//	contentType: "application/json; charset=utf-8",
 	//	dataType: "json",
 	//	success: function (response) {
-	//		//debugger;
 	//		cUsuarios = response.d;
 	//	},
 	//	error: function (xhr, estatus) {
@@ -2814,7 +2759,6 @@ function UsuariosGuardados() {
 	//		Alertas(2, "Error", "Error de carga de datos")
 	//	}
 	//});
-	/////debugger
 	//$(cUsuarios.split(',')).each(function (index, domEle) {
 	//	//arrUsuariosGlobal.push(domEle);
 	//	//var elementoOption = $("<option class='form-control' value='" + (index + 1) + "'>" + domEle + "</option>");
@@ -2829,7 +2773,6 @@ function UsuariosGuardados() {
 }
 
 function cambiarFechaVal(obj) {
-	//debugger;
 	var dtTemp = $(obj).val();
 	$(obj).attr("value", dtTemp);
 }
@@ -2844,14 +2787,12 @@ function inputsChange() {
 
 
 //function CambiarValueInput(obj) {
-//    //debugger;
 //    var inputTemp = $(obj).val();
 //    $(obj).attr("value", inputTemp);
 //}
 
 
 function ObtenerUsuariosTFS() {
-	//debugger;
 	var cUsuario = "";
 	$.ajax({
 		type: "POST",
@@ -2874,9 +2815,7 @@ function ObtenerUsuariosTFS() {
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
-	//debugger
 	$.each(cUsuario, function (index, domEle) {
-		//debugger
 		var elementoOption = $("<option class='form-control' value='" + domEle.IDTFS + "'>" + domEle.cNombreUsuario + "</option>");
 		var elementoOption2 = $("<option class='form-control' value='" + domEle.IDTFS + "'>" + domEle.cNombreUsuario + "</option>");
 		var elementoOption3 = $("<option class='form-control' value='" + domEle.IDTFS + "'>" + domEle.cNombreUsuario + "</option>");
@@ -2919,7 +2858,6 @@ function GetNombreRQMById() {
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			success: function (response) {
-				//debugger;
 				//alert(response.d);
 				var objRQM = JSON.parse(response.d);
 				if (objRQM.cTitulo != "") {
@@ -2992,7 +2930,6 @@ function temporalprueba() {
 					contentType: "application/json; charset=utf-8",
 					dataType: "json",
 					success: function (response) {
-						//debugger;
 						console.log(plan, rqm, proceso)
 						if (response.d.length != 0) {
 							jsonTemporal.Totales.push(
@@ -3037,7 +2974,6 @@ function temporalprueba() {
 
 var padre;
 function obtenerPadre(iIdPadre) {
-	//debugger;
 	padre = $("tr[name='ultimoHijo_" + iIdPadre + "']")[0];
 	if (padre == "" || padre == null || typeof padre == null) {
 		padre = $("#datatable_ajax tbody tr")[0];
@@ -3067,11 +3003,9 @@ function insertarProceso() {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (response) {
-			//debugger;
 			respuesta = response.d;
 		}
 	});
-	//debugger;
 	$(padre).after(respuesta);
 	obtenerUsuarios();
 	//CambiarAsignado();
@@ -3084,7 +3018,6 @@ function insertarProceso() {
 }
 
 function CambiarAsignado() {
-	//debugger;
 	var asignado = $("#asignado option:selected").val();
 	var grid = $("#datatable_ajax tbody tr");
 	//var tamaño = grid.length;
@@ -3093,7 +3026,6 @@ function CambiarAsignado() {
 	//    i = 1;
 	//}
 	//for (i; i < tamaño; i++) {
-	//    //debugger;
 	//    var usuarios = grid[i].children[6];
 	//    var tarea = grid[i].children[4];
 	//    tarea = $(tarea.children).val();
@@ -3123,7 +3055,6 @@ function CambiarAsignado() {
 }
 
 function CambiarRevisor() {
-	//debugger;
 	var revisor = $("#revisor option:selected").val();
 	var grid = $("#datatable_ajax tbody tr");
 	//var tamaño = grid.length;
@@ -3159,7 +3090,6 @@ function CambiarRevisor() {
 }
 
 function ActivarFechaHoy() {
-	//debugger;
 	if ($("#modalCheckFechaHoy").is(':checked')) {
 		$("#modalDivHoy").css("display", "");
 	}
@@ -3205,7 +3135,6 @@ function NuevoEquipo() {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (response) {
-			//debugger;
 			var iIdEquipo = JSON.parse(response.d);
 			console.log(iIdEquipo);
 			var elementoOption = $("<option class='form-control' value='" + iIdEquipo + "'>" + nombreEquipo + "</option>");
@@ -3224,7 +3153,6 @@ function NuevoEquipo() {
 }
 var arrIntegrantes = new Array();
 function AgregarIntegrante() {
-	//debugger;
 	var integrante = $("#modals2Integrantes option:selected").text();
 	var iIdIntegrante = $("#modals2Integrantes option:selected").val();
 	var indexIntegrante = $("#modals2Integrantes").prop("selectedIndex")
@@ -3308,7 +3236,6 @@ var arrEquipoSeleccionado = new Array();
 function GuardarEquipos() {
 	var lista = $("#listaIntegrantes li");
 	var equipo = $("#modals2Equipo").val();
-	//debugger;
 	//if (equipo != null && equipo != "" && lista.length >= 1) {
 
 	//$(arrUsuariosFiltrados.datosUsuario.value).each(function (index, domEle) {
@@ -3394,16 +3321,13 @@ function OrdenarProcesos() {
 	var objProcesos = $(".primary");
 	var cProceso = ""
 	$("#modalSelectOrdenamiento").html("");
-	//debugger;
 	$(objProcesos).each(function (index, domEle) {
-		//debugger;
 		var nombreProceso = $(domEle).find("td input[id*=iIdDetalleProceso]").val();
 		var Nombre = $(domEle).attr("name");
 		var Padre = Nombre.split("_")[1];
 		var todasFilas = document.querySelectorAll("tr[name$=_" + Padre + "]");
 		var cHtml = new Array();
 		$(todasFilas).each(function (index, domEle) {
-			// debugger;
 			cHtml.push($(domEle));
 		});
 		arrProcesosOrdenar.push(cHtml);
@@ -3420,7 +3344,6 @@ function OrdenarProcesos() {
 //$("#ModalCrearEquipos").on("shown.bs.modal", s2usuarios);
 
 function s2usuarios() {
-	//debugger;
 	$("#modals2Usuarios").select2({
 		dropdownAutoWidth: 'true',
 		width: '100%',
@@ -3485,7 +3408,6 @@ function s2usuarios() {
 }
 
 function BotonDeOrdenar(adonde) {
-	//debugger;
 	adonde = $(adonde).attr("id");
 	var max = $("#modalSelectOrdenamiento option").length;
 	var id = parseInt($("#modalSelectOrdenamiento option:selected").attr("class"));
@@ -3495,7 +3417,6 @@ function BotonDeOrdenar(adonde) {
 	var tempo = parseInt(id);
 	var valido = true;
 	$("#modalSelectOrdenamiento option:selected").each(function (index, domEle) {
-		//debugger;
 		if (index != 0 && valido) {
 			var a = parseInt($(domEle).attr("class"));
 			valido = ((tempo + 1) == a) ? true : false;
@@ -3517,25 +3438,21 @@ function BotonDeOrdenar(adonde) {
 
 	}
 	$("#modalSelectOrdenamiento option").each(function (index, domEle) {
-		//debugger;
 		$(domEle).attr("class", (index + 1));
 	});
 }
 
 function OrdenarGrid() {
-	//debugger;
 	var hibrido = (iIdProcesoGlobal == 4) ? $(".raiz") : $("");
 	$("#datatable_ajax tbody").html("");
 	var procesosOrdenados = $("#modalSelectOrdenamiento option");
 	var idProcesosOrdenados = new Array();
 	$("#datatable_ajax tbody").append(hibrido);
 	$(procesosOrdenados).each(function (index, domEle) {
-		//debugger;
 		idProcesosOrdenados.push(parseInt($(domEle).val()));
 	});
 
 	$(idProcesosOrdenados).each(function (index1, domEle1) {
-		//debugger;
 		$(arrProcesosOrdenar[domEle1 - 1]).each(function (index2, domEle2) {
 			$("#datatable_ajax tbody").append(domEle2);
 		})
@@ -3804,14 +3721,12 @@ function AgregarUsuariosFiltrados(arrUsuarios) {
 
 
 function Colapsar(obj) {
-	//debugger;
 	var temp = obj.parentNode.parentNode.parentNode;
 	var Nombre = $(temp).attr("name");
 	var Padre = Nombre.split("_")[1];
 	var todasFilas = document.querySelectorAll("tr[name$=ijo_" + Padre + "]");
 	if ($(obj).attr("name") == "noColapsado") {
 		$(todasFilas).each(function (index, domEle) {
-			//debugger;
 			$(domEle).css("display", "none");
 		});
 		$(obj).attr("class", "btn red")
@@ -3819,7 +3734,6 @@ function Colapsar(obj) {
 	}
 	else {
 		$(todasFilas).each(function (index, domEle) {
-			//debugger;
 			$(domEle).css("display", "");
 		});
 		$(obj).attr("class", "btn green")
@@ -3828,7 +3742,6 @@ function Colapsar(obj) {
 }
 
 function Deshabilitar(obj) {
-	//debugger;
 	var padre = obj.parentNode.parentNode.parentNode;
 	var hijos = $(padre).children();
 	if ($(obj).attr("name") == "Habilitado") {
@@ -3853,7 +3766,6 @@ function Deshabilitar(obj) {
 var arrProcesosPreview = new Array();
 function Previsualizacion() {
 	AgregarPreview(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
-	//debugger;
 	var arrTemp = new Array();
 	var plan = $("#modalPreviewPlan").val();
 	var rqm = $("#modalPreviewRQM").val();
@@ -3878,7 +3790,6 @@ function previewCompleto() {
 	//AgregarPreview(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 	var arrTemp = arrPreview;
-	//debugger;
 	$("#divTree").html("");
 	$("#divTree").append($("<div id='PreviewTree'>" +
                         "<ul>" +
@@ -3886,7 +3797,6 @@ function previewCompleto() {
                         "</div>"))
 	var cCadenaFinal = "";
 	//$("#iIdPlan option").each(function (indexPlan, domElePlan) {
-	//	//debugger;
 	//	if (domElePlan.value != "") {
 	//		//var liElementPlan = $("<li>Plan " + domElePlan.value + "</li>");
 	//		//$("#PreviewTree ul").append(liElementPlan);
@@ -4007,7 +3917,6 @@ var arrPreview = new Array();
 var arrPlanTemp = new Array();
 var arrRqmTemp = new Array();
 function AgregarPreview(idPlan, idRQM, idProceso) {
-	//debugger;
 	//if ($("#datatable_ajax tbody tr").length != 0) {
 	var nodoPadres = $(".primary");
 	var arrTemp = new Array();
@@ -4027,7 +3936,6 @@ function AgregarPreview(idPlan, idRQM, idProceso) {
 	if (arrPreview.length != 0) {
 		$(arrPreview).each(function (index, domEle) {
 			if (domEle.iIdPlan == idPlan && domEle.iIdRQM == idRQM && domEle.iIdProceso == idProceso) {
-				//debugger;
 				indice = index;
 			}
 		});
@@ -4044,9 +3952,7 @@ function AgregarPreview(idPlan, idRQM, idProceso) {
 		});
 		$("#modalPreviewPlan").html("");
 		$("#modalPreviewRQM").html("");
-		// debugger;
 		$("#iIdPlan option").each(function (index, domEle) {
-			//debugger;
 			if (domEle.value != "") {
 				var elemento = $("<option value='" + domEle.value + "'>" + domEle.value + "</option>");
 				$("#modalPreviewPlan").append(elemento);
@@ -4054,7 +3960,6 @@ function AgregarPreview(idPlan, idRQM, idProceso) {
 			}
 		});
 		$("#iIdRequerimiento option").each(function (index, domEle) {
-			// debugger;
 			if (domEle.value != "") {
 				var elemento = $("<option value='" + domEle.value + "'>" + domEle.value + "</option>");
 				$("#modalPreviewRQM").append(elemento);
@@ -4181,7 +4086,6 @@ function getIterationIDTFS(data, code) {
 
 			},
 			error: function (xhr, estatus) {
-				//alert("Error " + estatus);
 				Alertas(2, "Error", "Error de carga de datos")
 			}
 		});
@@ -4220,7 +4124,6 @@ function filtrarIterationByDate(data) {
 
 	return data.filter(
         function (data) {
-        	//debugger;
         	return (Date.parse(data.dtFechaInicio) >= fechainicio && Date.parse(data.dtFechaFinal) <= fechafinal)
         }
     )
@@ -4770,7 +4673,6 @@ function EliminarRegistroByPlanRequerimiento(idPlan, idRequerimiento) {
 
 		},
 		error: function (xhr, estatus) {
-			//alert("Error " + estatus);
 			Alertas(2, "Error", "Error de carga de datos")
 		}
 	});
