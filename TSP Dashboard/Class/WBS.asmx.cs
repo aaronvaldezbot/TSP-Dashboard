@@ -776,10 +776,10 @@ namespace TSP_Dashboard.Class
 
 
 		[WebMethod]
-		public List<IGrouping<int, tblCat_WBS>> ObtenerDatosByPlanRqmProceso(int plan, int rqm, int proceso)
+		public List<IGrouping<int, TblWBS_TipoTareaDTO>> ObtenerDatosByPlanRqmProceso(int plan, int rqm, int proceso)
 		{
 			WBSBussines daoWBS = new WBSBussines();
-			List<IGrouping<int, tblCat_WBS>> procesos = daoWBS.ObtenerDatosByPlanRqmProceso(plan, rqm, proceso);
+			List<IGrouping<int, TblWBS_TipoTareaDTO>> procesos = daoWBS.ObtenerDatosByPlanRqmProceso(plan, rqm, proceso);
 			return procesos;
 		}
 
@@ -868,6 +868,14 @@ namespace TSP_Dashboard.Class
 		{
 			WBSBussines daoWBS = new WBSBussines();
 			daoWBS.EliminarRegistroByPlanRequerimiento(iIdPlan, iIdRequerimiento);
+		}
+
+		[WebMethod]
+		public List<tblCat_DetalleProceso> ObtenerTareasAdicionales()
+		{
+			WBSBussines daoWBS = new WBSBussines();
+			List<tblCat_DetalleProceso> tareasAdicionales = daoWBS.ObtenerTareasAdicionales();
+			return tareasAdicionales;
 		}
 	}
 

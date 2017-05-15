@@ -51,10 +51,10 @@ namespace TSP_Dashboard.Models
         public Nullable<int> iOrdenRequerimiento { get; set; }
         public Nullable<int> iOrden { get; set; }
     
-        public virtual tblCat_DetalleProceso tblCat_DetalleProceso { get; set; }
-        public virtual tblCat_Plan tblCat_Plan { get; set; }
-        public virtual tblCat_Proceso tblCat_Proceso { get; set; }
-        public virtual tblCat_Usuarios tblCat_Usuarios { get; set; }
+        public virtual tblCat_DetalleProceso tblCat_DetalleProceso { internal get; set; }
+        public virtual tblCat_Plan tblCat_Plan { internal get; set; }
+        public virtual tblCat_Proceso tblCat_Proceso { internal get; set; }
+        public virtual tblCat_Usuarios tblCat_Usuarios { internal get; set; }
         public virtual tblCat_TipoTarea tblCat_TipoTarea { get; set; }
     }
 }

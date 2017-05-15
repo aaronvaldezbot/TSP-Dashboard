@@ -32,6 +32,7 @@ namespace TSP_Dashboard.Models
         public bool lActivo { get; set; }
         public Nullable<bool> lEditable { get; set; }
         public int iTipoProceso { get; set; }
+        public bool lVisualizarCombo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblCat_DetalleProceso> tblCat_DetalleProceso { get; set; }

@@ -1,6 +1,6 @@
 ﻿jQuery(document).ready(function () {
     console.log(localStorage.getItem("IdSistema"));
-    obtenerSistemas();
+    //obtenerSistemas();
     //obtenerModulos(localStorage.getItem("IdSistema"), localStorage.getItem("NombreSistema"));
 
 });

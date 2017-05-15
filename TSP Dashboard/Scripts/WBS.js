@@ -3,8 +3,8 @@
 //ObtenerTituloElementoTFS
 ///wsTFSExterno.asmx/ObtenerIteraciones
 
-//me que en poner el metodo para noticar al usuario por que estan deshabilitados los controles
-//Aplicar la nomenclatura al arrWBS y que se visualice en el grid por medio del metodo para poner los valores al grid
+//me que en poner el método para noticar al usuario por que estan deshabilitados los controles
+//Aplicar la nomenclatura al arrWBS y que se visualice en el grid por medio del método para poner los valores al grid
 //Ultimas pruebas
 
 //--------Tiempos de carga por usuarios(tentativo en la configuracion de equipo junto al nombre del integrante como tabla parecida a la de configuracion global)-----------
@@ -110,7 +110,6 @@ jQuery(document).ready(function () {
 	agregarColecciones();
 	$("#modalSmElegirEquipo").modal("show");
 	//})
-	//console.log(sessionStorage.getItem("IdSistema"));
 	//obtenerSistemas();
 	//obtenerModulos(sessionStorage.getItem("IdSistema"), sessionStorage.getItem("NombreSistema"));
 	//TotalOriginalEstimado();
@@ -167,6 +166,13 @@ jQuery(document).ready(function () {
 });
 
 function DeshabilitarControles(idControl, disabled, event) {
+	/// <summary>
+	/// Este método sirve para la deshabilitación y habilitación de los controles por medio de su selecctor.
+	/// </summary>
+	/// <param name="idControl" type="string">Selector del elemento o control a deshabilitar/habilitar. </param>
+	/// <param name="disabled" type="bool">Bandera que sirve para identificar si se va a deshabilitar o habilitar un control</param>
+	/// <param name="event" type="string">cuando se habilita un control esta variable contiene el metodo que utilza, en caso contrario esta variable contiene un metodo de alerta
+	///										para el usuario</param>
 	$("#" + idControl).prop("disabled", disabled);
 	if (disabled) {
 		$("#" + idControl).css("background-color", "gainsboro");
@@ -180,6 +186,10 @@ function DeshabilitarControles(idControl, disabled, event) {
 }
 
 function AlertasControlDeshabilidado(texto) {
+	/// <summary>
+	/// Este método sirve para notificar al usuario en que momento se activa un control deshabilitado.
+	/// </summary>
+	/// <param name="texto" type="string">El texto a mostrar para el usuario</param>
 	Alertas(1, "Activacion", texto);
 }
 
@@ -207,14 +217,31 @@ function AlertasControlDeshabilidado(texto) {
 
 //}
 //var seCambio = false;
+
 function filtrarJsonTemporal(data, plan, rqm, proceso) {
+	/// <summary>
+	/// Filtro de jsonTemporal en su propiedad General(contenedor de los objetos html del grid).
+	/// </summary>
+	/// <param name="data">jsonTemporal.General</param>
+	/// <param name="plan">el plan sobre el que se esta trabajando</param>
+	/// <param name="rqm">Requerimiento sobre el que se esta trabajando</param>
+	/// <param name="proceso">Proceso sobre el que se esta trabajando</param>
+	/// <returns type=""></returns>
 	return data.filter(
         function (data) { return data.iIdPlan == plan && data.iIdRequerimiento == rqm && data.iIdProceso == proceso }
         );
 }
 
 function CambiarHtmlJsonTemporal(data, plan, rqm, proceso, seCambio) {
-
+	/// <summary>
+	/// Este metodo filtra sobre el json llamado jsonTemporal en su propiedad llamada General para cambiar el atributo htmlText(contenedor del objeto del grid) si existe segun la combinacion.
+	/// </summary>
+	/// <param name="data">jsonTemporal.General</param>
+	/// <param name="plan">Plan elegido</param>
+	/// <param name="rqm">Requerimiento elegido</param>
+	/// <param name="proceso">Proceso elegido</param>
+	/// <param name="seCambio">Variable tipo bandera para verificar si se cambio, esto quiere decir que existia la combinacion ingresada dentro de este json</param>
+	/// <returns type="bool">un booleano que verifica si hubo o no cambios dentro de la propiedad htmlText y que sirve como bandera para saber si existia esa combinacion en el jsonTemporal</returns>
 	return data.filter(
         function (data) {
         	if (data.iIdPlan == plan && data.iIdRequerimiento == rqm && data.iIdProceso == proceso) {
@@ -228,6 +255,16 @@ function CambiarHtmlJsonTemporal(data, plan, rqm, proceso, seCambio) {
 }
 
 function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
+	/// <summary>
+	/// Metodo que genera la estructura del grid, en el cual se valida la combinacion existe en el jsonTemporal para llamar a si propiedad htmlText, en caso contrario hace un llamado
+	/// ajax para consultar a la base de datos y traer la cadena de html para crear el grid y como ultimo si no encuentra coincidencias en la consulta vacia el grid manda una alerta.
+	/// </summary>
+	/// <param name="iIdProceso" type="int">Proceso elegido</param>
+	/// <param name="iIdRQM" type="int">Requerimiento elegido</param>
+	/// <param name="iIdPlan" type="int">Plan elegido</param>
+	/// <param name="hibrido" type="bool">Bandera para saber si es hibrido(ver si se sigue usando)</param>
+
+
 	var $rowProcesos = $("#datatable_ajax tbody");
 	var indice;
 	var gridGuardado = new Array();
@@ -354,7 +391,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 					}
 					$rowProcesos.append(respuesta);
 					//noFilaPorProceso =$("#datatable_ajax thead tr")
-					//console.log(noFilaPorProceso)
 					$("#iIdEtapas").val(iIdProceso);
 					$("#iIdRequerimiento").val(iIdRQM);
 					$("#iIdPlan").val(iIdPlan);
@@ -376,7 +412,6 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 					});
 					estaGuardado = false;
 					//arrUsuariosGlobal = [];
-					console.log(jsonTemporal.General.length);
 					gridGlobal = $("#datatable_ajax tbody tr");
 					indiceGlobal = jsonTemporal.General.length - 1;
 					acabadeguardar = false;
@@ -418,6 +453,7 @@ function GenerarRowProcesos(iIdProceso, iIdRQM, iIdPlan, hibrido) {
 
 }
 
+//Creo que es un método de Gonzo checar si se usa, en caso contrario preguntar a Aaron.
 function PorcentajeDeTareas(cIdTitle) {
 	var rowEstimate = '#iIdEstimate_';
 	var rowTiempoTotalProcesos = $('#iIdTotalProceso_').val();
@@ -430,7 +466,7 @@ function PorcentajeDeTareas(cIdTitle) {
 	var dValorG = ValorGanado(rowTiempoTotalProcesos, rowPorcentajeTarea, dOriginalEstimate, dHoras);
 	$('#iIdValorGanado_' + cIdTitle.replace("iIdPorcentajeTareas_", "")).val(dValorG);
 }
-
+//Creo que es un método de Gonzo checar si se usa, en caso contrario preguntar a Aaron.
 function HorasAcumuladas() {
 	var cProceso = "";
 	var dHorasAcumularas = 0;
@@ -471,10 +507,9 @@ function HorasAcumuladas() {
 //			break;
 //	}
 //	return cIdProcesoGlobal;
-
 //}
 
-
+//Creo que es un método de Gonzo checar si se usa, en caso contrario preguntar a Aaron.
 function GuardarDatos() {
 	var cRegistrosStr = Array();
 	var iIdRegistroStr = Array();
@@ -515,7 +550,7 @@ function GuardarDatos() {
 	});
 
 }
-
+//Creo que es un método de Gonzo checar si se usa, en caso contrario preguntar a Aaron.
 function ValorGanado(rowTiempoTotalProcesos, rowPorcentajeTarea, dOriginalEstimate, dHoras) {
 	var dValorGanado = 0;
 	dValorGanado = (parseFloat(dHoras) / parseFloat(dOriginalEstimate));
@@ -526,6 +561,13 @@ function ValorGanado(rowTiempoTotalProcesos, rowPorcentajeTarea, dOriginalEstima
 var cambiar = true;
 var cNombresProcesos = ["Análisis", "Diseño", "Desarrollo", "Hibrido", "MultiProceso"];
 function ObtenerRequerimiento() {
+	/// <summary>
+	/// Este método es primordial, se encuentra en un evento onchange sobre los selectores de Plan, Requerimiento y Proceso, en el cual se verifican varias cosas como si la
+	/// informacion que esta en el grid actualmente se necesita guardar en el arrWBS, si es hibrido o no, de que Proceso/Requerimiento se esta cambiando, si el Requerimiento
+	/// al cual se esta cambiando se encuentra en modo Normal o Hibrido en caso contrario alerta al usuario de si desea cambiar el modo de trabajo en el grid con la advertencia
+	/// de que toda su informacion posterior a esto se eliminara hasta a nivel base de datos(temporal en este metodo)
+	/// </summary>
+
 	//var arrUsers = new Array();
 	//$("#asignado").val(0).trigger("change");
 	//$("#revisor").val(0).trigger("change");
@@ -686,6 +728,10 @@ function ObtenerRequerimiento() {
 
 //funcion para obtener las etapas(renombrado a Procesos) de la BD y ponerlos en la pagina por medio de un <select>
 function obtenerEtapas() {
+	/// <summary>
+	/// Este método sirve para obtener los Proceso que estan en la base de datos.
+	/// </summary>
+
 	var cEtapa;
 	$.ajax({
 		type: "POST",
@@ -724,7 +770,6 @@ function obtenerEtapas() {
 	});
 
 
-	console.log(procesoGlobal);
 	//$(cEtapa.split(',')).each(function (index, domEle) {
 	//    var elementoOption = $("<option class='form-control' value='" + (index + 1) + "'>" + domEle + "</option>");
 	//    $("#iIdEtapas").append(elementoOption);
@@ -734,9 +779,12 @@ function obtenerEtapas() {
 
 //funcion para obtener los requerimientos de la BD y ponerlos en la pagina por medio de un <select>
 function obtenerRequerimientos() {
+	/// <summary>
+	/// Obteniene los Requerimientos que estan guardados en la base de datos segun el Plan que se eligio.
+	/// </summary>
+
 	//sProyecto = "PRUEBASIAC";
 	//sColeccion = "BLUEOCEAN";
-
 	var plan = $("#iIdPlan option:selected").val();
 	var cRequerimiento = "";
 	var objRQM = new Array();
@@ -816,86 +864,92 @@ function obtenerRequerimientos() {
 //    });
 //    $(cNombreSistema.split(',')).each(function (index, domEle) {
 //        //<a href='WBS.aspx'></a>
-
 //        //a = cIdSistema[index];
 //        var elementoOption = $("<li id='iIdSistema_" + cIdSistema[index] + "' onclick='obtenerModulos(" + cIdSistema[index] + ", " + domEle + ")'><a href='Modulos.aspx'><i class='icon-globe'></i><span class='title'>" + domEle + "</span></a></li>");
 //        $("#menuSistemas").append(elementoOption);
 //    });
 //}
-/*
-function obtenerModulos(idSistema,nombreSistema) {
-    sessionStorage.setItem("IdSistema", idSistema);
-    sessionStorage.setItem("NombreSistema", nombreSistema);
-    var cNombreModulo = "";
-    var cIdModulo = "";
-    $.ajax({
-        type: "POST",
-        url: "../../Class/WBS.asmx/ObtenerNombreModulos",
-        async: false,
-        data: "{'IdSistema': '" +idSistema+ "'}",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-            cNombreModulo = response.d;
-        }
-    });
+//
+//function obtenerModulos(idSistema,nombreSistema) {
+//    sessionStorage.setItem("IdSistema", idSistema);
+//    sessionStorage.setItem("NombreSistema", nombreSistema);
+//    var cNombreModulo = "";
+//    var cIdModulo = "";
+//    $.ajax({
+//        type: "POST",
+//        url: "../../Class/WBS.asmx/ObtenerNombreModulos",
+//        async: false,
+//        data: "{'IdSistema': '" +idSistema+ "'}",
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (response) {
+//            cNombreModulo = response.d;
+//        }
+//    });
+//    $.ajax({
+//        type: "POST",
+//        url: "../../Class/WBS.asmx/ObtenerIdModulos",
+//        async: false,
+//        data: "{'IdSistema': '" + idSistema + "'}",
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (response) {
+//            cIdModulo = response.d;
+//            cIdModulo = cIdModulo.split(',');
+//        }
+//    });
+//    $("#NombreSistema").text(sessionStorage.getItem("NombreSistema"))
+//    $(cNombreModulo.split(',')).each(function (index, domEle) {
+//        var elementoOption = $("<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' id='iIdModulo_" + cIdModulo[index] + "'>"
+//            + "		<div class='dashboard-stat2'>"
+//						+"<div class='display'>"
+//							+"<div class='number'>"
+//								+"<h3 class='font-red-haze'>"+cIdModulo[index]+"</h3>"
+//								+"<small>"+domEle+"</small>"
+//							+"</div>"
+//							+"<div class='icon'>"
+//								+"<i class='icon-like'></i>"
+//							+"</div>"
+//						+"</div>"
+//						+"<div class='progress-info'>"
+//							+"<div class='progress'>"
+//								+"<span style='width: 85%;' class='progress-bar progress-bar-success red-haze'>"
+//								+"<span class='sr-only'>85% change</span>"
+//								+"</span>"
+//							+"</div>"
+//							+"<div class='status'>"
+//								+"<div class='status-title'>"
+//									 +"change"
+//								+"</div>"
+//								+"<div class='status-number'>"
+//									 +"85%"
+//								+"</div>"
+//							+"</div>"
+//						+"</div>"
+//					+"</div>"
+//				+ "</div>");
+//        $("#Modulos").append(elementoOption);
+//    });
+//}
 
-    $.ajax({
-        type: "POST",
-        url: "../../Class/WBS.asmx/ObtenerIdModulos",
-        async: false,
-        data: "{'IdSistema': '" + idSistema + "'}",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-            cIdModulo = response.d;
-            cIdModulo = cIdModulo.split(',');
-        }
-    });
-    $("#NombreSistema").text(sessionStorage.getItem("NombreSistema"))
-    $(cNombreModulo.split(',')).each(function (index, domEle) {
-        var elementoOption = $("<div class='col-lg-3 col-md-3 col-sm-6 col-xs-12' id='iIdModulo_" + cIdModulo[index] + "'>"
-            + "		<div class='dashboard-stat2'>"
-						+"<div class='display'>"
-							+"<div class='number'>"
-								+"<h3 class='font-red-haze'>"+cIdModulo[index]+"</h3>"
-								+"<small>"+domEle+"</small>"
-							+"</div>"
-							+"<div class='icon'>"
-								+"<i class='icon-like'></i>"
-							+"</div>"
-						+"</div>"
-						+"<div class='progress-info'>"
-							+"<div class='progress'>"
-								+"<span style='width: 85%;' class='progress-bar progress-bar-success red-haze'>"
-								+"<span class='sr-only'>85% change</span>"
-								+"</span>"
-							+"</div>"
-							+"<div class='status'>"
-								+"<div class='status-title'>"
-									 +"change"
-								+"</div>"
-								+"<div class='status-number'>"
-									 +"85%"
-								+"</div>"
-							+"</div>"
-						+"</div>"
-					+"</div>"
-				+ "</div>");
-        $("#Modulos").append(elementoOption);
-    });
-}*/
 var aplicarConfGlobal = false
 function ConfiguracionGlobal() {
+	/// <summary>
+	/// Este método solo obtiene el valor del campo horas(eliminado pensar en eliminar este metodo y ponerlo directo) y hace la llamada al método para la aplicacion del rate global
+	/// opc: se esta pensando en hacer algo parecido a esto de la configuracion global en el cual se pueda modificar todos los rates y tamaños de todo lo que ya tiene almacenado el json
+	/// </summary>
 	var horas = $("#txtModalHoras").val();
 	$("#ModalConfiguracionGlobal").modal("hide");
-	//console.log(horas);
 
 	AplicarRateGlobal();
 }
 
 var rateAnalisis, rateDiseño, rateDesarrollo;
 function AplicarRateGlobal() {
+	/// <summary>
+	/// Este método aplica el rate segun el valor que introducieron en el campo del Proceso correspondiente.
+	/// </summary>
+
 	var rates = $("input[id^=RateGlobal]");
 	rateAnalisis = parseFloat($(rates[0]).val());
 	rateDiseño = parseFloat($(rates[1]).val());
@@ -928,6 +982,7 @@ function AplicarRateGlobal() {
 		case "4":
 			var temp = $("tr.primary")
 			$(temp).each(function (index, domEle) {
+				//Quitar los valores fijos de los idDetalleProceso
 				if ($(domEle).find("input[id^=iIdDetalleProceso_]").attr("id").split("_")[1] == 4 && rateAnalisis != 0) {
 					$(domEle).find("input[id^=iIdRate_]").val(rateAnalisis).trigger("change");
 				}
@@ -943,6 +998,7 @@ function AplicarRateGlobal() {
 	ListoEnvioTFS = false;
 }
 
+//Verificar si se eliminara este método de guardado antiguo
 function GuardarWBSAntiguo() {
 	//var comparador = $('input[id*="iIdComponent"]');
 	jsonTemporal.General[indiceGlobal].users = [];
@@ -984,41 +1040,32 @@ function GuardarWBSAntiguo() {
 		var contadorInsert = comparador.length - tjson.longitud;
 		linsert = true;
 	}
-	//console.log(dtAlta);
 	//$('input[id*="iIdComponent"]').each(function (index, domEle) {
 
 	if (idReq != "" && idProceso != "" && idPlan != "") {
 		comparador.each(function (index, domEle) {
 			//if (index > 0) {
-			//console.log(domEle);
 			tabla = domEle.children;
-			//console.log(tabla);
 			for (var i = 1 ; i < tabla.length; i++) {
 				var tHoraServidor = new Date();
 				NodoHijo = tabla[i].children;
-				//console.log(NodoHijo.selected);
 				switch (i) {
 					//case 1:
 					//    var plan = $(NodoHijo).val();
-					//    //console.log(componente);
 					//    break;
 					case 1:
 						componente = $(NodoHijo).val();
-						//console.log(componente);
 						break;
 					case 4:
 						iIdTitle = $(NodoHijo).attr('id');
 						iIdTitle = iIdTitle.replace('iIdDetalleProceso_', '');
-						//console.log(iIdTitle);
 						break;
 					case 5:
 						cWorkItem = $(NodoHijo).val();
-						//console.log(cWorkItem);
 						break;
 					case 6:
 						//var valor = $(NodoHijo).val();
 						iIdUsuario = $(NodoHijo).find("option:selected").val();
-						//console.log(iIdUsuario);
 						if (iIdUsuario == "" || iIdUsuario == null) {
 							esCampoVacio++;
 						}
@@ -1028,51 +1075,39 @@ function GuardarWBSAntiguo() {
 						break;
 					case 7:
 						dReamining = $(NodoHijo).val();
-						//console.log(dReamining);
 						break;
 					case 8:
 						dOriginal = $(NodoHijo).val();
-						//console.log(dOriginal);
 						break;
 					case 9:
 						dTiempoTotal = $(NodoHijo).val();
-						//console.log(dTiempoTotal);
 						break;
 					case 10:
 						dPorcentajeTareas = $(NodoHijo).val();
-						//console.log(dPorcentajeTareas);
 						break;
 					case 11:
 						dTamanios = $(NodoHijo).val();
-						//console.log(dTamanios);
 						break;
 					case 12:
 						dRate = $(NodoHijo).val();
-						//console.log(dRate);
 						break;
 					case 13:
 						dValorGanado = $(NodoHijo).val();
-						//console.log(dValorGanado);
 						break;
 					case 14:
 						iSemana = $(NodoHijo).val();
-						//console.log(iSemana);
 						break;
 					case 15:
 						dValorAcumulado = $(NodoHijo).val();
-						//console.log(dValorAcumulado);
 						break;
 					case 16:
 						dValorSemanal = $(NodoHijo).val();
-						//console.log(dValorSemanal);
 						break;
 					case 3:
 						cTipoTarea = $(NodoHijo).val();
-						//console.log(cTipoTarea);
 						break;
 					case 17:
 						cUnidadMedida = $(NodoHijo).val();
-						//console.log(cUnidadMedida);
 						break;
 					case 18:
 						//dtFechaInicio = $(this).getItem(i).text();
@@ -1080,7 +1115,6 @@ function GuardarWBSAntiguo() {
 						if (dtFechaInicio != "") {
 							tHoraServidor = tHoraServidor.getHours() + ":" + tHoraServidor.getMinutes() + ":" + tHoraServidor.getSeconds() + "." + tHoraServidor.getMilliseconds();
 							dtFechaInicio = dtFechaInicio + " " + tHoraServidor;
-							//console.log(tHoraServidor);
 						} else {
 							esCampoVacio++;
 							return false;
@@ -1115,7 +1149,7 @@ function GuardarWBSAntiguo() {
 				isemana: iSemana,
 				dValor_ganado_acumulado: dValorAcumulado,
 				dValor_ganado_semanal: dValorSemanal,
-				cTipoTarea: cTipoTarea,
+				cNombreTarea: cTipoTarea,
 				iIdTipoTarea: iIdTipoTarea,
 				cUnidad_de_medida: cUnidadMedida,
 				dtFecha_de_inicio: dtFechaInicio,
@@ -1128,7 +1162,7 @@ function GuardarWBSAntiguo() {
 				iIdTFS: 1,
 				//iIdWBS: iIdWBS
 			});
-			//console.log(jsonWBS);
+
 			//}
 		});
 		if (esCampoVacio > 0) {
@@ -1219,6 +1253,14 @@ function GuardarWBSAntiguo() {
 }
 
 function GuardarPlanEquipo(idEquipo, nombreEquipo) {
+	/// <summary>
+	/// Este método guarda en la base de datos todo lo relacionado al Plan y al Equipo, por lo cual se hace un llamado ajax para mandar a guardar toda informacion correspondiente
+	/// (explicación en el método que se manda a llamar por medio del ajax).
+	/// </summary>
+	/// <param name="idEquipo" type="Guid">Este guid es el que se obtiene directo del TFS.</param>
+	/// <param name="nombreEquipo" type="string">Aqui se manda el nombre del equipo que se obtiene directo del TFS</param>
+	/// <returns type="int">Devuelve el Id del nuevo Plan que se crea.</returns>
+
 	var nuevoPlan;
 	$.ajax({
 		url: "../../Class/WBS.asmx/GuardarPlanEquipo",
@@ -1240,6 +1282,10 @@ function GuardarPlanEquipo(idEquipo, nombreEquipo) {
 }
 
 function GuardarWBS() {
+	/// <summary>
+	/// Este es el método de guardado
+	/// </summary>
+
 	GuardarWBS2(iIdPlanGlobal, iIdRQMGlobal, iIdProcesoGlobal);
 	//GuardarPlanEquipo(iIdPlanGlobal, arrEquipoSeleccionado.IdTFSIteracion, arrEquipoSeleccionado.NombreIteracion)
 	var jsonWBS = new Array();
@@ -1276,7 +1322,7 @@ function GuardarWBS() {
 					isemana: domEleRaiz.Raiz[0].isemana,
 					dValor_ganado_acumulado: 0,
 					dValor_ganado_semanal: 0,
-					cTipoTarea: domEleRaiz.Raiz[0].cTipoTarea,
+					cNombreTarea: domEleRaiz.Raiz[0].cNombreTarea,
 					iIdTipoTarea: domEleRaiz.Raiz[0].iIdTipoTarea,
 					cUnidad_de_medida: domEleRaiz.Raiz[0].cUnidad_de_medida,
 					dtFecha_de_inicio: domEleRaiz.Raiz[0].dtFecha_de_inicio,
@@ -1319,7 +1365,7 @@ function GuardarWBS() {
 					isemana: domEleRaiz.Raiz[0].isemana,
 					dValor_ganado_acumulado: 0,
 					dValor_ganado_semanal: 0,
-					cTipoTarea: domEleRaiz.Raiz[0].cTipoTarea,
+					cNombreTarea: domEleRaiz.Raiz[0].cNombreTarea,
 					iIdTipoTarea: domEleRaiz.Raiz[0].iIdTipoTarea,
 					cUnidad_de_medida: domEleRaiz.Raiz[0].cUnidad_de_medida,
 					dtFecha_de_inicio: domEleRaiz.Raiz[0].dtFecha_de_inicio,
@@ -1365,7 +1411,7 @@ function GuardarWBS() {
 						isemana: domEleHijos.elementos[0].isemana,
 						dValor_ganado_acumulado: 0,
 						dValor_ganado_semanal: 0,
-						cTipoTarea: domEleHijos.elementos[0].cTipoTarea,
+						cNombreTarea: domEleHijos.elementos[0].cNombreTarea,
 						iIdTipoTarea: domEleHijos.elementos[0].iIdTipoTarea,
 						cUnidad_de_medida: domEleHijos.elementos[0].cUnidad_de_medida,
 						dtFecha_de_inicio: domEleHijos.elementos[0].dtFecha_de_inicio,
@@ -1407,7 +1453,7 @@ function GuardarWBS() {
 						isemana: domEleHijos.elementos[0].isemana,
 						dValor_ganado_acumulado: 0,
 						dValor_ganado_semanal: 0,
-						cTipoTarea: domEleHijos.elementos[0].cTipoTarea,
+						cNombreTarea: domEleHijos.elementos[0].cNombreTarea,
 						iIdTipoTarea: domEleHijos.elementos[0].iIdTipoTarea,
 						cUnidad_de_medida: domEleHijos.elementos[0].cUnidad_de_medida,
 						dtFecha_de_inicio: domEleHijos.elementos[0].dtFecha_de_inicio,
@@ -1553,7 +1599,7 @@ function GuardarWBS() {
 		$("#tbodyModalRQM").html("")
 		ListoEnvioTFS = true;
 	}
-	
+
 
 }
 
@@ -1565,13 +1611,13 @@ function EnviarTFS() {
 		$.ajax({
 			url: "../../Class/WBS.asmx/EnviarTFS",
 			method: "POST",
-			async: false,
+			async: true,
 			data: "{'JsonWbs':'" + JSON.stringify(arrWBS) + "', 'sColeccion': '" + sColeccion + "', 'sProyecto': '" + sProyecto + "'}",
 			contentType: "application/json; charset=utf-8",
 			datatype: "json",
 			success: function (respJson) {
 				$("#modalCargaEnvioTFS").modal("hide");
-				Alertas(0, "Prueba", respJson);
+				Alertas(0, "Prueba", respJson.d);
 			},
 			error: function (xhr, estatus) {
 				$("#modalCargaEnvioTFS").modal("show");
@@ -1582,7 +1628,7 @@ function EnviarTFS() {
 	else {
 		Alertas(2, "Advertencia", "Necesita Guardar sus datos en la Base de Datos antes de Enviar la informacion al TFS")
 	}
-	
+
 }
 
 function ObtenerMaxGrupo() {
@@ -1685,7 +1731,7 @@ function GuardarWBS2(plan, rqm, proceso) {
 					//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
 					//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
 					iIdTipoTarea: 1,
-					cTipoTarea: "Primary",
+					cNombreTarea: "Primary",
 					cUnidad_de_medida: "",
 					dtFecha_de_inicio: $(raiz).find("[id^=Fecha]").val(),
 					dtFechaFinal: $(raiz).find("[id^=FechaFinal]").val(),
@@ -1761,7 +1807,7 @@ function GuardarWBS2(plan, rqm, proceso) {
 				}
 				var Nombre = $(elemento).attr("name");
 				var Padre = Nombre.split("_")[1];
-				var todasFilas = document.querySelectorAll("tr[name$=_" + Padre + "]");
+				var todasFilas = document.querySelectorAll("tr[name$=_" + Padre + "].Habilitado");
 				$(todasFilas).each(function (index2, elemento2) {
 					//if (index2 != 0) {
 					if (esHibrido) {
@@ -1787,8 +1833,6 @@ function GuardarWBS2(plan, rqm, proceso) {
 			//else {
 			//	arrWBS[contWBS].elementos.Raiz = [];
 			//}
-			console.log(arrWBS);
-			console.log(jsonWbsTemp);
 			//contWBS++;
 			jsonWbsTemp.push({
 				plan: plan,
@@ -1801,7 +1845,7 @@ function GuardarWBS2(plan, rqm, proceso) {
 
 		}
 	}
-	
+
 }
 
 function RecorrerFila(fila, plan, rqm, proceso, eshibrido) {
@@ -1832,7 +1876,7 @@ function RecorrerFila(fila, plan, rqm, proceso, eshibrido) {
 		//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
 		//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
 		iIdTipoTarea: $(fila).find("[id*=iIdTipoTarea_]").val(),
-		cTipoTarea: $(fila).find("[id*=cTipoTarea_]").val(),
+		cNombreTarea: $(fila).find("[id*=cTipoTarea_]").val(),
 		cUnidad_de_medida: $(fila).find("[id*=iIdUnidadMedida_]").val(),
 		dtFecha_de_inicio: $(fila).find("[id^=Fecha]").val(),
 		dtFechaFinal: $(fila).find("[id^=FechaFinal]").val(),
@@ -1911,7 +1955,6 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 		arrWBS[indice].elementos = new Array();
 		arrWBS[indice].elementos = buscarYReemplazarElementosJsonWBS(plan, rqm, proceso);
 		arrWBS[indice].Raiz = [];
-		console.log(arrWBS);
 
 	}
 	else {
@@ -1935,7 +1978,7 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 			//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
 			//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
 			iIdTipoTarea: 1,
-			cTipoTarea: "Primary",
+			cNombreTarea: "Primary",
 			cUnidad_de_medida: "",
 			dtFecha_de_inicio: $(raiz).find("[id^=Fecha]").val(),
 			dtFechaFinal: $(raiz).find("[id^=FechaFinal]").val(),
@@ -1958,7 +2001,6 @@ function ActualizarJsonWBS(plan, rqm, proceso, indice) {
 		arrWBS[indice].elementos = buscarYReemplazarElementosJsonWBS(plan, rqm, proceso);
 		arrWBS[indice].Raiz = arrRaizHibrido;
 		arrRaizHibrido = new Array();
-		console.log(arrWBS);
 	}
 	//}
 
@@ -2000,7 +2042,7 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 		});
 		//}
 
-		$($("tr[name$=_" + idPadre + "]")).each(function (indexHijos, domEleHijos) {
+		$($("tr[name$=_" + idPadre + "].Habilitado")).each(function (indexHijos, domEleHijos) {
 			if (indexHijos == 0 && proceso == 4) {
 				arrTempWBS.push({
 					iIdUsuario: 0,
@@ -2021,7 +2063,7 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 					//dValor_ganado_acumulado: $("#iIdValorGanadoAcumulado_" + noFila).val(),
 					//dValor_ganado_semanal: $("#iIdValorGanadoSemanal_" + noFila).val(),
 					iIdTipoTarea: 1,
-					cTipoTarea: "Primary",
+					cNombreTarea: "Primary",
 					cUnidad_de_medida: "",
 					dtFecha_de_inicio: $(raiz).find("[id^=Fecha]").val(),
 					dtFechaFinal: $(raiz).find("[id^=FechaFinal]").val(),
@@ -2068,7 +2110,7 @@ function buscarYReemplazarElementosJsonWBS(plan, rqm, proceso) {
 				dValor_ganado_acumulado: $(domEleHijos).find("[id^=iIdValorGanadoAcumulado_]").val(),
 				dValor_ganado_semanal: $(domEleHijos).find("[id^=iIdValorGanadoSemanal_]").val(),
 				iIdTipoTarea: $(domEleHijos).find("[id*=iIdTipoTarea_]").val(),
-				cTipoTarea: $(domEleHijos).find("[id*=cTipoTarea_]").val(),
+				cNombreTarea: $(domEleHijos).find("[id*=cTipoTarea_]").val(),
 				cUnidad_de_medida: $(domEleHijos).find("[id^=iIdUnidadMedida_]").val(),
 				dtFecha_de_inicio: $(domEleHijos).find("[id^=Fecha]").val(),
 				dtFechaFinal: $(domEleHijos).find("[id^=FechaFinal]").val(),
@@ -2366,7 +2408,9 @@ function ObtenerDatosByPlan() {
 							datos[0][0].dtModificacion = new Date(parseFloat(datos[0][0].dtModificacion.split("(")[1].split(")")[0])).toISOString().split("T")[0];
 							datos[0][0].dtHoras_Acumuladas = new Date(parseFloat(datos[0][0].dtHoras_Acumuladas.split("(")[1].split(")")[0])).toISOString().split("T")[0];
 							datos[0][0].cNombreDetalleProceso = datos[0][0].cTituloProceso;
-
+							var temp = filtrarUsuariosById(arrEquipoSeleccionado.datosUsuario.value, datos[0][0].iIdUsuario)
+							datos[0][0].cNombreUsuario = temp[0].teamMember.displayName.split("<")[0].trim();
+							//datos[0][0].lAplicaMultiProceso = (datos[0][0].lAplicaMultiProceso) ? 1 : 0;
 							arrRaiz = datos[0];
 						}
 						else {
@@ -2382,6 +2426,9 @@ function ObtenerDatosByPlan() {
 									eleDatos.dtModificacion = new Date(parseFloat(eleDatos.dtModificacion.split("(")[1].split(")")[0])).toISOString().split("T")[0];
 									eleDatos.dtHoras_Acumuladas = new Date(parseFloat(eleDatos.dtHoras_Acumuladas.split("(")[1].split(")")[0])).toISOString().split("T")[0];
 									eleDatos.cNombreDetalleProceso = eleDatos.cTituloProceso;
+									var temp = filtrarUsuariosById(arrEquipoSeleccionado.datosUsuario.value, eleDatos.iIdUsuario)
+									eleDatos.cNombreUsuario = temp[0].teamMember.displayName.split("<")[0].trim();
+									//eleDatos.lAplicaMultiProceso = (eleDatos.lAplicaMultiProceso) ? 1 : 0;
 									esNormal = false;
 									//}
 									tituloProceso = (indexDatos == 0) ? eleDatos.cTituloProceso : tituloProceso;
@@ -2406,7 +2453,6 @@ function ObtenerDatosByPlan() {
 						//arrElementos.Raiz = arrRaiz;
 
 
-						//console.log(datos);
 					});
 					arrWBS.push({
 						iIdPlan: iIdPlanGlobal,
@@ -2432,6 +2478,9 @@ function ObtenerDatosByPlan() {
 								eleDatos.dtModificacion = new Date(parseFloat(eleDatos.dtModificacion.split("(")[1].split(")")[0])).toISOString().split("T")[0];
 								eleDatos.dtHoras_Acumuladas = new Date(parseFloat(eleDatos.dtHoras_Acumuladas.split("(")[1].split(")")[0])).toISOString().split("T")[0];
 								eleDatos.cNombreDetalleProceso = eleDatos.cTituloProceso;
+								var temp = filtrarUsuariosById(arrEquipoSeleccionado.datosUsuario.value, eleDatos.iIdUsuario)
+								eleDatos.cNombreUsuario = temp[0].teamMember.displayName.split("<")[0].trim();
+								//eleDatos.lAplicaMultiProceso = (eleDatos.lAplicaMultiProceso) ? 1 : 0;
 								esNormal = true;
 								//}
 								tituloProceso = (indexDatos == 0) ? eleDatos.cTituloProceso : tituloProceso;
@@ -2458,7 +2507,6 @@ function ObtenerDatosByPlan() {
 							Modo: "Normal",
 							Raiz: new Array()
 						})
-						//console.log(datos);
 					});
 				}
 
@@ -2469,7 +2517,6 @@ function ObtenerDatosByPlan() {
 			Alertas(2, "Error", "Error en la carga de datos, verifique que existan en la BD");
 		}
 	});
-	console.log(arrWBS);
 }
 
 function obtenerProcesosByPlanRqm(plan, rqm) {
@@ -2639,7 +2686,6 @@ function GenerarRowProcesosNuevo(iIdProceso, iIdRQM, iIdPlan) {
 					guardado: false
 				});
 				indiceGlobal = jsonTemporal.General.length - 1;
-				console.log(jsonTemporal.General);
 				gridGlobal = $("#datatable_ajax tbody tr");
 			}
 			inputsChange();
@@ -2829,7 +2875,6 @@ function ObtenerUsuariosTFS() {
 			text: domEle.cNombreUsuario
 		});
 	});
-	//console.log(arrUsuariosTFSGlobal);
 }
 
 
@@ -2861,7 +2906,7 @@ function GetNombreRQMById() {
 				else {
 					Alertas(1, "Alerta", "No existe ese requerimiento")
 				}
-				
+
 			},
 			error: function (xhr, estatus) {
 				Alertas(1, "Alerta", "No existe ese requerimiento")
@@ -2871,7 +2916,7 @@ function GetNombreRQMById() {
 	else {
 		Alertas(1, "Alerta", "Necesita ingresar un Requerimiento");
 	}
-	
+
 }
 
 //d-m-y
@@ -2921,7 +2966,6 @@ function temporalprueba() {
 					contentType: "application/json; charset=utf-8",
 					dataType: "json",
 					success: function (response) {
-						console.log(plan, rqm, proceso)
 						if (response.d.length != 0) {
 							jsonTemporal.Totales.push(
                                 {
@@ -2997,8 +3041,8 @@ function insertarProceso() {
 	});
 	$(padre).after(respuesta);
 	obtenerUsuarios();
-	//CambiarAsignado();
-	//CambiarRevisor();
+	CambiarAsignado();
+	CambiarRevisor();
 	ocultarElementos();
 	OrdenarProcesos();
 	AplicarNomenclatura();
@@ -3125,7 +3169,6 @@ function NuevoEquipo() {
 		dataType: "json",
 		success: function (response) {
 			var iIdEquipo = JSON.parse(response.d);
-			console.log(iIdEquipo);
 			var elementoOption = $("<option class='form-control' value='" + iIdEquipo + "'>" + nombreEquipo + "</option>");
 			$("#modalEquipo").find("select").append(elementoOption);
 		},
@@ -3446,7 +3489,7 @@ function OrdenarGrid() {
 		var temp = $("#modalSelectOrdenamiento option")[index];
 		$(temp).text("" + nombreProceso + "(Proceso: " + (index + 1) + ")");
 	});
-	
+
 	AplicarNomenclatura();
 	calcularValorGanado();
 	ListoEnvioTFS = false;
@@ -3584,7 +3627,9 @@ function SeleccionarProyecto() {
 		$("#modalProyecto").hide();
 
 		obtenerIteraciones();
-		$("#UserImage").attr("src", arrUser[0].teamMember.imageUrl);
+		if (arrUser.length > 0) {
+			$("#UserImage").attr("src", arrUser[0].teamMember.imageUrl);
+		}
 		$("#modalIteraciones").show();
 
 	}
@@ -3723,13 +3768,18 @@ function Colapsar(obj) {
 function Deshabilitar(obj) {
 	var padre = obj.parentNode.parentNode.parentNode;
 	var hijos = $(padre).children();
+	var clase;
+	var indexBusqueda;
 	if ($(obj).attr("name") == "Habilitado") {
 		$(hijos).each(function (index, domEle) {
 			$(domEle.children).prop('disabled', true);
 		})
 		$(padre).css("background", "#f00")
 		$(obj).attr("name", "NoHabilitado")
-		$(padre).addClass("Deshabilitado")
+		//$(padre).addClass("Deshabilitado")
+		clase = $(padre).attr("class");
+		indexBusqueda = (clase.search("Habilitado") == -1) ? clase.length : clase.search("Habilitado");
+		$(padre).attr("class", clase.substring(0, indexBusqueda).trim() + " Deshabilitado");
 		$(obj).attr("class", "btn green")
 	}
 	else {
@@ -3738,7 +3788,9 @@ function Deshabilitar(obj) {
 		})
 		$(padre).css("background", "")
 		$(obj).attr("name", "Habilitado")
-		$(padre).addClass("Habilitado")
+		clase = $(padre).attr("class");
+		indexBusqueda = (clase.search("Deshabilitado") == -1) ? clase.length : clase.search("Deshabilitado");
+		$(padre).attr("class", clase.substring(0, indexBusqueda).trim() + " Habilitado");
 		$(obj).attr("class", "btn red")
 	}
 }
@@ -3872,7 +3924,7 @@ function previewCompleto() {
 			// so that create works
 			"check_callback": true,
 			"types": {
-				"default": { 
+				"default": {
 					"icon": "fa fa-folder icon-state-warning icon-lg"
 				},
 				"file": {
@@ -4058,7 +4110,6 @@ function getIterationIDTFS(data, code) {
 							IteracionData: domEle
 						});
 					}
-					console.log(respuesta);
 				} catch (e) {
 					Alertas(2, "Error", "Ocurrio un error en la consulta");
 				}
@@ -4140,7 +4191,7 @@ function getOriginalEstimate(padres) {
 		var hijos = $("tr.noprimary[name$=_" + nombrePadre + "]");
 		$(hijos).each(function (indexHijo, domEleHijo) {
 			var porcentajeTarea = parseFloat($(domEleHijo).find("[id^=iIdPorcentajeTareas_]").val());
-			var originalEstimado = totalProceso * (porcentajeTarea / 100);
+			var originalEstimado = (totalProceso * (porcentajeTarea / 100)) / 60;
 			$(domEleHijo).find("[id^=iIdEstimate_]").val(originalEstimado);
 			$(domEleHijo).find("[id^=Remaining_]").val(originalEstimado);
 		});
@@ -4201,7 +4252,7 @@ function SetValoresGanadosToGrid(arrayValoresGanados, arrayFechas) {
 	arrFiltradoValGanado = FiltrarArrValoresGanados(arrayValoresGanados);
 	arrFiltradoFechas = (arrayFechas.length > 0) ? FiltrarArrFechas(arrayFechas) : new Array();
 
-	var filasGrid = $("#datatable_ajax tbody tr[class*=primary]");
+	var filasGrid = $("#datatable_ajax tbody tr[class*=primary].Habilitado");
 	$(arrFiltradoValGanado).each(function (index, domEle) {
 		$(domEle.ValoresGanados).each(function (indexValores, domEleValores) {
 			arrTempValoresGanados.push(domEleValores);
@@ -4284,6 +4335,7 @@ function CalcularFechas() {
 						arrUsuarioTemp = filtrarUsuariosById(arrEquipoSeleccionado.datosUsuario.value, domEleHijos.elementos[0].iIdUsuario);
 						var capacidadTarea = parseFloat(domEleHijos.elementos[0].dOriginal_Estimate);
 						var capacidadUsuario = calcularCapacidadUsuario(arrUsuarioTemp[0].activities);
+						if (capacidadUsuario == 0 || capacidadUsuario == "" || capacidadUsuario == null || capacidadUsuario == undefined) { throw ("El recurso asignado a la tarea no tiene una capacidad configurada en el TFS") }
 						//var capacidadUsuario = 6.5;
 						arrFechasInhabilesByUsuario = CalculateDaysOffFromRange(arrUsuarioTemp[0].daysOff)
 						var arrTempFechaUsuario = filtrarArrFechasUsuario(arrFechasUsuarios, arrUsuarioTemp[0].teamMember.id)
@@ -4300,7 +4352,6 @@ function CalcularFechas() {
 
 
 						CalcularCapacidadByUsuario(capacidadTarea, capacidadUsuario);
-						console.log(restante, diasTrabajados, arrUsuarioTemp[0].teamMember.displayName);
 
 						if (diasTrabajados >= 1) {
 							//date.toISOString().split("T")[0] //convertir Date to StringFormat(yyyy-mm-dd)
@@ -4316,7 +4367,6 @@ function CalcularFechas() {
 								fechaInicial: primeraFechaUsuario,
 								fechaFinal: ultimaFechaUsuario
 							});
-							console.log(primeraFechaUsuario + " > " + ultimaFechaUsuario);
 							contDias = 0;
 							diasTrabajados = 0;
 						}
@@ -4330,7 +4380,6 @@ function CalcularFechas() {
 								fechaInicial: primeraFechaUsuario,
 								fechaFinal: ultimaFechaUsuario
 							});
-							console.log(primeraFechaUsuario + " > " + ultimaFechaUsuario);
 							contDias = 0;
 							diasTrabajados = 0;
 						}
@@ -4648,6 +4697,40 @@ function EliminarRegistroByPlanRequerimiento(idPlan, idRequerimiento) {
 				Alertas(0, "Cambio de modo", "El cambio de modo sea ha realizado exitosamente")
 			} catch (e) {
 				Alertas(2, "Error", "Ocurrio un error en la consulta");
+			}
+
+		},
+		error: function (xhr, estatus) {
+			Alertas(2, "Error", "Error de carga de datos")
+		}
+	});
+}
+var arrTareasAdicionales = new Array();
+function ObtenerTareasAdicionales() {
+	$.ajax({
+		type: "POST",
+		url: "../../Class/WBS.asmx/ObtenerTareasAdicionales",
+		async: false,
+		data: null,
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: function (response) {
+			try {
+				response = response.d;
+				$(response).each(function (index, eleTareas) {
+					var elementoTarea = "<div class='form-group'>" +
+														"<label class='control-label col-md-5'>" + eleTareas.cNombreDetalleProceso + "</label>" +
+														"<div class='col-md-3'>" +
+															"<div class='input-group input-small'>" +
+															"<input type='number' id='TareaAdicional_" + index + "' value='0' min='0' step='1' class='form-control form-filter input-sm'/>" +
+															"</div></div></div>";
+					//var elementoTarea = $("<span>" + eleTareas.cNombreDetalleProceso + "</span><input type='number' id='OriginalEstimado_" + eleTareas.cNombreDetalleProceso + "' value='0' min='0' step='1' class='form-control form-control-inline input-small'/>");
+					$("#modalTareasAdicionales div.form-body").append($(elementoTarea));
+				});
+				arrTareasAdicionales = response;
+
+			} catch (e) {
+				Alertas(2, "Error", "Ocurrio un error en la consulta de Tareas Adicionales");
 			}
 
 		},

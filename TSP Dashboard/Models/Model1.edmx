@@ -270,6 +270,7 @@
     <Property Name="lActivo" Type="bit" Nullable="false" />
     <Property Name="lEditable" Type="bit" Nullable="true" />
     <Property Name="iTipoProceso" Type="int" Nullable="false" />
+    <Property Name="lVisualizarCombo" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="tblCat_VersionProceso">
     <Key>
@@ -592,7 +593,7 @@
           <Property Name="dtModificacion" Type="DateTime" Precision="3" />
           <Property Name="iIdProceso" Type="Int32" />
           <Property Name="lActivo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tblCat_WBS" Relationship="Self.FK_tblCat_Title_iIdTitle" FromRole="tblCat_Title" ToRole="tblCat_WBS" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="Self.FK_tblCat_Title_iIdTitle" FromRole="tblCat_Title" ToRole="tblCat_WBS" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Name="iRevision" Type="Int32" />
           <Property Name="iIdVersionProceso" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblCat_Proceso" Relationship="TSP_DEVModel.FK_tblCat_DetalleProceso_iIdProceso" FromRole="tblCat_DetalleProceso" ToRole="tblCat_Proceso" />
@@ -635,11 +636,11 @@
           <Property Name="dtAlta" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="dtModificacion" Type="DateTime" Precision="3" />
           <Property Name="lActivo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tblCat_DetalleProceso" Relationship="Self.FK_tblCat_Title_iIdTitle" FromRole="tblCat_WBS" ToRole="tblCat_Title" />
+          <NavigationProperty Name="tblCat_DetalleProceso" Relationship="Self.FK_tblCat_Title_iIdTitle" FromRole="tblCat_WBS" ToRole="tblCat_Title" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Name="iIdTFS" Type="Int32" />
-          <NavigationProperty Name="tblCat_Plan" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdPlan" FromRole="tblCat_WBS" ToRole="tblCat_Plan" />
-          <NavigationProperty Name="tblCat_Proceso" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos" FromRole="tblCat_WBS" ToRole="tblCat_Proceso" />
-          <NavigationProperty Name="tblCat_Usuarios" Relationship="TSP_DEVModel.tblCat_UsuariostblCat_WBS" FromRole="tblCat_WBS" ToRole="tblCat_Usuarios" />
+          <NavigationProperty Name="tblCat_Plan" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdPlan" FromRole="tblCat_WBS" ToRole="tblCat_Plan" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="tblCat_Proceso" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos" FromRole="tblCat_WBS" ToRole="tblCat_Proceso" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="tblCat_Usuarios" Relationship="TSP_DEVModel.tblCat_UsuariostblCat_WBS" FromRole="tblCat_WBS" ToRole="tblCat_Usuarios" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Name="iIdUsuario" Type="Guid" Nullable="false" />
           <Property Name="iGrupo" Type="Int32" Nullable="false" />
           <Property Name="lAplicaMultiProceso" Type="Boolean" Nullable="false" />
@@ -655,7 +656,7 @@
               <LongDescription>Es el campo de ordenamiento de mayor nivel para la tabla tblCat_WBS</LongDescription>
             </Documentation>
           </Property>
-          <NavigationProperty Name="tblCat_TipoTarea" Relationship="TSP_DEVModel.tblCat_WBStblCat_TipoTarea_iIdTipoTarea" FromRole="tblCat_WBS" ToRole="tblCat_TipoTarea" />
+          <NavigationProperty Name="tblCat_TipoTarea" Relationship="TSP_DEVModel.tblCat_WBStblCat_TipoTarea_iIdTipoTarea" FromRole="tblCat_WBS" ToRole="tblCat_TipoTarea" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
         </EntityType>
         <Association Name="FK_tblCat_Title_iIdTitle">
           <End Role="tblCat_Title" Type="TSP_DEVModel.tblCat_DetalleProceso" Multiplicity="1" />
@@ -789,7 +790,7 @@
           <Property Name="cClaveUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tblRel_Equipos" Relationship="TSP_DEVModel.FK_tblRel_Equipos_iIdUsuario" FromRole="tblCat_Usuarios" ToRole="tblRel_Equipos" />
           <NavigationProperty Name="tblRel_UsuarioPerfil" Relationship="TSP_DEVModel.tblCat_UsuariostblRel_UsuarioPerfil" FromRole="tblCat_Usuarios" ToRole="tblRel_UsuarioPerfil" />
-          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.tblCat_UsuariostblCat_WBS" FromRole="tblCat_Usuarios" ToRole="tblCat_WBS" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.tblCat_UsuariostblCat_WBS" FromRole="tblCat_Usuarios" ToRole="tblCat_WBS" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
         </EntityType>
         <EntityType Name="tblRel_Equipos">
           <Key>
@@ -877,7 +878,7 @@
           </Key>
           <Property Name="iIdPlan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="dtFechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdPlan" FromRole="tblCat_Plan" ToRole="tblCat_WBS" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdPlan" FromRole="tblCat_Plan" ToRole="tblCat_WBS" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <NavigationProperty Name="tblRel_EquipoPlan" Relationship="TSP_DEVModel.tblCat_PlantblRel_EquipoPlan" FromRole="tblCat_Plan" ToRole="tblRel_EquipoPlan" />
         </EntityType>
         <Association Name="FK_tblCat_WBS_iIdPlan">
@@ -899,7 +900,7 @@
           <Property Name="iIdTipoTarea" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cNombreTarea" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tblCat_DetalleProceso" Relationship="TSP_DEVModel.tblCat_TipoTareatblCat_DetalleProceso_iIdTipoTarea" FromRole="tblCat_TipoTarea" ToRole="tblCat_DetalleProceso" />
-          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.tblCat_WBStblCat_TipoTarea_iIdTipoTarea" FromRole="tblCat_TipoTarea" ToRole="tblCat_WBS" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.tblCat_WBStblCat_TipoTarea_iIdTipoTarea" FromRole="tblCat_TipoTarea" ToRole="tblCat_WBS" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <Property Name="cUnidad_de_medida" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="tblCat_Sistema">
@@ -945,9 +946,10 @@
           <Property Name="lEditable" Type="Boolean" />
           <NavigationProperty Name="tblCat_DetalleProceso" Relationship="TSP_DEVModel.FK_tblCat_DetalleProceso_iIdProceso" FromRole="tblCat_Proceso" ToRole="tblCat_DetalleProceso" />
           <NavigationProperty Name="tblRel_ProcesoRevision" Relationship="TSP_DEVModel.FK__tblRel_ProcesoRevision_iIdProceso" FromRole="tblCat_Proceso" ToRole="tblRel_ProcesoRevision" />
-          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos" FromRole="tblCat_Proceso" ToRole="tblCat_WBS" />
+          <NavigationProperty Name="tblCat_WBS" Relationship="TSP_DEVModel.FK_tblCat_WBS_iIdProcesos" FromRole="tblCat_Proceso" ToRole="tblCat_WBS" a:GetterAccess="Public" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
           <NavigationProperty Name="tblCat_VersionProceso" Relationship="TSP_DEVModel.iIdProceso" FromRole="tblCat_Proceso" ToRole="tblCat_VersionProceso" />
           <Property Name="iTipoProceso" Type="Int32" Nullable="false" />
+          <Property Name="lVisualizarCombo" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_tblCat_DetalleProceso_iIdProceso">
           <End Type="TSP_DEVModel.tblCat_Proceso" Role="tblCat_Proceso" Multiplicity="0..1" />
@@ -1340,6 +1342,7 @@
           <ScalarProperty Name="lActivo" ColumnName="lActivo" />
           <ScalarProperty Name="lEditable" ColumnName="lEditable" />
           <ScalarProperty Name="iTipoProceso" ColumnName="iTipoProceso" />
+          <ScalarProperty Name="lVisualizarCombo" ColumnName="lVisualizarCombo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

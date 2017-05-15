@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/09/2017 13:48:28
+-- Date Created: 05/11/2017 17:45:57
 -- Generated from EDMX file: C:\Users\raul.tuyin\Documents\Visual Studio 2015\Projects\TSP-Dashboard\TSP Dashboard\Models\Model1.edmx
 -- --------------------------------------------------
 
@@ -300,7 +300,8 @@ CREATE TABLE [dbo].[tblCat_Proceso] (
     [dtModificacion] datetime  NULL,
     [lActivo] bit  NOT NULL,
     [lEditable] bit  NULL,
-    [iTipoProceso] int  NOT NULL
+    [iTipoProceso] int  NOT NULL,
+    [lVisualizarCombo] bit  NOT NULL
 );
 GO
 

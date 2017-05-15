@@ -118,7 +118,7 @@ namespace TSP_Dashboard.Generico
 							lEditableNombre = "";
 						}
 
-						htmlRow += ("<tr role = 'row' class='filter " + primary + "' name='" + cNombreNodo + "_" + iIdPadre + "'>" +
+						htmlRow += ("<tr role = 'row' class='filter " + primary + " Habilitado' name='" + cNombreNodo + "_" + iIdPadre + "'>" +
 										   "<td>" +
 										   "<div class='btn-group btn-group-xs btn-group-solid'>" +
 										   colapsar +
@@ -457,7 +457,7 @@ namespace TSP_Dashboard.Generico
 					btnDeshabilitar = "<button type='button' id='deshabilitar_" + cont + "' onclick='Deshabilitar(this)' class='btn red' name='Habilitado'><i class='fa fa-ban'></i></button>";
 					primary = "noprimary";
 				}
-				htmlRow += ("<tr role = 'row' class='filter " + primary + "' name='" + cNombreNodo + "_" + iIdPadre + "'>" +
+				htmlRow += ("<tr role = 'row' class='filter " + primary + " Habilitado' name='" + cNombreNodo + "_" + iIdPadre + "'>" +
 										   "<td>" +
 										   "<div class='btn-group btn-group-xs btn-group-solid'>" +
 										   colapsar +

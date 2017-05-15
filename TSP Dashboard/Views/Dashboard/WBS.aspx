@@ -83,7 +83,7 @@
 								<%--util-btn-margin-bottom-5--%>
 								<div class="actions" hidden>
 
-									<div class="modal fade bs-modal-sm" id="modalSmElegirEquipo" data-backdrop="static"  data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" >
+									<div class="modal fade bs-modal-sm" id="modalSmElegirEquipo" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
 										<%--<div class="modal-dialog modal-sm">--%>
 										<div id="modalProyecto" hidden>
 											<select class="table-group-action-input form-control input-inline input-large select2-container" id="modals2Proyecto" onchange="">
@@ -108,9 +108,8 @@
 
 									</div>
 
-									<div class="" id="modalCargaEnvioTFS" data-backdrop="static"  data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
-
-										</div>
+									<div class="" id="modalCargaEnvioTFS" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+									</div>
 
 									<label id="nombreUsuario" hidden>
 										<asp:LoginName runat="server" />
@@ -499,7 +498,7 @@
 														<div class="form-group">
 															<div class="col-md" id="divTree">
 																<%--<div class="input-group input-medium" id="divTree">--%>
-																	<%--<div id="PreviewTree">
+																<%--<div id="PreviewTree">
 																		<ul>
 																		</ul>
 																	</div>--%>
@@ -613,6 +612,33 @@
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 											<button type="button" class="btn btn-success" data-dismiss="modal" onclick="insertarProceso()">Confirmar</button>
+										</div>
+									</div>
+
+									<%--</div>--%>
+								</div>
+
+								<div id="modalTareasAdicionales" class="modal fade" role="dialog">
+									<%--<div class="modal-dialog">--%>
+
+									<!-- Modal content para conteo de horas-->
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Tareas Adicionales</h4>
+										</div>
+										<div class="modal-body">
+											<form action="#" class="form-horizontal form-bordered">
+												<div class="form-body">
+
+												</div>
+											</form>
+											<%--<span>Proceso:</span>
+											<select id="selectTareasAdicionales" class="form-control form-filter input-sm"></select>--%>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+											<button type="button" class="btn btn-success" data-dismiss="modal" onclick="insertarTareaAdicional()">Confirmar</button>
 										</div>
 									</div>
 
